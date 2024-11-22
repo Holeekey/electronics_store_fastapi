@@ -15,9 +15,7 @@ from user.application.commands.create.create_user_command import CreateUserComma
 from user.application.queries.find_one.find_one_user_query import FindOneUserQuery
 from user.application.queries.find_one.types.dto import FindOneUserDto
 from user.infrastructure.repositories.mock.user_repository import UserRepositoryMock
-from user.infrastructure.repositories.postgres.sqlalchemy.user_repository import (
-    UserRepositorySqlAlchemy,
-)
+from user.infrastructure.repositories.postgres.sqlalchemy.user_repository import UserRepositorySqlAlchemy
 from user.infrastructure.routes.types.dto.create.create_user_dto import CreateUserDto
 
 
@@ -27,8 +25,8 @@ user_router = APIRouter(
     responses={404: {"description": "Not found"}},
 )
 
-# userRepository = UserRepositoryMock()
-userRepository = UserRepositorySqlAlchemy()
+userRepository = UserRepositoryMock()
+#userRepository = UserRepositorySqlAlchemy()
 
 
 @user_router.get("/one/{id}")
