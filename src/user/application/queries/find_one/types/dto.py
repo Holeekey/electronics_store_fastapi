@@ -1,3 +1,3 @@
 class FindOneUserDto:
-    def __init__(self, id: int):
+    def __init__(self, id: str):
         self.id = id

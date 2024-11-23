@@ -5,11 +5,13 @@ from user.application.commands.create.types.dto import CreateUserDto
 from user.application.commands.create.types.response import CreateUserResponse
 from user.application.repositories.user_repository import IUserRepository
 from user.application.info.user_created_info import user_created_info
-from user.application.models.user import User
+from user.application.models.user import User, UserRole, UserStatus
 from user.application.errors.username_already_exists import (
     username_already_exists_error,
 )
 from user.application.errors.email_already_exists import email_already_exists_error
+from user.domain.client.factories.client_factory import client_factory
+from user.domain.manager.factories.manager_factory import manager_factory
 
 
 class CreateUserCommand(IApplicationService):
@@ -26,6 +28,22 @@ class CreateUserCommand(IApplicationService):
         if await self._user_repository.find_by_email(email=data.email):
             return Result.failure(error=email_already_exists_error())
 
+        if data.role == UserRole.CLIENT:
+            client = client_factory(
+                id=data.id,
+                first_name=data.first_name,
+                last_name=data.last_name,
+                email=data.email,
+            )
+            
+        if data.role == UserRole.MANAGER:
+             manager = manager_factory(
+                id=data.id,
+                first_name=data.first_name,
+                last_name=data.last_name,
+                email=data.email,
+            )
+
         user = User(
             id=self._id_generator.generate(),
             first_name=data.first_name,
@@ -33,6 +51,8 @@ class CreateUserCommand(IApplicationService):
             email=data.email,
             password=data.password,
             username=data.username,
+            role=data.role,
+            status=UserStatus.ACTIVE,
         )
 
         await self._user_repository.save(user=user)

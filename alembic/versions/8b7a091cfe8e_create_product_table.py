@@ -30,13 +30,4 @@ def upgrade() -> None:
 
 
 def downgrade() -> None:
-    op.drop_table('user')
-    op.create_table(
-        'users',
-        sa.Column('id', sa.String, primary_key=True),
-        sa.Column('username', sa.String(20), nullable=False),
-        sa.Column('first_name', sa.String(20), nullable=False),
-        sa.Column('last_name', sa.String(20), nullable=False),
-        sa.Column('email', sa.String(50), nullable=False),
-        sa.Column('password', sa.String(50), nullable=False),
-    )
+    op.drop_table('products')
