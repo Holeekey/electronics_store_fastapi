@@ -56,8 +56,8 @@ class UserRepositorySqlAlchemy(IUserRepository):
             password=user.password,
             first_name=user.first_name,
             last_name=user.last_name,
-            role=user.role,
-            status=user.status,
+            role=user.role.name,
+            status=user.status.name,
         )
         self.db.add(user_orm)
         self.db.commit()
