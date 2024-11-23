@@ -1,4 +1,3 @@
-from sqlalchemy.orm import Session
 from common.domain.result.result import Result
 from common.domain.utils.is_none import is_none
 from common.infrastructure.database.database import SessionLocal
@@ -6,10 +5,11 @@ from user.application.info import user_created_info
 from user.application.models.user import User
 from user.application.repositories.user_repository import IUserRepository
 from user.infrastructure.models.postgres.sqlalchemy.user_model import UserModel
+from sqlalchemy.orm import Session
 
 class UserRepositorySqlAlchemy(IUserRepository):
     def __init__(self, db: Session):
-        self.db = db
+        self.db = db 
 
     def map_model_to_user(self, user_orm: UserModel) -> User:
         return User(

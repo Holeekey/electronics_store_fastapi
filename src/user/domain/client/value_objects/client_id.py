@@ -4,17 +4,19 @@ from ..errors.invalid_client_id import invalid_client_id_error
 
 
 class ClientId(ValueObject):
-    def __init__(self, id: UUID) -> None:
+    def __init__(self, id: str) -> None:
         self.value = id
         self.validate()
 
     @property
-    def id(self) -> UUID:
+    def id(self) -> str:
         return self.value
 
     def validate(self) -> None:
-        if not isinstance(self.id, UUID):
-            raise invalid_client_id_error()
+            try:
+                UUID(self.id)
+            except:
+                raise invalid_client_id_error()
 
     def __eq__(self, other: "ClientId") -> bool:
         return self.value == other.id

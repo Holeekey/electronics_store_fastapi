@@ -1,4 +1,4 @@
-from common.domain.utils import is_none
+from common.domain.utils.is_none import is_none
 from common.domain.value_object.value_object import ValueObject
 from user.domain.client.errors import (
     invalid_client_first_name,

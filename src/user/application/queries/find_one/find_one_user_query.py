@@ -9,10 +9,13 @@ from user.application.errors.not_found import user_not_found_error
 
 
 class FindOneUserQuery(IApplicationService):
+    
+    
     def __init__(self, user_repository: IUserRepository):
         self.user_repository = user_repository
 
     async def execute(self, data: FindOneUserDto) -> Result[FindOneUserResponse]:
+        
         user = await self.user_repository.find_one(data.id)
 
         if is_none(user):
