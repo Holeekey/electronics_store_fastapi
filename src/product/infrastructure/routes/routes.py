@@ -20,14 +20,6 @@ from product.infrastructure.repositories.postgres.sqlalchemy.product_repository 
     ProductRepositorySqlAlchemy,
 )
 from product.infrastructure.routes.types.create_product_dto import CreateProductDto
-from user.application.commands.create.create_user_command import CreateUserCommand
-from user.application.queries.find_one.find_one_user_query import FindOneUserQuery
-from user.application.queries.find_one.types.dto import FindOneUserDto
-from user.infrastructure.repositories.mock.user_repository import UserRepositoryMock
-from user.infrastructure.repositories.postgres.sqlalchemy.user_repository import (
-    UserRepositorySqlAlchemy,
-)
-from user.infrastructure.routes.types.dto.create.create_user_dto import CreateUserDto
 
 
 product_router = APIRouter(
