@@ -4,7 +4,7 @@ from ..errors.invalid_product_price import invalid_product_price_error
 
 class ProductPrice(ValueObject):
     def __init__(self, price: float) -> None:
-        super().__init__(price)
+        self.value = price
         self.validate()
 
     @property
