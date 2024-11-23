@@ -1,3 +1,17 @@
+from enum import Enum
+
+
+class UserRole(Enum):
+    ADMIN = "admin"
+    CLIENT = "client"
+    MANAGER = "manager"
+
+
+class UserStatus(Enum):
+    ACTIVE = "active"
+    SUSPENDED = "suspended"
+
+
 class User:
     def __init__(
         self,
@@ -7,6 +21,8 @@ class User:
         last_name: str,
         email: str,
         password: str,
+        role: UserRole,
+        status: UserStatus,
     ):
         self.id = id
         self.first_name = first_name
@@ -14,3 +30,5 @@ class User:
         self.email = email
         self.password = password
         self.username = username
+        self.role = role
+        self.status = status

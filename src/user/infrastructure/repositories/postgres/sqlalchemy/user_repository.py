@@ -20,6 +20,8 @@ class UserRepositorySqlAlchemy(IUserRepository):
             password=user_orm.password,
             first_name=user_orm.first_name,
             last_name=user_orm.last_name,
+            role=user_orm.role,
+            status=user_orm.status,
         )
 
     async def find_one(self, id: str):
@@ -54,6 +56,8 @@ class UserRepositorySqlAlchemy(IUserRepository):
             password=user.password,
             first_name=user.first_name,
             last_name=user.last_name,
+            role=user.role,
+            status=user.status,
         )
         self.db.add(user_orm)
         self.db.commit()
