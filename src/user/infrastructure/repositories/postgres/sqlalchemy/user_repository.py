@@ -7,10 +7,9 @@ from user.application.models.user import User
 from user.application.repositories.user_repository import IUserRepository
 from user.infrastructure.models.postgres.sqlalchemy.user_model import UserModel
 
-
 class UserRepositorySqlAlchemy(IUserRepository):
-    def __init__(self):
-        self.db: Session = SessionLocal()
+    def __init__(self, db: Session):
+        self.db = db
 
     def map_model_to_user(self, user_orm: UserModel) -> User:
         return User(
