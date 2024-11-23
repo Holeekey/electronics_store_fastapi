@@ -2,14 +2,17 @@ from enum import Enum
 from sqlalchemy import Column, String, Enum as SqlEnum
 from common.infrastructure.database.database import Base
 
+
 class UserStatus(Enum):
     ACTIVE = "active"
     SUSPENDED = "suspended"
-    
+
+
 class UserRole(Enum):
     ADMIN = "admin"
     CLIENT = "client"
     MANAGER = "manager"
+
 
 class UserModel(Base):
     __tablename__ = "users"
