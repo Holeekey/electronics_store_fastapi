@@ -6,3 +6,4 @@ class UserErrorCodes(Enum):
     EMAIL_ALREADY_EXISTS = "US-E-002"
     INVALID_CREDENTIALS = "US-E-003"
     NOT_FOUND = "US-E-NF"
+    SUSPENDED = "US-E-UN"
