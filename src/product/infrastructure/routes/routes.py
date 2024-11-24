@@ -37,7 +37,7 @@ async def find_one_product(id: UUID):
     result = await ErrorDecorator(
         service=FindOneProductQuery(product_repository=product_repository),
         error_handler=error_response_handler,
-    ).execute(data=FindOneProductDto(id=id))
+    ).execute(data=FindOneProductDto(id=id.__str__()))
 
     return result.handle_success(handler=success_response_handler)
 

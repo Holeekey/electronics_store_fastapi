@@ -18,7 +18,7 @@ class ProductRepositorySqlAlchemy(IProductRepository):
 
     def map_model_to_product(self, product_orm: ProductModel):
         return product_factory(
-            id=UUID(product_orm.id, version=4),
+            id=product_orm.id,
             name=product_orm.name,
             price=product_orm.price,
         )
