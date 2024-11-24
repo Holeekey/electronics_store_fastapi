@@ -3,18 +3,20 @@ from sqlalchemy import Column, String, Enum as SqlEnum
 from common.infrastructure.database.database import Base
 
 
-class UserStatus(Enum):
+class AuthUserStatus(Enum):
     ACTIVE = "active"
     SUSPENDED = "suspended"
 
 
-class UserRole(Enum):
+class AuthUserRole(Enum):
     ADMIN = "admin"
     CLIENT = "client"
     MANAGER = "manager"
 
 
-class UserModel(Base):
+# IMPORTANTE: Tener en sincronía con el modelo del módulo de Usuario
+
+class AuthUserModel(Base):
     __tablename__ = "users"
     __table_args__ = {'extend_existing': True} 
 
@@ -24,5 +26,5 @@ class UserModel(Base):
     password = Column(String)
     first_name = Column(String)
     last_name = Column(String)
-    role = Column(SqlEnum(UserRole))
-    status = Column(SqlEnum(UserStatus))
+    role = Column(SqlEnum(AuthUserRole))
+    status = Column(SqlEnum(AuthUserStatus))

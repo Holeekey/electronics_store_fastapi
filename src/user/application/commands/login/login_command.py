@@ -23,7 +23,7 @@ class LoginCommand(IApplicationService):
         if user.password != data.password:
             return Result.failure(invalid_credentials_error())
 
-        token_result = self.token_provider.create(dict(id=user.id))
+        token_result = self.token_provider.generate(dict(id=user.id))
 
         return Result.success(LoginResponse(token=token_result.unwrap()), info=user_logged_in_info())
     
