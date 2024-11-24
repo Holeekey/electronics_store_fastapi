@@ -6,6 +6,8 @@ from pydantic import UUID4
 from common.application.decorators.error_decorator import ErrorDecorator
 from common.domain.result.result import Result
 from common.infrastructure.auth.get_current_user import get_current_user
+from common.infrastructure.auth.models.auth_user import AuthUser, AuthUserRole
+from common.infrastructure.auth.role_checker import role_checker
 from common.infrastructure.database.database import get_session
 from common.infrastructure.id_generator.uuid.uuid_generator import UUIDGenerator
 from common.infrastructure.responses.handlers.error_response_handler import (
@@ -14,7 +16,7 @@ from common.infrastructure.responses.handlers.error_response_handler import (
 from common.infrastructure.responses.handlers.success_response_handler import (
     success_response_handler,
 )
-from common.infrastructure.token.jwt.jwt_provider import JwtProvider, get_jwt_provider
+from common.infrastructure.token.jwt.jwt_provider import get_jwt_provider
 from user.application.commands.create.create_user_command import CreateUserCommand
 from user.application.commands.login.login_command import LoginCommand
 from user.application.queries.find_one.find_one_user_query import FindOneUserQuery
@@ -47,9 +49,12 @@ async def find_one_user(id: UUID4, session=Depends(get_session)):
 
 
 @user_router.post("")
-async def create_user(body: CreateUserDto, session=Depends(get_session)):
-
-    # idGenerator = RandomIdGenerator()
+async def create_user(
+        body: CreateUserDto,
+        _: Annotated[AuthUser,Depends(role_checker([AuthUserRole.ADMIN]))],
+        session=Depends(get_session)
+    ):
+    
     idGenerator = UUIDGenerator()
 
     result = await ErrorDecorator(
@@ -77,7 +82,7 @@ async def login(userdetails: OAuth2PasswordRequestForm = Depends(), session=Depe
     return Token(access_token=result.unwrap().token, token_type="bearer")
     
 @user_router.get("/me")
-async def current(user: Annotated[str, Depends(get_current_user)]):
+async def current(user: Annotated[AuthUser, Depends(get_current_user)]):
     
     result = Result.success(user, current_user_info())
     
