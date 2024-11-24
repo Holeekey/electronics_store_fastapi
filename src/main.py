@@ -5,13 +5,18 @@ from common.infrastructure.id_generator.uuid.uuid_generator import UUIDGenerator
 import config
 from common.infrastructure.database.database import SessionLocal
 from routes import router
-from user.infrastructure.models.postgres.sqlalchemy.user_model import UserModel, UserRole, UserStatus
+from user.infrastructure.models.postgres.sqlalchemy.user_model import (
+    UserModel,
+    UserRole,
+    UserStatus,
+)
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     db = SessionLocal()
     user_count = db.query(UserModel).count()
-    if(user_count == 0):
+    if user_count == 0:
         user = UserModel(
             id=UUIDGenerator().generate(),
             username="admin",
@@ -20,12 +25,13 @@ async def lifespan(app: FastAPI):
             role=UserRole.ADMIN.name,
             status=UserStatus.ACTIVE.name,
             first_name="admin",
-            last_name="admin"
+            last_name="admin",
         )
         db.add(user)
         db.commit()
         db.refresh(user)
     yield
+
 
 app = FastAPI(lifespan=lifespan)
 

@@ -5,7 +5,8 @@ from common.infrastructure.auth.db_models.auth_user_model import AuthUserModel
 from common.infrastructure.auth.models.auth_user import AuthUser
 from sqlalchemy.orm import Session
 
-class AuthUserRepositorySqlAlchemy():
+
+class AuthUserRepositorySqlAlchemy:
 
     def __init__(self, db: Session):
         self.db = db
@@ -19,5 +20,5 @@ class AuthUserRepositorySqlAlchemy():
             username=user_orm.username,
             email=user_orm.email,
             role=user_orm.role,
-            status=user_orm.status
+            status=user_orm.status,
         )

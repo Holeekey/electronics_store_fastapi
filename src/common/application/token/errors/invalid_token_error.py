@@ -3,5 +3,5 @@ from common.application.error.application_error import (
 )
 
 invalid_token_error = application_error_factory(
-    code='JWT-E-001', message="Invalid token"
+    code="JWT-E-001", message="Invalid token"
 )

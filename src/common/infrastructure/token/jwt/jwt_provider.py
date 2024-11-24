@@ -11,19 +11,22 @@ from jose import JWTError, jwt
 
 T = TypeVar("T")
 
-class JwtProvider(Generic[T],ITokenProvider[T]):
-    
+
+class JwtProvider(Generic[T], ITokenProvider[T]):
+
     def __init__(self, keys: List[str]):
         self.keys = keys
-    
+
     def generate(self, data: dict) -> Result[str]:
         to_encode = data.copy()
-        expire = datetime.now(timezone.utc) + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+        expire = datetime.now(timezone.utc) + timedelta(
+            minutes=ACCESS_TOKEN_EXPIRE_MINUTES
+        )
         to_encode.update({"expire": expire.strftime("%Y-%m-%d %H:%M:%S")})
         encoded_jwt = jwt.encode(to_encode, SECRET_KEY, TOKEN_ALGORITHM)
-        
+
         return Result.success(encoded_jwt, token_created_info())
-    
+
     def verify(self, token: str) -> Result[T]:
         try:
             payload = jwt.decode(token, SECRET_KEY, TOKEN_ALGORITHM)
@@ -33,7 +36,7 @@ class JwtProvider(Generic[T],ITokenProvider[T]):
             return Result.success(payload, token_verified_info())
         except JWTError as e:
             return Result.failure(invalid_token_error())
-        
+
 
 def get_jwt_provider():
     jwt_provider = JwtProvider[TokenPayload](keys=TokenPayload.__annotations__.keys())

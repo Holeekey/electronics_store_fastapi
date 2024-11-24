@@ -50,11 +50,11 @@ async def find_one_user(id: UUID4, session=Depends(get_session)):
 
 @user_router.post("")
 async def create_user(
-        body: CreateUserDto,
-        _: Annotated[AuthUser,Depends(role_checker([AuthUserRole.ADMIN]))],
-        session=Depends(get_session)
-    ):
-    
+    body: CreateUserDto,
+    _: Annotated[AuthUser, Depends(role_checker([AuthUserRole.ADMIN]))],
+    session=Depends(get_session),
+):
+
     idGenerator = UUIDGenerator()
 
     result = await ErrorDecorator(
@@ -66,11 +66,16 @@ async def create_user(
 
     return result.handle_success(handler=success_response_handler)
 
+
 @user_router.post("/login")
-async def login(userdetails: OAuth2PasswordRequestForm = Depends(), session=Depends(get_session), token_provider=Depends(get_jwt_provider)):
-    
+async def login(
+    userdetails: OAuth2PasswordRequestForm = Depends(),
+    session=Depends(get_session),
+    token_provider=Depends(get_jwt_provider),
+):
+
     dto = LoginDto(login_credential=userdetails.username, password=userdetails.password)
-    
+
     result = await ErrorDecorator(
         service=LoginCommand(
             user_repository=UserRepositorySqlAlchemy(session),
@@ -78,12 +83,13 @@ async def login(userdetails: OAuth2PasswordRequestForm = Depends(), session=Depe
         ),
         error_handler=error_response_handler,
     ).execute(data=dto)
-    
+
     return Token(access_token=result.unwrap().token, token_type="bearer")
-    
+
+
 @user_router.get("/me")
 async def current(user: Annotated[AuthUser, Depends(get_current_user)]):
-    
+
     result = Result.success(user, current_user_info())
-    
+
     return result.handle_success(handler=success_response_handler)
