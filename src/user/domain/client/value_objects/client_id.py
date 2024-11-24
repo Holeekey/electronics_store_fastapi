@@ -13,10 +13,10 @@ class ClientId(ValueObject):
         return self.value
 
     def validate(self) -> None:
-            try:
-                UUID(self.id)
-            except:
-                raise invalid_client_id_error()
+        try:
+            UUID(self.id)
+        except:
+            raise invalid_client_id_error()
 
     def __eq__(self, other: "ClientId") -> bool:
         return self.value == other.id

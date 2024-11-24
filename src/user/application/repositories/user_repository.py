@@ -19,6 +19,10 @@ class IUserRepository(metaclass=ABCMeta):
         pass
 
     @abstractmethod
+    async def find_by_login_credential(self, login_credential: str) -> Optional[User]:
+        pass
+
+    @abstractmethod
     async def find_all(self) -> Optional[List[User]]:
         pass
 

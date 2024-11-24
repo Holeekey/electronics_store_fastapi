@@ -1,3 +1,4 @@
+from sqlalchemy import or_
 from common.domain.result.result import Result
 from common.domain.utils.is_none import is_none
 from common.infrastructure.database.database import SessionLocal
@@ -7,9 +8,10 @@ from user.application.repositories.user_repository import IUserRepository
 from user.infrastructure.models.postgres.sqlalchemy.user_model import UserModel
 from sqlalchemy.orm import Session
 
+
 class UserRepositorySqlAlchemy(IUserRepository):
     def __init__(self, db: Session):
-        self.db = db 
+        self.db = db
 
     def map_model_to_user(self, user_orm: UserModel) -> User:
         return User(
@@ -41,6 +43,23 @@ class UserRepositorySqlAlchemy(IUserRepository):
         user_orm = self.db.query(UserModel).filter(UserModel.email == email).first()
         if is_none(user_orm):
             return None
+        return self.map_model_to_user(user_orm)
+
+    async def find_by_login_credential(self, login_credential: str):
+
+        user_orm = (
+            self.db.query(UserModel)
+            .filter(
+                or_(
+                    UserModel.username == login_credential,
+                    UserModel.email == login_credential,
+                )
+            )
+            .first()
+        )
+        if is_none(user_orm):
+            return None
+
         return self.map_model_to_user(user_orm)
 
     async def find_all(self):

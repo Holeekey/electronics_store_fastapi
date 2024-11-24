@@ -35,9 +35,9 @@ class CreateUserCommand(IApplicationService):
                 last_name=data.last_name,
                 email=data.email,
             )
-            
+
         if data.role == UserRole.MANAGER:
-             manager = manager_factory(
+            manager = manager_factory(
                 id=data.id,
                 first_name=data.first_name,
                 last_name=data.last_name,
