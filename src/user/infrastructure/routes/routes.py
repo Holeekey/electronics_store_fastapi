@@ -17,6 +17,7 @@ from common.infrastructure.responses.handlers.success_response_handler import (
     success_response_handler,
 )
 from common.infrastructure.token.jwt.jwt_provider import get_jwt_provider
+from common.infrastructure.cryptography.fernetCryptography_provider import get_fernet_provider
 from user.application.commands.create.create_user_command import CreateUserCommand
 from user.application.commands.login.login_command import LoginCommand
 from user.application.queries.find_one.find_one_user_query import FindOneUserQuery
@@ -53,13 +54,15 @@ async def create_user(
     body: CreateUserDto,
     _: Annotated[AuthUser, Depends(role_checker([AuthUserRole.ADMIN]))],
     session=Depends(get_session),
+    cryptography_provider=Depends(get_fernet_provider)
 ):
 
     idGenerator = UUIDGenerator()
 
     result = await ErrorDecorator(
         service=CreateUserCommand(
-            id_generator=idGenerator, user_repository=UserRepositorySqlAlchemy(session)
+            id_generator=idGenerator, user_repository=UserRepositorySqlAlchemy(session),
+            cryptography_provider=cryptography_provider
         ),
         error_handler=error_response_handler,
     ).execute(data=body)
@@ -72,6 +75,7 @@ async def login(
     userdetails: OAuth2PasswordRequestForm = Depends(),
     session=Depends(get_session),
     token_provider=Depends(get_jwt_provider),
+    cryptography_provider=Depends(get_fernet_provider),
 ):
 
     dto = LoginDto(login_credential=userdetails.username, password=userdetails.password)
@@ -80,6 +84,7 @@ async def login(
         service=LoginCommand(
             user_repository=UserRepositorySqlAlchemy(session),
             token_provider=token_provider,
+            cryptography_provider=cryptography_provider,
         ),
         error_handler=error_response_handler,
     ).execute(data=dto)
