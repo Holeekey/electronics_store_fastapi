@@ -17,7 +17,7 @@ from user.domain.manager.factories.manager_factory import manager_factory
 
 class CreateUserCommand(IApplicationService):
 
-    def __init__(self, id_generator: IDGenerator, user_repository: IUserRepository, cryptography_provider: ICryptographyProvider):
+    def __init__(self, id_generator: IDGenerator, user_repository: IUserRepository, cryptography_provider: ICryptographyProvider[str, str]):
         self._user_repository = user_repository
         self._id_generator = id_generator
         self._cryptography_provider = cryptography_provider

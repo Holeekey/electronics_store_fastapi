@@ -1,11 +1,14 @@
 from abc import ABCMeta, abstractmethod
 from typing import Generic, TypeVar
 
-class ICryptographyProvider(ABCMeta):
+TEnc = TypeVar("TEnc")
+TDec = TypeVar("TDev")
+
+class ICryptographyProvider(Generic[TEnc, TDec], metaclass=ABCMeta):
   @abstractmethod
-  def encrypt(self, plaintext: str) -> str:
+  def encrypt(self, plaintext: TDec) -> TEnc:
     pass
 
   @abstractmethod
-  def decrypt(self, ciphertext: str) -> str:
+  def decrypt(self, ciphertext: TEnc) -> TDec:
     pass

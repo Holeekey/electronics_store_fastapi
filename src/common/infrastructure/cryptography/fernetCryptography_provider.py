@@ -1,18 +1,18 @@
 from common.application.cryptography.cryptography_provider import ICryptographyProvider
 from cryptography.fernet import Fernet
-from config import FERNET_KEY
+from config import FERNET_KEY, ENCODING
 
-def FernetProvider(ICryptographyProvider):
-  def __init__(self, key):
-    self.provider = Fernet(key)
+class FernetProvider(ICryptographyProvider[str, str]):
+  def __init__(self):
+    self.provider = Fernet(FERNET_KEY)
 
   def encrypt(self, plaintext: str) -> str:
-    return self.provider.encrypt(plaintext)
+    return self.provider.encrypt(bytes(plaintext, ENCODING)).decode()
 
   def decrypt(self, ciphertext: str) -> str:
-    return self.provider.decrypt(ciphertext)
+    return self.provider.decrypt(bytes(ciphertext, ENCODING)).decode()
   
 
 def get_fernet_provider() -> FernetProvider:
-  fernet = FernetProvider(key= FERNET_KEY)
+  fernet = FernetProvider()
   return fernet

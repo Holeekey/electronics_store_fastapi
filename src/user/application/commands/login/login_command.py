@@ -13,7 +13,7 @@ from user.application.models.user import UserStatus
 
 class LoginCommand(IApplicationService):
     def __init__(
-        self, user_repository: IUserRepository, token_provider: ITokenProvider, cryptography_provider: ICryptographyProvider
+        self, user_repository: IUserRepository, token_provider: ITokenProvider, cryptography_provider: ICryptographyProvider[str, str]
     ):
         self.user_repository = user_repository
         self.token_provider = token_provider

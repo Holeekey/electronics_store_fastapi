@@ -2,6 +2,7 @@ from contextlib import asynccontextmanager
 import uvicorn
 from fastapi import FastAPI
 from common.infrastructure.id_generator.uuid.uuid_generator import UUIDGenerator
+from common.infrastructure.cryptography.fernetCryptography_provider import get_fernet_provider
 import config
 from common.infrastructure.database.database import SessionLocal
 from routes import router
@@ -21,7 +22,7 @@ async def lifespan(app: FastAPI):
             id=UUIDGenerator().generate(),
             username=config.ADMIN_USERNAME,
             email=config.ADMIN_PASSWORD,
-            password=config.ADMIN_PASSWORD,
+            password= get_fernet_provider().encrypt(config.ADMIN_PASSWORD),
             role=UserRole.ADMIN.name,
             status=UserStatus.ACTIVE.name,
             first_name="admin",
