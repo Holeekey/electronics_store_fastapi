@@ -20,6 +20,7 @@ from common.infrastructure.token.jwt.jwt_provider import get_jwt_provider
 from common.infrastructure.cryptography.fernetCryptography_provider import get_fernet_provider
 from user.application.commands.create.create_user_command import CreateUserCommand
 from user.application.commands.login.login_command import LoginCommand
+from user.application.queries.find_all.find_all_managers_query import FindAllManagersQuery
 from user.application.queries.find_one.find_one_user_query import FindOneUserQuery
 from user.application.queries.find_one.types.dto import FindOneUserDto
 from user.application.info.current_user_found_info import current_user_info
@@ -48,6 +49,14 @@ async def find_one_user(id: UUID4, session=Depends(get_session)):
 
     return result.handle_success(handler=success_response_handler)
 
+@user_router.get("/managers")
+async def find_all_managers(_: Annotated[AuthUser, Depends(role_checker([AuthUserRole.ADMIN]))], session=Depends(get_session)):
+    result = await ErrorDecorator(
+        service= FindAllManagersQuery(user_repository=UserRepositorySqlAlchemy(session)),
+        error_handler=error_response_handler,
+    ).execute(data= None)
+    
+    return result.handle_success(handler=success_response_handler)
 
 @user_router.post("")
 async def create_user(

@@ -5,7 +5,7 @@ from common.infrastructure.database.database import SessionLocal
 from user.application.info import user_created_info
 from user.application.models.user import User
 from user.application.repositories.user_repository import IUserRepository
-from user.infrastructure.models.postgres.sqlalchemy.user_model import UserModel
+from user.infrastructure.models.postgres.sqlalchemy.user_model import UserModel, UserRole
 from sqlalchemy.orm import Session
 
 
@@ -61,6 +61,12 @@ class UserRepositorySqlAlchemy(IUserRepository):
             return None
 
         return self.map_model_to_user(user_orm)
+
+    async def find_by_role(self, role: UserRole):
+        users_orm = self.db.query(UserModel).filter(UserModel.role == role.name).all()
+
+        return [self.map_model_to_user(user_orm) for user_orm in users_orm]
+
 
     async def find_all(self):
         users_orm = self.db.query(UserModel).all()
