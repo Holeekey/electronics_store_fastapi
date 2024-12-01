@@ -21,6 +21,7 @@ class ProductRepositorySqlAlchemy(IProductRepository):
             id=product_orm.id,
             name=product_orm.name,
             price=product_orm.price,
+            status=product_orm.status
         )
 
     async def find_one(self, id: ProductId):
@@ -41,7 +42,7 @@ class ProductRepositorySqlAlchemy(IProductRepository):
 
     async def save(self, product: Product):
         product_orm = ProductModel(
-            id=product.id.id, name=product.name.name, price=product.price.price
+            id=product.id.id, name=product.name.name, price=product.price.price, status=product.status.status
         )
         self.db.add(product_orm)
         self.db.commit()
