@@ -1,6 +1,7 @@
 {
     "conventionalCommits.scopes": [
         "user",
-        "product"
+        "product",
+        "inventory"
     ]
 }
