@@ -8,3 +8,4 @@ class UserCodes(Enum):
     CURRENT = "US-004"
     FIND_MANY = "US-005"
     UPDATED = "US-006"
+    DELETED = "US-007"

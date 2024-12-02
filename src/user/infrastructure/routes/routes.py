@@ -143,7 +143,17 @@ async def update_manager(
     ))
 
     return result.handle_success(handler= success_response_handler)
-    
+
+@user_router.delete("/managers/{id}")
+async def delete_manager(
+    id: UUID4,
+    _: Annotated[AuthUser, Depends(role_checker([AuthUserRole.ADMIN]))],
+    session = Depends(get_session)
+):
+    result = await ErrorDecorator(
+        service= 
+    )
+
 
 @user_router.post("/login")
 async def login(
