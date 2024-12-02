@@ -17,11 +17,13 @@ class FindAllManagersQuery(IApplicationService):
     return Result.success([
       FindAllManagersResponse(
         manager.id,
+        manager.username,
+        manager.email,
         manager.first_name,
         manager.last_name,
-        manager.email,
         manager.role,
         manager.status
       )
       for manager in managers
-    ], info= many_users_found_info(),)
+    ], info= many_users_found_info()
+    )

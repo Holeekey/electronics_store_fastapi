@@ -30,6 +30,10 @@ class IUserRepository(metaclass=ABCMeta):
     async def find_all(self) -> Optional[List[User]]:
         pass
 
+    # @abstractmethod
+    # async def update(self, user: User) -> Result[User]:
+    #     pass
+    
     @abstractmethod
     async def save(self, user: User) -> Result[User]:
         pass

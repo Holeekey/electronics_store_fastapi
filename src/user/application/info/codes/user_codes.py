@@ -7,3 +7,4 @@ class UserCodes(Enum):
     LOGIN = "US-003"
     CURRENT = "US-004"
     FIND_MANY = "US-005"
+    UPDATED = "US-006"

@@ -2,7 +2,7 @@ from sqlalchemy import or_
 from common.domain.result.result import Result
 from common.domain.utils.is_none import is_none
 from common.infrastructure.database.database import SessionLocal
-from user.application.info import user_created_info
+from user.application.info import user_created_info, user_updated_info
 from user.application.models.user import User
 from user.application.repositories.user_repository import IUserRepository
 from user.infrastructure.models.postgres.sqlalchemy.user_model import UserModel, UserRole
@@ -72,17 +72,37 @@ class UserRepositorySqlAlchemy(IUserRepository):
         users_orm = self.db.query(UserModel).all()
         return [self.map_model_to_user(user_orm) for user_orm in users_orm]
 
+    # async def update(self, user: User) -> Result[User]:
+    #     # self.db.update(UserModel).where(UserModel.id == user.id).values(dict(user))
+    #     self.db.
+    #     self.db.commit()
+    #     self.db.refresh()
+
+    #     return Result.success(user, info= user_updated_info)
+
     async def save(self, user: User) -> Result[User]:
-        user_orm = UserModel(
-            id=user.id,
-            username=user.username,
-            email=user.email,
-            password=user.password,
-            first_name=user.first_name,
-            last_name=user.last_name,
-            role=user.role.name,
-            status=user.status.name,
-        )
+        user_orm = self.db.query(UserModel).filter(UserModel.id == user.id).first()
+
+        if is_none(user_orm):
+            user_orm = UserModel(
+                id=user.id,
+                username=user.username,
+                email=user.email,
+                password=user.password,
+                first_name=user.first_name,
+                last_name=user.last_name,
+                role=user.role.name,
+                status=user.status.name,
+            )
+        else:
+            user_orm.username = user.username
+            user_orm.email = user.email
+            user_orm.password = user.password
+            user_orm.first_name = user.first_name
+            user_orm.last_name = user.last_name
+            user_orm.role = user.role.name
+            user_orm.status = user.status
+
         self.db.add(user_orm)
         self.db.commit()
         self.db.refresh(user_orm)
