@@ -20,6 +20,8 @@ from common.infrastructure.responses.handlers.success_response_handler import (
 from common.infrastructure.token.jwt.jwt_provider import get_jwt_provider
 from common.infrastructure.cryptography.fernetCryptography_provider import get_fernet_provider
 from user.application.commands.create.create_user_command import CreateUserCommand
+from user.application.commands.delete.delete_manager_command import DeleteManagerCommand
+from user.application.commands.delete.types.dto import DeleteManagerDto
 from user.application.commands.login.login_command import LoginCommand
 from user.application.commands.update.update_user_command import UpdateUserCommand
 from user.application.models.user import UserRole
@@ -151,8 +153,13 @@ async def delete_manager(
     session = Depends(get_session)
 ):
     result = await ErrorDecorator(
-        service= 
-    )
+        service= DeleteManagerCommand(
+            user_repository= UserRepositorySqlAlchemy(session)
+        ),
+        error_handler= error_response_handler
+    ).execute(data= DeleteManagerDto(str(id)))
+
+    return result.handle_success(handler= success_response_handler)
 
 
 @user_router.post("/login")

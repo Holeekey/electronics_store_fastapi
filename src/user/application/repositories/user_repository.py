@@ -34,5 +34,5 @@ class IUserRepository(metaclass=ABCMeta):
     async def save(self, user: User) -> Result[User]:
         pass
 
-    async def delete(self, user_id: int) -> Result[int]:
+    async def delete(self, user_id: str) -> Result[str]:
         pass

@@ -102,7 +102,7 @@ class UserRepositorySqlAlchemy(IUserRepository):
         return Result.success(user, info=user_created_info)
 
 
-    async def delete(self, user_id: int) -> Result[int]:
+    async def delete(self, user_id: str) -> Result[str]:
         user_orm = self.db.query(UserModel).filter(UserModel.id == user_id).first()
 
         if is_none(user_orm):
@@ -113,5 +113,5 @@ class UserRepositorySqlAlchemy(IUserRepository):
 
         return Result.success(
             value= user_id,
-            info= user_deleted_info()
+            info= user_deleted_info.user_deleted_info()
         )
