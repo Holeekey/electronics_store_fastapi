@@ -1,3 +1,4 @@
+from common.application.cryptography.cryptography_provider import ICryptographyProvider
 from common.application.service.application_service import IApplicationService
 from common.application.token.token_provider import ITokenProvider
 from common.domain.result.result import Result
@@ -12,10 +13,11 @@ from user.application.models.user import UserStatus
 
 class LoginCommand(IApplicationService):
     def __init__(
-        self, user_repository: IUserRepository, token_provider: ITokenProvider
+        self, user_repository: IUserRepository, token_provider: ITokenProvider, cryptography_provider: ICryptographyProvider[str, str]
     ):
         self.user_repository = user_repository
         self.token_provider = token_provider
+        self.cryptography_provider = cryptography_provider
 
     async def execute(self, data: LoginDto) -> Result[LoginResponse]:
 
@@ -26,7 +28,7 @@ class LoginCommand(IApplicationService):
         if user is None:
             return Result.failure(invalid_credentials_error())
 
-        if user.password != data.password:
+        if self.cryptography_provider.decrypt(user.password) != data.password:
             return Result.failure(invalid_credentials_error())
 
         if user.status.value == UserStatus.SUSPENDED.value:
