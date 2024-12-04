@@ -22,7 +22,7 @@ class FindOneProductQuery(IApplicationService):
 
         return Result.success(
             FindOneProductResponse(
-                id=product.id.id, name=product.name.name, price=product.price.price
+                id=product.id.id, name=product.name.name, price=product.pricing.price
             ),
             product_found_info(),
         )

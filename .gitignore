@@ -2,4 +2,7 @@
 .env
 env
 
+#Ignore local virtual environment in commits
+/local_venv 
+
 /postgres

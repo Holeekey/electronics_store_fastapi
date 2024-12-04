@@ -19,8 +19,11 @@ class ProductRepositorySqlAlchemy(IProductRepository):
     def map_model_to_product(self, product_orm: ProductModel):
         return product_factory(
             id=product_orm.id,
+            code = product_orm.code,
             name=product_orm.name,
-            price=product_orm.price,
+            description=product_orm.description,
+            cost=product_orm.cost,
+            margin=product_orm.margin,
             status=product_orm.status
         )
 
@@ -42,7 +45,15 @@ class ProductRepositorySqlAlchemy(IProductRepository):
 
     async def save(self, product: Product):
         product_orm = ProductModel(
-            id=product.id.id, name=product.name.name, price=product.price.price, status=product.status.status
+            id=product.id.id, 
+            code=product.code.code, 
+            name=product.name.name, 
+            description=product.description.description, 
+            cost=product.pricing.cost, 
+            margin=product.pricing.margin, 
+            price=product.pricing.price, 
+            earning=product.pricing.earning,
+            status=product.status.status
         )
         self.db.add(product_orm)
         self.db.commit()
