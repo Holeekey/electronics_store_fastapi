@@ -4,6 +4,7 @@ from fastapi.security import OAuth2PasswordRequestForm
 from pydantic import UUID4
 
 from common.application.decorators.error_decorator import ErrorDecorator
+from common.application.decorators.logger_decorator import LoggerDecorator
 from common.domain.result.result import Result
 from common.domain.utils.is_not_none import is_not_none
 from common.infrastructure.auth.get_current_user import get_current_user
@@ -11,6 +12,7 @@ from common.infrastructure.auth.models.auth_user import AuthUser, AuthUserRole
 from common.infrastructure.auth.role_checker import role_checker
 from common.infrastructure.database.database import get_session
 from common.infrastructure.id_generator.uuid.uuid_generator import UUIDGenerator
+from common.infrastructure.loggers.loguru_logger import LoguruLogger
 from common.infrastructure.responses.handlers.error_response_handler import (
     error_response_handler,
 )
@@ -76,9 +78,13 @@ async def create_user(
     idGenerator = UUIDGenerator()
 
     result = await ErrorDecorator(
-        service=CreateUserCommand(
-            id_generator=idGenerator, user_repository=UserRepositorySqlAlchemy(session),
-            cryptography_provider=cryptography_provider
+        service= LoggerDecorator(
+            service= CreateUserCommand(
+                user_repository= UserRepositorySqlAlchemy(session),
+                id_generator= idGenerator,
+                cryptography_provider= cryptography_provider
+            ),
+            loggers = [LoguruLogger("Create User")]
         ),
         error_handler=error_response_handler,
     ).execute(data=body)
