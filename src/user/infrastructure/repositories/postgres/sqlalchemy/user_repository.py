@@ -2,7 +2,8 @@ from sqlalchemy import or_
 from common.domain.result.result import Result
 from common.domain.utils.is_none import is_none
 from common.infrastructure.database.database import SessionLocal
-from user.application.info import user_created_info, user_deleted_info
+from user.application.info.user_deleted_info import user_deleted_info
+from user.application.info.user_created_info import user_created_info 
 from user.application.errors.not_found import user_not_found_error
 from user.application.models.user import User
 from user.application.repositories.user_repository import IUserRepository
@@ -99,7 +100,7 @@ class UserRepositorySqlAlchemy(IUserRepository):
         self.db.add(user_orm)
         self.db.commit()
         self.db.refresh(user_orm)
-        return Result.success(user, info=user_created_info)
+        return Result.success(user, info=user_created_info())
 
 
     async def delete(self, user_id: str) -> Result[str]:
