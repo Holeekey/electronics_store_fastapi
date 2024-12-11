@@ -4,3 +4,5 @@ env
 venv/
 
 /postgres
+
+.history/

@@ -49,7 +49,11 @@ user_router = APIRouter(
 
 
 @user_router.get("/one/{id}")
-async def find_one_user(id: UUID4, session=Depends(get_session)):
+async def find_one_user(
+        id: UUID4,
+        _: Annotated[AuthUser, Depends(role_checker([AuthUserRole.ADMIN, AuthUserRole.MANAGER]))],
+        session=Depends(get_session)
+    ):
 
     result = await ErrorDecorator(
         service=FindOneUserQuery(user_repository=UserRepositorySqlAlchemy(session)),
