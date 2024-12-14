@@ -11,6 +11,7 @@ from common.infrastructure.auth.get_current_user import get_current_user
 from common.infrastructure.auth.models.auth_user import AuthUser, AuthUserRole
 from common.infrastructure.auth.role_checker import role_checker
 from common.infrastructure.database.database import get_session
+from common.infrastructure.database.mongo import get_mongo_client
 from common.infrastructure.id_generator.uuid.uuid_generator import UUIDGenerator
 from common.infrastructure.loggers.loguru_logger import LoguruLogger
 from common.infrastructure.responses.handlers.error_response_handler import (
@@ -40,13 +41,16 @@ from user.infrastructure.routes.types.login.login_dto import LoginDto
 from user.infrastructure.routes.types.login.login_response import Token
 from user.infrastructure.routes.types.update.update_user_dto import UpdateUserDto
 
-
 user_router = APIRouter(
     prefix="/user",
     tags=["User"],
     responses={404: {"description": "Not found"}},
 )
 
+@user_router.get("/test")
+async def test():
+    
+    print("test")
 
 @user_router.get("/one/{id}")
 async def find_one_user(
