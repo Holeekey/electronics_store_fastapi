@@ -10,7 +10,7 @@ from common.infrastructure.auth.get_current_user import get_current_user
 from common.infrastructure.auth.models.auth_user import AuthUser, AuthUserRole
 from common.infrastructure.auth.role_checker import role_checker
 from common.infrastructure.database.database import get_session
-from common.infrastructure.mediator.setup_mediator import get_mediator
+from setup_mediator import get_mediator
 from common.infrastructure.responses.handlers.error_response_handler import (
     error_response_handler,
 )
