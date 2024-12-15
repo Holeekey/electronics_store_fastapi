@@ -3,14 +3,14 @@ from config import MONGO_URL
 
 from di.dependent import Injectable
 
-client = MongoClient(MONGO_URL)
-
 def get_mongo_client():
+    client = MongoClient(MONGO_URL)
     try:
         yield client
     finally:
-        client.close()
+        pass
         
+
 class MongoSession(Injectable, scope="request"):
     
     def __init__(self):

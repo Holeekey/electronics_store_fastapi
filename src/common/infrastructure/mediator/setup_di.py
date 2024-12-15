@@ -6,6 +6,7 @@ from common.infrastructure.cryptography.fernetCryptography_provider import Ferne
 from common.infrastructure.database.database import get_session
 from common.infrastructure.id_generator.uuid.uuid_generator import UUIDGenerator
 from user.infrastructure.command_handlers.create_user_command_handler import CreateUserCommandHandler
+from user.infrastructure.projectors.manager_created_projector import ManagerCreatedProjector
 
 def setup_di() -> DIContainer:
     external_container = Container()
@@ -20,6 +21,14 @@ def setup_di() -> DIContainer:
             CreateUserCommandHandler
         )
     )
+    
+    external_container.bind(
+        bind_by_type(
+            Dependent(ManagerCreatedProjector, scope="request",),
+            ManagerCreatedProjector
+        )
+    )
+    
     container = DIContainer()
     container.attach_external_container(external_container)
     

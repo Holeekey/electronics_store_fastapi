@@ -44,6 +44,16 @@ user_router = APIRouter(
     responses={404: {"description": "Not found"}},
 ) 
 
+@user_router.get("/test")
+async def test():
+    
+    def func(a: CreateUserCommand):
+        return a
+
+    print(func.__annotations__.get("a").__name__)
+    
+    return "Hello World"
+
 @user_router.get("/one/{id}")
 async def find_one_user(
         id: UUID4,
