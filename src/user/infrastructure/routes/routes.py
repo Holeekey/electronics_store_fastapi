@@ -29,8 +29,7 @@ from user.application.models.user import UserRole
 from user.application.queries.find_all.find_all_managers_query import (
     FindAllManagersQuery,
 )
-from user.application.queries.find_one.find_one_user_query import FindOneUserQuery
-from user.application.queries.find_one.types.dto import FindOneUserDto
+from user.infrastructure.queries.find_one.types.query import FindOneUserQuery
 from user.application.commands.update.types import dto
 from user.application.info.current_user_found_info import current_user_info
 from user.infrastructure.repositories.postgres.sqlalchemy.user_repository import (
@@ -63,18 +62,16 @@ async def test():
 @user_router.get("/one/{id}")
 async def find_one_user(
     id: UUID4,
-    _: Annotated[
-        AuthUser, Depends(role_checker([AuthUserRole.ADMIN, AuthUserRole.MANAGER]))
-    ],
-    session=Depends(get_session),
+    # _: Annotated[
+    #     AuthUser, Depends(role_checker([AuthUserRole.ADMIN, AuthUserRole.MANAGER]))
+    # ],
+    # session=Depends(get_session),
+    mediator=Depends(get_mediator),
 ):
-
-    result = await ErrorDecorator(
-        service=FindOneUserQuery(user_repository=UserRepositorySqlAlchemy(session)),
-        error_handler=error_response_handler,
-    ).execute(data=FindOneUserDto(id=id.__str__()))
-
-    return result.handle_success(handler=success_response_handler)
+    result = await mediator.send(
+        FindOneUserQuery(id=id.__str__()),
+    )  
+    return result
 
 
 @user_router.get("/managers")

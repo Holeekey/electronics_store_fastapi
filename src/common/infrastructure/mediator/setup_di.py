@@ -14,6 +14,9 @@ from user.infrastructure.projectors.manager_created_projector import (
     ManagerCreatedProjector,
 )
 
+from user.infrastructure.queries.find_one.find_one_user_query_handler import (
+    FindOneUserQueryHandler
+)
 
 def setup_di() -> DIContainer:
     external_container = Container()
@@ -41,6 +44,16 @@ def setup_di() -> DIContainer:
                 scope="request",
             ),
             CreateUserCommandHandler,
+        )
+    )
+    
+    external_container.bind(
+        bind_by_type(
+            Dependent(
+                FindOneUserQueryHandler,
+                scope="request",
+            ),
+            FindOneUserQueryHandler,
         )
     )
 

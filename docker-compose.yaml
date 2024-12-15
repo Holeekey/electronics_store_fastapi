@@ -46,15 +46,15 @@ services:
     networks:
       - template-network
 
-  redis:
-    image: redis:7.2.5
-    restart: always
-    ports:
-      - "${REDIS_PORT}:6379"
-    container_name: template_redis
-    environment:
-      - REDIS_PASSWORD=${REDIS_PASSWORD}
-      - REDIS_PORT=6379
+  # redis:
+  #   image: redis:7.2.5
+  #   restart: always
+  #   ports:
+  #     - "${REDIS_PORT}:6379"
+  #   container_name: template_redis
+  #   environment:
+  #     - REDIS_PASSWORD=${REDIS_PASSWORD}
+  #     - REDIS_PORT=6379
 
 networks:
   template-network:

@@ -2,7 +2,6 @@ from diator.requests import RequestHandler
 from diator.events.event import Event
 
 from common.application.decorators.error_decorator import ErrorDecorator
-from common.application.decorators.logger_decorator import LoggerDecorator
 from common.infrastructure.cryptography.fernetCryptography_provider import (
     FernetProvider,
 )
@@ -12,7 +11,6 @@ from common.infrastructure.events.diator.diator_event_publisher import (
     DiatorEventPublisher,
 )
 from common.infrastructure.id_generator.uuid.uuid_generator import UUIDGenerator
-from common.infrastructure.loggers.loguru_logger import LoguruLogger
 from common.infrastructure.responses.handlers.error_response_handler import (
     error_response_handler,
 )
@@ -68,14 +66,11 @@ class CreateUserCommandHandler(RequestHandler[CreateUserCommand, CreateUserRespo
     ) -> CreateUserResponse:
 
         result = await ErrorDecorator(
-            service=LoggerDecorator(
-                service=CreateUserService(
-                    user_repository=UserRepositorySqlAlchemy(self._db_session.session),
-                    id_generator=self._uuid_generator,
-                    cryptography_provider=self._cryptography_provider,
-                    event_publisher=self._event_publisher,
-                ),
-                loggers=[LoguruLogger("Create User")],
+            service=CreateUserService(
+                user_repository=UserRepositorySqlAlchemy(self._db_session.session),
+                id_generator=self._uuid_generator,
+                cryptography_provider=self._cryptography_provider,
+                event_publisher=self._event_publisher,
             ),
             error_handler=error_response_handler,
         ).execute(data=request)
