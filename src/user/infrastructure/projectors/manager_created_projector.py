@@ -16,8 +16,6 @@ class ManagerCreatedProjector(EventHandler[ManagerCreatedDiator]):
     async def handle(self, event: ManagerCreatedDiator) -> None:
         user_db = self._db.query(UserModel).filter(UserModel.id == str(event.manager_id)).first()
         
-        print(id(self._mongo))
-        
         session = self._mongo.session
         db = session["template"]
         user_coll = db["user"]
