@@ -24,7 +24,7 @@ class CreateUserService(IApplicationService):
         id_generator: IDGenerator,
         user_repository: IUserRepository,
         cryptography_provider: ICryptographyProvider[str, str],
-        event_publisher: IEventPublisher
+        event_publisher: IEventPublisher,
     ):
         self._user_repository = user_repository
         self._id_generator = id_generator
@@ -38,7 +38,6 @@ class CreateUserService(IApplicationService):
 
         if await self._user_repository.find_by_email(email=data.email):
             return Result.failure(error=email_already_exists_error())
-
 
         user_id = self._id_generator.generate()
 
@@ -67,7 +66,7 @@ class CreateUserService(IApplicationService):
             first_name=data.first_name,
             last_name=data.last_name,
             email=data.email,
-            password= self._cryptography_provider.encrypt(data.password),
+            password=self._cryptography_provider.encrypt(data.password),
             username=data.username,
             role=data.role,
             status=UserStatus.ACTIVE,
@@ -77,7 +76,7 @@ class CreateUserService(IApplicationService):
 
         if is_not_none(client):
             await self._event_publisher.publish(client.events)
-            
+
         if is_not_none(manager):
             await self._event_publisher.publish(manager.events)
 

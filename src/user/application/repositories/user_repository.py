@@ -29,7 +29,7 @@ class IUserRepository(metaclass=ABCMeta):
     @abstractmethod
     async def find_all(self) -> Optional[List[User]]:
         pass
-    
+
     @abstractmethod
     async def save(self, user: User) -> Result[User]:
         pass

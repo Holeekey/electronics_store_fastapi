@@ -1,3 +1,3 @@
 class DeleteManagerResponse:
-  def __init__(self, id: str):
-    self.id = id
+    def __init__(self, id: str):
+        self.id = id

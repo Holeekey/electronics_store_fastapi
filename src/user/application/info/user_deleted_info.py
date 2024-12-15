@@ -3,5 +3,5 @@ from user.application.info.codes.user_codes import UserCodes
 
 
 user_deleted_info = result_info_factory(
-  code= UserCodes.DELETED, message= "User deleted succesfully"
+    code=UserCodes.DELETED, message="User deleted succesfully"
 )

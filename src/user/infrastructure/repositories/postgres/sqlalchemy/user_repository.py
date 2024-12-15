@@ -3,11 +3,14 @@ from common.domain.result.result import Result
 from common.domain.utils.is_none import is_none
 from common.infrastructure.database.database import SessionLocal
 from user.application.info.user_deleted_info import user_deleted_info
-from user.application.info.user_created_info import user_created_info 
+from user.application.info.user_created_info import user_created_info
 from user.application.errors.not_found import user_not_found_error
 from user.application.models.user import User
 from user.application.repositories.user_repository import IUserRepository
-from user.infrastructure.models.postgres.sqlalchemy.user_model import UserModel, UserRole
+from user.infrastructure.models.postgres.sqlalchemy.user_model import (
+    UserModel,
+    UserRole,
+)
 from sqlalchemy.orm import Session
 
 
@@ -69,7 +72,6 @@ class UserRepositorySqlAlchemy(IUserRepository):
 
         return [self.map_model_to_user(user_orm) for user_orm in users_orm]
 
-
     async def find_all(self):
         users_orm = self.db.query(UserModel).all()
         return [self.map_model_to_user(user_orm) for user_orm in users_orm]
@@ -102,17 +104,13 @@ class UserRepositorySqlAlchemy(IUserRepository):
         self.db.refresh(user_orm)
         return Result.success(user, info=user_created_info())
 
-
     async def delete(self, user_id: str) -> Result[str]:
         user_orm = self.db.query(UserModel).filter(UserModel.id == user_id).first()
 
         if is_none(user_orm):
-            return Result.failure(error= user_not_found_error())
-        
+            return Result.failure(error=user_not_found_error())
+
         self.db.delete(user_orm)
         self.db.commit()
 
-        return Result.success(
-            value= user_id,
-            info= user_deleted_info.user_deleted_info()
-        )
+        return Result.success(value=user_id, info=user_deleted_info.user_deleted_info())

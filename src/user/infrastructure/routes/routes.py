@@ -18,13 +18,17 @@ from common.infrastructure.responses.handlers.success_response_handler import (
     success_response_handler,
 )
 from common.infrastructure.token.jwt.jwt_provider import get_jwt_provider
-from common.infrastructure.cryptography.fernetCryptography_provider import get_fernet_provider
+from common.infrastructure.cryptography.fernetCryptography_provider import (
+    get_fernet_provider,
+)
 from user.application.commands.delete.delete_manager_command import DeleteManagerCommand
 from user.application.commands.delete.types.dto import DeleteManagerDto
 from user.application.commands.login.login_command import LoginCommand
 from user.application.commands.update.update_user_command import UpdateUserCommand
 from user.application.models.user import UserRole
-from user.application.queries.find_all.find_all_managers_query import FindAllManagersQuery
+from user.application.queries.find_all.find_all_managers_query import (
+    FindAllManagersQuery,
+)
 from user.application.queries.find_one.find_one_user_query import FindOneUserQuery
 from user.application.queries.find_one.types.dto import FindOneUserDto
 from user.application.commands.update.types import dto
@@ -42,24 +46,28 @@ user_router = APIRouter(
     prefix="/user",
     tags=["User"],
     responses={404: {"description": "Not found"}},
-) 
+)
+
 
 @user_router.get("/test")
 async def test():
-    
+
     def func(a: CreateUserCommand):
         return a
 
     print(func.__annotations__.get("a").__name__)
-    
+
     return "Hello World"
+
 
 @user_router.get("/one/{id}")
 async def find_one_user(
-        id: UUID4,
-        _: Annotated[AuthUser, Depends(role_checker([AuthUserRole.ADMIN, AuthUserRole.MANAGER]))],
-        session=Depends(get_session)
-    ):
+    id: UUID4,
+    _: Annotated[
+        AuthUser, Depends(role_checker([AuthUserRole.ADMIN, AuthUserRole.MANAGER]))
+    ],
+    session=Depends(get_session),
+):
 
     result = await ErrorDecorator(
         service=FindOneUserQuery(user_repository=UserRepositorySqlAlchemy(session)),
@@ -68,108 +76,124 @@ async def find_one_user(
 
     return result.handle_success(handler=success_response_handler)
 
+
 @user_router.get("/managers")
-async def find_all_managers(_: Annotated[AuthUser, Depends(role_checker([AuthUserRole.ADMIN]))], session=Depends(get_session)):
+async def find_all_managers(
+    _: Annotated[AuthUser, Depends(role_checker([AuthUserRole.ADMIN]))],
+    session=Depends(get_session),
+):
     result = await ErrorDecorator(
-        service= FindAllManagersQuery(user_repository=UserRepositorySqlAlchemy(session)),
+        service=FindAllManagersQuery(user_repository=UserRepositorySqlAlchemy(session)),
         error_handler=error_response_handler,
-    ).execute(data= None)
-    
+    ).execute(data=None)
+
     return result.handle_success(handler=success_response_handler)
+
 
 @user_router.post("")
 async def create_user(
     body: CreateUserDto,
     # _: Annotated[AuthUser, Depends(role_checker([AuthUserRole.ADMIN]))],
-    mediator=Depends(get_mediator)
+    mediator=Depends(get_mediator),
 ):
 
-    response = await mediator.send(CreateUserCommand(
-        username= body.username,
-        password= body.password,
-        first_name= body.first_name,
-        last_name= body.last_name,
-        email= body.email,
-        role= body.role
-    ))
-    
+    response = await mediator.send(
+        CreateUserCommand(
+            username=body.username,
+            password=body.password,
+            first_name=body.first_name,
+            last_name=body.last_name,
+            email=body.email,
+            role=body.role,
+        )
+    )
+
     return response
+
 
 @user_router.patch("")
 async def update_user(
     body: UpdateUserDto,
     current_user: Annotated[AuthUser, Depends(get_current_user)],
-    session= Depends(get_session),
-    cryptography_provider= Depends(get_fernet_provider)
+    session=Depends(get_session),
+    cryptography_provider=Depends(get_fernet_provider),
 ):
-    if current_user.role.name != UserRole.ADMIN.name: #? Un Manager podría actualizar los permisos de un usuario?
-        if (current_user.id != body.id) or (is_not_none(body.role) and (body.role.name != UserRole.CLIENT.name)):
-            raise HTTPException( 
-                status_code=status.HTTP_401_UNAUTHORIZED, 
+    if (
+        current_user.role.name != UserRole.ADMIN.name
+    ):  # ? Un Manager podría actualizar los permisos de un usuario?
+        if (current_user.id != body.id) or (
+            is_not_none(body.role) and (body.role.name != UserRole.CLIENT.name)
+        ):
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="You don't have enough permissions",
             )
 
     result = await ErrorDecorator(
-        service= UpdateUserCommand(
-            user_repository= UserRepositorySqlAlchemy(session),
-            cryptography_provider= cryptography_provider
+        service=UpdateUserCommand(
+            user_repository=UserRepositorySqlAlchemy(session),
+            cryptography_provider=cryptography_provider,
         ),
-        error_handler= error_response_handler
-    ).execute(data= dto.UpdateUserDto(
-        id= body.id,
-        username= body.username,
-        email= body.email,
-        password= body.password,
-        first_name= body.first_name,
-        last_name= body.last_name,
-        current_role= UserRole.CLIENT,
-        new_role= body.role,
-        status= body.status
-    ))
+        error_handler=error_response_handler,
+    ).execute(
+        data=dto.UpdateUserDto(
+            id=body.id,
+            username=body.username,
+            email=body.email,
+            password=body.password,
+            first_name=body.first_name,
+            last_name=body.last_name,
+            current_role=UserRole.CLIENT,
+            new_role=body.role,
+            status=body.status,
+        )
+    )
 
-    return result.handle_success(handler= success_response_handler)
-    
+    return result.handle_success(handler=success_response_handler)
+
+
 @user_router.patch("/manager")
 async def update_manager(
     body: UpdateUserDto,
-    _: Annotated[AuthUser, Depends(role_checker([AuthUserRole.ADMIN]))], 
-    session= Depends(get_session),
-    cryptography_provider= Depends(get_fernet_provider)       
+    _: Annotated[AuthUser, Depends(role_checker([AuthUserRole.ADMIN]))],
+    session=Depends(get_session),
+    cryptography_provider=Depends(get_fernet_provider),
 ):
     result = await ErrorDecorator(
-        service= UpdateUserCommand(
-            user_repository= UserRepositorySqlAlchemy(session),
-            cryptography_provider= cryptography_provider
+        service=UpdateUserCommand(
+            user_repository=UserRepositorySqlAlchemy(session),
+            cryptography_provider=cryptography_provider,
         ),
-        error_handler= error_response_handler
-    ).execute(data= dto.UpdateUserDto(
-        id= body.id,
-        username= body.username,
-        email= body.email,
-        password= body.password,
-        first_name= body.first_name,
-        last_name= body.last_name,
-        current_role= UserRole.MANAGER,
-        new_role= body.role,
-        status= body.status
-    ))
+        error_handler=error_response_handler,
+    ).execute(
+        data=dto.UpdateUserDto(
+            id=body.id,
+            username=body.username,
+            email=body.email,
+            password=body.password,
+            first_name=body.first_name,
+            last_name=body.last_name,
+            current_role=UserRole.MANAGER,
+            new_role=body.role,
+            status=body.status,
+        )
+    )
 
-    return result.handle_success(handler= success_response_handler)
+    return result.handle_success(handler=success_response_handler)
+
 
 @user_router.delete("/managers/{id}")
 async def delete_manager(
     id: UUID4,
     _: Annotated[AuthUser, Depends(role_checker([AuthUserRole.ADMIN]))],
-    session = Depends(get_session)
+    session=Depends(get_session),
 ):
     result = await ErrorDecorator(
-        service= DeleteManagerCommand(
-            user_repository= UserRepositorySqlAlchemy(session)
-        ),
-        error_handler= error_response_handler
-    ).execute(data= DeleteManagerDto(str(id)))
+        service=DeleteManagerCommand(user_repository=UserRepositorySqlAlchemy(session)),
+        error_handler=error_response_handler,
+    ).execute(data=DeleteManagerDto(str(id)))
 
-    return result.handle_success(handler= success_response_handler)
+    return result.handle_success(handler=success_response_handler)
 
 
 @user_router.post("/login")

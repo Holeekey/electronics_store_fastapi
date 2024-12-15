@@ -10,7 +10,9 @@ DB_NAME = config("DB_NAME")
 DB_PORT = config("DB_PORT")
 DB_USER = config("DB_USER")
 DB_PASSWORD = config("DB_PASSWORD")
-DATABASE_URL = f"postgresql+psycopg://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+DATABASE_URL = (
+    f"postgresql+psycopg://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+)
 
 MONGO_URL = config("MONGO_URL")
 

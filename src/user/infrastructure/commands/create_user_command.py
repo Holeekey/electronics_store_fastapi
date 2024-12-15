@@ -2,7 +2,8 @@ import dataclasses
 
 from diator.requests import Request
 
-from user.application.models.user import UserRole 
+from user.application.models.user import UserRole
+
 
 @dataclasses.dataclass(frozen=True, kw_only=True)
 class CreateUserCommand(Request):
