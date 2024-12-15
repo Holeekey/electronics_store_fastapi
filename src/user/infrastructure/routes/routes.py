@@ -48,24 +48,12 @@ user_router = APIRouter(
 )
 
 
-@user_router.get("/test")
-async def test():
-
-    def func(a: CreateUserCommand):
-        return a
-
-    print(func.__annotations__.get("a").__name__)
-
-    return "Hello World"
-
-
 @user_router.get("/one/{id}")
 async def find_one_user(
     id: UUID4,
-    # _: Annotated[
-    #     AuthUser, Depends(role_checker([AuthUserRole.ADMIN, AuthUserRole.MANAGER]))
-    # ],
-    # session=Depends(get_session),
+    _: Annotated[
+        AuthUser, Depends(role_checker([AuthUserRole.ADMIN, AuthUserRole.MANAGER]))
+    ],
     mediator=Depends(get_mediator),
 ):
     result = await mediator.send(
@@ -90,7 +78,7 @@ async def find_all_managers(
 @user_router.post("")
 async def create_user(
     body: CreateUserDto,
-    # _: Annotated[AuthUser, Depends(role_checker([AuthUserRole.ADMIN]))],
+    _: Annotated[AuthUser, Depends(role_checker([AuthUserRole.ADMIN]))],
     mediator=Depends(get_mediator),
 ):
 
