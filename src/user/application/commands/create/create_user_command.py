@@ -15,7 +15,7 @@ from user.domain.client.factories.client_factory import client_factory
 from user.domain.manager.factories.manager_factory import manager_factory
 
 
-class CreateUserCommand(IApplicationService):
+class CreateUserService(IApplicationService):
 
     def __init__(self, id_generator: IDGenerator, user_repository: IUserRepository, cryptography_provider: ICryptographyProvider[str, str]):
         self._user_repository = user_repository

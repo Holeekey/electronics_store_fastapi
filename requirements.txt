@@ -13,3 +13,5 @@ cryptography==44.0.0
 pycparser==2.22
 loguru==0.6.0
 pymongo==4.10.1
+diator==0.1.2
+di==0.79.2
