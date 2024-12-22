@@ -1,6 +1,8 @@
 from contextlib import asynccontextmanager
 import uvicorn
 from fastapi import FastAPI
+from common.infrastructure.bus.bus import setup_bindings, command_bus
+from bindings import command_bus_bindings
 from common.infrastructure.id_generator.uuid.uuid_generator import UUIDGenerator
 from common.infrastructure.cryptography.fernetCryptography_provider import get_fernet_provider
 import config
@@ -15,6 +17,7 @@ from user.infrastructure.models.postgres.sqlalchemy.user_model import (
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    setup_bindings(command_bus, command_bus_bindings)
     db = SessionLocal()
     admin_count = db.query(UserModel).filter(UserModel.role == UserRole.ADMIN).count()
     if admin_count == 0:

@@ -1,7 +1,11 @@
+from asyncio import sleep
+import asyncio
+import time
 from typing import Annotated
+import uuid
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
-from pydantic import UUID4
+from pydantic import UUID4, BaseModel
 
 from common.application.decorators.error_decorator import ErrorDecorator
 from common.application.decorators.logger_decorator import LoggerDecorator
@@ -10,9 +14,11 @@ from common.domain.utils.is_not_none import is_not_none
 from common.infrastructure.auth.get_current_user import get_current_user
 from common.infrastructure.auth.models.auth_user import AuthUser, AuthUserRole
 from common.infrastructure.auth.role_checker import role_checker
+from common.infrastructure.bus.bus import Bus, get_command_bus
 from common.infrastructure.database.database import get_session
 from common.infrastructure.id_generator.uuid.uuid_generator import UUIDGenerator
 from common.infrastructure.loggers.loguru_logger import LoguruLogger
+from common.infrastructure.rabbitmq.rabbitmq_event_handler import RabbitMqQueuePublisher
 from common.infrastructure.responses.handlers.error_response_handler import (
     error_response_handler,
 )
@@ -40,18 +46,26 @@ from user.infrastructure.routes.types.login.login_dto import LoginDto
 from user.infrastructure.routes.types.login.login_response import Token
 from user.infrastructure.routes.types.update.update_user_dto import UpdateUserDto
 
-
 user_router = APIRouter(
     prefix="/user",
     tags=["User"],
     responses={404: {"description": "Not found"}},
 )
 
+@user_router.post("")
+async def create_user(
+    body: CreateUserDto,
+    #_: Annotated[AuthUser, Depends(role_checker([AuthUserRole.ADMIN]))],
+    command_bus: Annotated[Bus, Depends(get_command_bus)],
+    
+):
+    result = await command_bus.dispatch(body)
+    return result
 
 @user_router.get("/one/{id}")
 async def find_one_user(
         id: UUID4,
-        _: Annotated[AuthUser, Depends(role_checker([AuthUserRole.ADMIN, AuthUserRole.MANAGER]))],
+        #_: Annotated[AuthUser, Depends(role_checker([AuthUserRole.ADMIN, AuthUserRole.MANAGER]))],
         session=Depends(get_session)
     ):
 
@@ -69,30 +83,6 @@ async def find_all_managers(_: Annotated[AuthUser, Depends(role_checker([AuthUse
         error_handler=error_response_handler,
     ).execute(data= None)
     
-    return result.handle_success(handler=success_response_handler)
-
-@user_router.post("")
-async def create_user(
-    body: CreateUserDto,
-    _: Annotated[AuthUser, Depends(role_checker([AuthUserRole.ADMIN]))],
-    session=Depends(get_session),
-    cryptography_provider=Depends(get_fernet_provider)
-):
-
-    idGenerator = UUIDGenerator()
-
-    result = await ErrorDecorator(
-        service= LoggerDecorator(
-            service= CreateUserCommand(
-                user_repository= UserRepositorySqlAlchemy(session),
-                id_generator= idGenerator,
-                cryptography_provider= cryptography_provider
-            ),
-            loggers = [LoguruLogger("Create User")]
-        ),
-        error_handler=error_response_handler,
-    ).execute(data=body)
-
     return result.handle_success(handler=success_response_handler)
 
 @user_router.patch("")

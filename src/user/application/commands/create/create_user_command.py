@@ -17,7 +17,12 @@ from user.domain.manager.factories.manager_factory import manager_factory
 
 class CreateUserCommand(IApplicationService):
 
-    def __init__(self, id_generator: IDGenerator, user_repository: IUserRepository, cryptography_provider: ICryptographyProvider[str, str]):
+    def __init__(
+        self,
+        id_generator: IDGenerator,
+        user_repository: IUserRepository,
+        cryptography_provider: ICryptographyProvider[str, str]
+    ):
         self._user_repository = user_repository
         self._id_generator = id_generator
         self._cryptography_provider = cryptography_provider
@@ -30,7 +35,7 @@ class CreateUserCommand(IApplicationService):
         if await self._user_repository.find_by_email(email=data.email):
             return Result.failure(error=email_already_exists_error())
 
-        if data.role == UserRole.CLIENT:
+        if data.role.name == UserRole.CLIENT.name:
             client = client_factory(
                 id=data.id,
                 first_name=data.first_name,
@@ -38,7 +43,7 @@ class CreateUserCommand(IApplicationService):
                 email=data.email,
             )
 
-        if data.role == UserRole.MANAGER:
+        if data.role.name == UserRole.MANAGER.name:
             manager = manager_factory(
                 id=data.id,
                 first_name=data.first_name,
