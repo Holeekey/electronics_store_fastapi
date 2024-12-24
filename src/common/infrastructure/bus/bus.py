@@ -1,6 +1,8 @@
+import asyncio
 from time import sleep
 from typing import Callable
 import uuid
+from fastapi import HTTPException
 from pydantic import BaseModel
 
 class QueueItem(BaseModel):
@@ -21,8 +23,10 @@ class Bus:
             while self.queue[0].id != id:
                 await sleep(0.00001)
             handler = self.bindings[object_class_name]
-            result = await handler(object)
-            self.queue.pop(0)
+            try:
+                result = await handler(object)
+            finally:
+                self.queue.pop(0)
             return result
 
     def bind(self, type: type, handler):

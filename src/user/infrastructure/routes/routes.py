@@ -18,7 +18,6 @@ from common.infrastructure.bus.bus import Bus, get_command_bus
 from common.infrastructure.database.database import get_session
 from common.infrastructure.id_generator.uuid.uuid_generator import UUIDGenerator
 from common.infrastructure.loggers.loguru_logger import LoguruLogger
-from common.infrastructure.rabbitmq.rabbitmq_event_handler import RabbitMqQueuePublisher
 from common.infrastructure.responses.handlers.error_response_handler import (
     error_response_handler,
 )
