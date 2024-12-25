@@ -74,10 +74,10 @@ class CreateUserCommand(IApplicationService):
         await self._user_repository.save(user=user)
 
         if is_not_none(client):
-            self._event_publisher.publish(client.pull_events())
+            await self._event_publisher.publish(client.pull_events())
             
         if is_not_none(manager):
-            self._event_publisher.publish(manager.pull_events())
+            await self._event_publisher.publish(manager.pull_events())
 
         return Result.success(
             value=CreateUserResponse(id=user.id), info=user_created_info()

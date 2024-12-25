@@ -4,9 +4,9 @@ from common.infrastructure.cryptography.fernetCryptography_provider import get_f
 from common.infrastructure.database.database import get_session
 from common.infrastructure.id_generator.uuid.uuid_generator import UUIDGenerator
 from common.infrastructure.loggers.loguru_logger import LoguruLogger
-from common.infrastructure.rabbitmq.rabbitmq_event_handler import get_rabbitmq_event_publisher
 from common.infrastructure.responses.handlers.error_response_handler import error_response_handler
 from common.infrastructure.responses.handlers.success_response_handler import success_response_handler
+from common.infrastructure.rabbitmq.rabbitmq_event_handler import get_rabbit_mq_event_publisher
 from user.application.commands.create.create_user_command import CreateUserCommand
 from user.infrastructure.repositories.postgres.sqlalchemy.user_repository import UserRepositorySqlAlchemy
 from user.infrastructure.routes.types.create.create_user_dto import CreateUserDto
@@ -22,7 +22,7 @@ async def create_user_command_handler(
                 user_repository= UserRepositorySqlAlchemy(get_session().__next__()),
                 id_generator= idGenerator,
                 cryptography_provider= get_fernet_provider(),
-                event_publisher= await get_rabbitmq_event_publisher().__anext__(),
+                event_publisher= await get_rabbit_mq_event_publisher().__anext__(),
             ),
             loggers = [LoguruLogger("Create User")]
         ),

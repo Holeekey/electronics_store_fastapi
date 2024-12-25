@@ -1,12 +1,15 @@
+import asyncio
 from contextlib import asynccontextmanager
 import uvicorn
 from fastapi import FastAPI
 from common.infrastructure.bus.bus import setup_bindings, command_bus
-from bindings import command_bus_bindings
+from command_bindings import command_bus_bindings
 from common.infrastructure.id_generator.uuid.uuid_generator import UUIDGenerator
+from common.infrastructure.rabbitmq.rabbitmq_event_handler import rabbit_event_listener
 from common.infrastructure.cryptography.fernetCryptography_provider import get_fernet_provider
 import config
 from common.infrastructure.database.database import SessionLocal
+from event_bindings import event_bindings
 from routes import router
 from user.infrastructure.models.postgres.sqlalchemy.user_model import (
     UserModel,
@@ -18,6 +21,8 @@ from user.infrastructure.models.postgres.sqlalchemy.user_model import (
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     setup_bindings(command_bus, command_bus_bindings)
+    rabbit_event_listener.setup_bindings(event_bindings)
+    rabbit_event_listener.start_consuming_in_thread()
     db = SessionLocal()
     admin_count = db.query(UserModel).filter(UserModel.role == UserRole.ADMIN).count()
     if admin_count == 0:
@@ -34,7 +39,10 @@ async def lifespan(app: FastAPI):
         db.add(user)
         db.commit()
         db.refresh(user)
-    yield
+    try:
+        yield
+    finally:
+        rabbit_event_listener.close()
 
 
 app = FastAPI(lifespan=lifespan)
