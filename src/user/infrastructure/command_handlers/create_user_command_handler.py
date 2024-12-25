@@ -1,6 +1,6 @@
 from common.application.decorators.error_decorator import ErrorDecorator
 from common.application.decorators.logger_decorator import LoggerDecorator
-from common.infrastructure.cryptography.fernetCryptography_provider import get_fernet_provider
+from common.infrastructure.cryptography.fernet_cryptography_provider import get_fernet_provider
 from common.infrastructure.database.database import get_session
 from common.infrastructure.id_generator.uuid.uuid_generator import UUIDGenerator
 from common.infrastructure.loggers.loguru_logger import LoguruLogger

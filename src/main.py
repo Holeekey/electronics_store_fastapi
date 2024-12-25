@@ -6,7 +6,7 @@ from common.infrastructure.bus.bus import setup_bindings, command_bus
 from command_bindings import command_bus_bindings
 from common.infrastructure.id_generator.uuid.uuid_generator import UUIDGenerator
 from common.infrastructure.rabbitmq.rabbitmq_event_handler import rabbit_event_listener
-from common.infrastructure.cryptography.fernetCryptography_provider import get_fernet_provider
+from common.infrastructure.cryptography.fernet_cryptography_provider import get_fernet_provider
 import config
 from common.infrastructure.database.database import SessionLocal
 from event_bindings import event_bindings
