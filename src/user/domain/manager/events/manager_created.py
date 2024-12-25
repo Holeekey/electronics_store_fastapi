@@ -6,7 +6,6 @@ from user.domain.manager.value_objects.manager_name import ManagerName
 
 MANAGER_CREATED = "manager_created"
 
-
 class ManagerCreated(DomainEvent):
     def __init__(self, manager_id: ManagerId, name: ManagerName, email: ManagerEmail):
         super().__init__(MANAGER_CREATED)
