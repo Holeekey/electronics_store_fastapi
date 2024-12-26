@@ -3,10 +3,10 @@ class User:
     def __init__(
         self,
         id: int,
-        productId: int,
+        product_id: int,
         stock: int,
         
     ):
         self.id = id
-        self.productId = productId
+        self.product_id = product_id
         self.stock = stock
