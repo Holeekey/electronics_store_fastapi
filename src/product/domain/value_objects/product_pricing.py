@@ -7,7 +7,7 @@ from ..errors.invalid_product_cost import invalid_product_cost_error
 class ProductPricing(ValueObject):
     def __init__(self, cost: float, margin: float) -> None:
         
-        if (margin == 1):
+        if (margin >= 1) or (margin < 0):
             raise invalid_product_price_margin_error()
         self.value = cost / (1 - margin) #Per project's instructions, this formula must be used to compute price
         self._cost = cost

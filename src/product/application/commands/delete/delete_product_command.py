@@ -18,7 +18,7 @@ class DeleteProductCommand(IApplicationService):
         target_product = await self.product_repository.find_one(ProductId(data.id))
         if is_none(target_product):
             return Result.failure(error=product_not_found_error())
-        if (target_product.status.status == 0):
+        if (target_product.status.status.value == 0):
             return Result.failure(error=product_not_found_error())
         
         delete_result = await self.product_repository.delete(target_product)
@@ -26,4 +26,5 @@ class DeleteProductCommand(IApplicationService):
         if (delete_result.is_error()):
             return Result.failure(error=delete_result.handle_error(handler=(lambda x: x)))
         response = DeleteProductResponse(id=target_product.id.id)
-        return Result.success(value=response)
+        info = result_info_factory("DEL-001", "Product deactivated successfully")
+        return Result.success(value=response, info=info())

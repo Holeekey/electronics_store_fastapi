@@ -12,7 +12,7 @@ class ProductStatus(ValueObject):
         self.validate()
 
     @property
-    def status(self) -> float:
+    def status(self) -> ProductStatusOptions:
         return self.value
 
     def validate(self) -> None:

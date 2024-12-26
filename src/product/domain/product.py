@@ -19,7 +19,7 @@ class Product(Aggregate[T]):
         self._description = description
         self._pricing = pricing
         self._status = status
-        self.publish(ProductCreated(id, name, pricing))
+        self.publish(ProductCreated(id, code, name, description, pricing))
 
     @property
     def name(self) -> ProductName:

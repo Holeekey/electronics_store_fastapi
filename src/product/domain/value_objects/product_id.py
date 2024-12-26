@@ -16,6 +16,7 @@ class ProductId(ValueObject):
         try:
             UUID(self.id)
         except:
+            print(self.id)
             raise invalid_product_id_error()
 
     def __eq__(self, other: "ProductId") -> bool:

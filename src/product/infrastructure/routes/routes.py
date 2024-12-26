@@ -78,7 +78,7 @@ async def create_product(body: CreateProductDto):
 @product_router.put("{id}")
 async def update_product(id:UUID, body: UpdateProductQueryDto):
 
-    service_dto = UpdateProductDto(id=id, **body)
+    service_dto = UpdateProductDto(id=str(id), code=body.code, name=body.name, description=body.description, cost=body.cost, margin=body.margin)
     result = await ErrorDecorator(
         service=UpdateProductCommand(
             product_repository=product_repository
@@ -91,9 +91,9 @@ async def update_product(id:UUID, body: UpdateProductQueryDto):
 @product_router.delete("{id}")
 async def delete_product(id:UUID):
 
-    service_dto = DeleteProductDto(id=id)
+    service_dto = DeleteProductDto(id=str(id))
     result = await ErrorDecorator(
-        service=UpdateProductCommand(
+        service=DeleteProductCommand(
             product_repository=product_repository
         ),
         error_handler=error_response_handler

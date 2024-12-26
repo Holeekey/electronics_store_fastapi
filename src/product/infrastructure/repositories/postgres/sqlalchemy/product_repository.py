@@ -1,7 +1,7 @@
 from uuid import UUID
 from typing import Optional, List
 from sqlalchemy.orm import Session
-from common.domain.result.result import Result
+from common.domain.result.result import Result, result_info_factory
 from common.domain.utils.is_none import is_none
 from product.application.info.product_created_info import product_created_info
 from product.application.repositories.product_repository import IProductRepository
@@ -62,7 +62,7 @@ class ProductRepositorySqlAlchemy(IProductRepository):
             margin=product.pricing.margin, 
             price=product.pricing.price, 
             earning=product.pricing.earning,
-            status=product.status.status
+            status= product.status.status.value
         )
         self.db.add(product_orm)
         self.db.commit()
@@ -85,11 +85,12 @@ class ProductRepositorySqlAlchemy(IProductRepository):
         target_product.margin = new_product.pricing.margin
         target_product.price = new_product.pricing.price
         target_product.earning = new_product.pricing.earning
-        target_product.status = new_product.status.status
+        target_product.status = new_product.status.status.value
         self.db.add(target_product)
         self.db.commit()
         self.db.refresh(target_product)
-        return Result.success(new_product)
+        info = result_info_factory("UPD-001", "Product updated successfully")
+        return Result.success(new_product, info=info())
 
     async def delete(self, product: Product) -> Result[str]:
         target_product: ProductModel = self.db.query(ProductModel).filter(ProductModel.id == str(product.id.id)).first()
@@ -102,4 +103,6 @@ class ProductRepositorySqlAlchemy(IProductRepository):
         self.db.add(target_product)
         self.db.commit()
         self.db.refresh(target_product)
-        return Result.success("Product deactivated sucessfully")
+
+        info = result_info_factory("DEL-001","Product deactivated successfully")
+        return Result.success("Product deactivated sucessfully", info=info())

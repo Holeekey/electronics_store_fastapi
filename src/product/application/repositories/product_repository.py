@@ -22,7 +22,7 @@ class IProductRepository(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    async def update(self, product: Product) -> Result[Product]:
+    async def update(self, id: ProductId, new_product: Product) -> Result[Product]:
         pass
 
     @abstractmethod
