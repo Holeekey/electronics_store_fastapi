@@ -1,7 +1,7 @@
 from inventory.application.models.inventory import UserRole
 
 
-class CreateUserDto:
+class CreateInventoryDto:
     def __init__(
         self,
         productId: int,
