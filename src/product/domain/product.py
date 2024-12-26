@@ -24,22 +24,42 @@ class Product(Aggregate[T]):
     @property
     def name(self) -> ProductName:
         return self._name
+    @name.setter
+    def name(self, value:ProductName) -> None:
+        self._name = value
+        self.validate_state()
 
     @property
     def code(self) -> ProductCode:
         return self._code
+    @code.setter
+    def code(self, value:ProductCode) -> None:
+        self._code = value
+        self.validate_state()
     
     @property
     def description(self) -> ProductDescription:
         return self._description
+    @description.setter
+    def description(self, value:ProductDescription) -> None:
+        self._description = value
+        self.validate_state()
 
     @property
     def pricing(self) -> ProductPricing:
         return self._pricing
+    @pricing.setter
+    def pricing(self, value:ProductPricing) -> None:
+        self._pricing = value
+        self.validate_state()
     
     @property
     def status(self) -> ProductStatus:
         return self._status
+    @status.setter
+    def status(self, value:ProductStatus) -> None:
+        self._status = value
+        self.validate_state()
 
     def validate_state(self) -> None:
         self._id.validate()

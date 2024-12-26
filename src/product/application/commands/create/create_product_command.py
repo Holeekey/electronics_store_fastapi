@@ -34,7 +34,7 @@ class CreateProductCommand(IApplicationService):
 
         id = self.id_generator.generate()
 
-        product = product_factory(id=id, name=data.name, price=data.price, status=1) #Products start created as 'ACTIVE'
+        product = product_factory(id=id, code=data.code, name=data.name, description=data.description, cost=data.cost, margin=data.margin, status=1) #Products start created as 'ACTIVE'
 
         await self.product_repository.save(product=product)
 

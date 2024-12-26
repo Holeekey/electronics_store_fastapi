@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 
-class CreateProductDto(BaseModel):
+class UpdateProductQueryDto(BaseModel):
     code: str
     name: str
     description: str
