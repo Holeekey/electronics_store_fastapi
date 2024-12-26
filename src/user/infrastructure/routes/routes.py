@@ -6,6 +6,7 @@ import uuid
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 from pydantic import UUID4, BaseModel
+from pymongo import MongoClient
 
 from common.application.decorators.error_decorator import ErrorDecorator
 from common.application.decorators.logger_decorator import LoggerDecorator
@@ -20,12 +21,16 @@ from common.infrastructure.database.database import get_session
 from common.infrastructure.database.mongo import get_mongo_client
 from common.infrastructure.id_generator.uuid.uuid_generator import UUIDGenerator
 from common.infrastructure.loggers.loguru_logger import LoguruLogger
+from common.infrastructure.pagination.pagination_params import pagination_params
+from common.infrastructure.pagination.utils.pagination_to_skip import pagination_to_skip
 from common.infrastructure.responses.handlers.error_response_handler import (
     error_response_handler,
 )
+from common.infrastructure.responses.handlers.pagination_response_handler import pagination_response_handler
 from common.infrastructure.responses.handlers.success_response_handler import (
     success_response_handler,
 )
+from common.infrastructure.responses.pagination_response import PaginationInfo, PaginationResponse
 from common.infrastructure.token.jwt.jwt_provider import get_jwt_provider
 from common.infrastructure.cryptography.fernet_cryptography_provider import get_fernet_provider
 from user.application.commands.create.create_user_command import CreateUserCommand
@@ -33,6 +38,7 @@ from user.application.commands.delete.delete_manager_command import DeleteManage
 from user.application.commands.delete.types.dto import DeleteManagerDto
 from user.application.commands.login.login_command import LoginCommand
 from user.application.commands.update.update_user_command import UpdateUserCommand
+from user.application.info.many_users_found_info import many_users_found_info
 from user.application.info.user_found_info import user_found_info
 from user.application.models.user import UserRole
 from user.application.queries.find_all.find_all_managers_query import FindAllManagersQuery
@@ -68,42 +74,51 @@ async def create_user(
 @user_router.get("/one/{id}")
 async def find_one_user(
         id: UUID4,
-        _: Annotated[AuthUser, Depends(role_checker([AuthUserRole.ADMIN, AuthUserRole.MANAGER]))],
-        session=Depends(get_mongo_client),
+        # _: Annotated[AuthUser, Depends(role_checker([AuthUserRole.ADMIN, AuthUserRole.MANAGER]))],
+        session: Annotated[MongoClient,Depends(get_mongo_client)],
     ):
 
     db = session["template"]
     user_coll = db["user"]
-    user = user_coll.find_one({"id": str(id)})
+    
+    projection = {
+        "_id": 0,
+    }
+    
+    user = user_coll.find_one({"id": str(id)},projection)
     
     if is_none(user):
         error = user_not_found_error()
         raise error_response_handler(error) 
     
-    user_response =  {
-            "id": user["id"],
-            "username": user["username"],
-            "email": user["email"],
-            "first_name": user["first_name"],
-            "last_name": user["last_name"],
-            "role": user["role"],
-            "status": user["status"],
-        }
-    
     return success_response_handler(
-        user_response,
+        user,
         user_found_info()
     )
 
 @user_router.get("/managers")
-async def find_all_managers(_: Annotated[AuthUser, Depends(role_checker([AuthUserRole.ADMIN]))], session=Depends(get_session)):
-    result = await ErrorDecorator(
-        service= FindAllManagersQuery(user_repository=UserRepositorySqlAlchemy(session)),
-        error_handler=error_response_handler,
-    ).execute(data= None)
+async def find_all_managers(
+        # _: Annotated[AuthUser, Depends(role_checker([AuthUserRole.ADMIN]))],
+        session: Annotated[MongoClient,Depends(get_mongo_client)],
+        pagination: Annotated[dict, Depends(pagination_params)]
+    ):
+    db = session["template"]
+    user_coll = db["user"]
     
-    return result.handle_success(handler=success_response_handler)
-
+    projection = {
+        "_id": 0,
+    }
+    
+    where = {"role": "MANAGER"}
+        
+    users_cursor = user_coll.find(where, projection).skip(pagination_to_skip(pagination)).limit(pagination["per_page"])
+    total_count = user_coll.count_documents(where)
+    users = list(users_cursor)
+    pagination_info = PaginationInfo.make_pagination_info(pagination["page"], pagination["per_page"], total_count)
+    
+    return pagination_response_handler(t=users, info=many_users_found_info(), pagination_info=pagination_info)
+    
+    
 @user_router.patch("")
 async def update_user(
     body: UpdateUserDto,
