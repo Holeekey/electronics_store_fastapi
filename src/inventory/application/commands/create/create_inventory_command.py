@@ -19,13 +19,13 @@ class CreateUserCommand(IApplicationService):
 
     async def execute(self, data: CreateInventoryDto) -> Result[CreateInventoryResponse]:
 
-        if await self._inventory_repository.find_by_product_id(productId=data.productId):
+        if await self._inventory_repository.find_by_product_id(product_id=data.product_id):
             return Result.failure(error=inventory_already_exists_error())
 
 
         inventory = Inventory(
             id=self._id_generator.generate(),
-            productId=data.productId,
+            product_id=data.product_id,
             stock=data.stock,
         )
 
