@@ -50,7 +50,7 @@ user_router = APIRouter(
 @user_router.post("")
 async def create_user(
     body: CreateUserDto,
-    # _: Annotated[AuthUser, Depends(role_checker([AuthUserRole.ADMIN]))],
+    _: Annotated[AuthUser, Depends(role_checker([AuthUserRole.ADMIN]))],
     command_bus: Annotated[Bus, Depends(get_command_bus)],
     
 ):
@@ -60,7 +60,7 @@ async def create_user(
 @user_router.patch("")
 async def update_user(
     body: UpdateUserDto,
-    #_: Annotated[AuthUser, Depends(role_checker([AuthUserRole.ADMIN]))],
+    _: Annotated[AuthUser, Depends(role_checker([AuthUserRole.ADMIN]))],
     command_bus: Annotated[Bus, Depends(get_command_bus)],
 ):
     result = await command_bus.dispatch(UpdateUserDtoApp(
@@ -78,7 +78,7 @@ async def update_user(
 @user_router.patch("/manager")
 async def update_manager(
     body: UpdateUserDto,
-    #_: Annotated[AuthUser, Depends(role_checker([AuthUserRole.ADMIN]))], 
+    _: Annotated[AuthUser, Depends(role_checker([AuthUserRole.ADMIN]))], 
     command_bus: Annotated[Bus, Depends(get_command_bus)],   
 ):
     result = await command_bus.dispatch(UpdateUserDtoApp(
@@ -96,7 +96,7 @@ async def update_manager(
 @user_router.delete("/managers/{id}")
 async def delete_manager(
     id: UUID4,
-    # _: Annotated[AuthUser, Depends(role_checker([AuthUserRole.ADMIN]))],
+    _: Annotated[AuthUser, Depends(role_checker([AuthUserRole.ADMIN]))],
     command_bus: Annotated[Bus, Depends(get_command_bus)],
 ):
     result = await command_bus.dispatch(DeleteManagerDto(str(id)))
@@ -105,7 +105,7 @@ async def delete_manager(
 @user_router.get("/one/{id}")
 async def find_one_user(
         id: UUID4,
-        # _: Annotated[AuthUser, Depends(role_checker([AuthUserRole.ADMIN, AuthUserRole.MANAGER]))],
+        _: Annotated[AuthUser, Depends(role_checker([AuthUserRole.ADMIN, AuthUserRole.MANAGER]))],
         session: Annotated[MongoClient,Depends(get_mongo_client)],
     ):
 
@@ -129,7 +129,7 @@ async def find_one_user(
 
 @user_router.get("/managers")
 async def find_all_managers(
-        # _: Annotated[AuthUser, Depends(role_checker([AuthUserRole.ADMIN]))],
+        _: Annotated[AuthUser, Depends(role_checker([AuthUserRole.ADMIN]))],
         session: Annotated[MongoClient,Depends(get_mongo_client)],
         pagination: Annotated[dict, Depends(pagination_params)]
     ):
