@@ -31,6 +31,33 @@ services:
       - template-network
     depends_on:
       - db
+      - mongo
+    
+  queue:
+    image: rabbitmq:3-management-alpine
+    container_name: 'queue'
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+      - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+    networks:
+      - template-network
+
+  mongo:
+    image: mongo
+    restart: always
+    ports:
+      - "${MONGO_PORT}:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+    container_name: template-mongo
+    volumes:
+      - ./mongo:/data/db
+    networks:
+      - template-network
 
 networks:
   template-network:

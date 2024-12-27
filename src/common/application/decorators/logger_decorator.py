@@ -1,3 +1,4 @@
+import json
 from typing import List, TypeVar
 from common.application.error.application_error import ApplicationError
 from common.application.logger.logger import ILogger
@@ -21,7 +22,8 @@ class LoggerDecorator(IApplicationService):
         
         try:
             for logger in self._loggers:
-                logger.log(f"INPUT", data.__str__())
+                log = data.to_dict() if hasattr(data, 'to_dict') else json.dumps(vars(data), default=str)
+                logger.log(f"INPUT", log)
             result = await self._service.execute(data)
             
             if result.is_error():
@@ -29,7 +31,8 @@ class LoggerDecorator(IApplicationService):
                     logger.error(result.handle_error(lambda e: e))
             else:
                 for logger in self._loggers:
-                    logger.log(f"RESULT", result.unwrap().__str__())
+                    log = data.to_dict() if hasattr(result.unwrap(), 'to_dict') else json.dumps(vars(result.unwrap()), default=str)
+                    logger.log(f"RESULT", log)
             
             return result
             

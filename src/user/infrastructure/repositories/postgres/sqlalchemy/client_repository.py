@@ -1,3 +1,4 @@
+from uuid import UUID
 from common.domain.utils.is_none import is_none
 from user.application.models.user import UserRole
 from user.application.repositories.client_repository import IClientRepository
@@ -34,7 +35,7 @@ class ClientRepositorySqlAlchemy(IClientRepository):
         )
         return [
             client_factory(
-                id=user_orm.id,
+                id=UUID(user_orm.id),
                 first_name=user_orm.first_name,
                 last_name=user_orm.last_name,
                 email=user_orm.email,

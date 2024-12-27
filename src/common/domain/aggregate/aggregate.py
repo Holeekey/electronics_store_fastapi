@@ -24,6 +24,9 @@ class Aggregate(ABC, Generic[T], Entity[T]):
         events = self._events
         self._events = []
         return events
+    
+    def clear_events(self) -> None:
+        self._events.clear()
 
     def publish(self, event: DomainEvent) -> None:
         self.validate_state()

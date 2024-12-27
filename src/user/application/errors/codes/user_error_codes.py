@@ -7,5 +7,7 @@ class UserErrorCodes(Enum):
     INVALID_CREDENTIALS = "US-E-003"
     INCORRECT_CREDENTIALS = "US-E-004"
     NOT_MANAGER = "US-E-005"
+    NOT_CLIENT = "US-E-006"
+    NOT_ADMIN = "US-E-007"
     NOT_FOUND = "US-E-NF"
     SUSPENDED = "US-E-UN"
