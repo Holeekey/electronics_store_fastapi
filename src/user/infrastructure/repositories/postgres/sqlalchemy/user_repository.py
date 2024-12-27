@@ -95,7 +95,7 @@ class UserRepositorySqlAlchemy(IUserRepository):
             user_orm.first_name = user.first_name
             user_orm.last_name = user.last_name
             user_orm.role = user.role.name
-            user_orm.status = user.status
+            user_orm.status = user.status.name
 
         self.db.add(user_orm)
         self.db.commit()
