@@ -1,3 +1,4 @@
+from common.application.cryptography.cryptography_provider import ICryptographyProvider
 from common.application.id_generator.id_generator import IDGenerator
 from common.domain.result.result import Result
 from common.application.service.application_service import IApplicationService
@@ -16,9 +17,10 @@ from user.domain.manager.factories.manager_factory import manager_factory
 
 class CreateUserCommand(IApplicationService):
 
-    def __init__(self, id_generator: IDGenerator, user_repository: IUserRepository):
+    def __init__(self, id_generator: IDGenerator, user_repository: IUserRepository, cryptography_provider: ICryptographyProvider[str, str]):
         self._user_repository = user_repository
         self._id_generator = id_generator
+        self._cryptography_provider = cryptography_provider
 
     async def execute(self, data: CreateUserDto) -> Result[CreateUserResponse]:
 
@@ -35,9 +37,9 @@ class CreateUserCommand(IApplicationService):
                 last_name=data.last_name,
                 email=data.email,
             )
-            
+
         if data.role == UserRole.MANAGER:
-             manager = manager_factory(
+            manager = manager_factory(
                 id=data.id,
                 first_name=data.first_name,
                 last_name=data.last_name,
@@ -49,7 +51,7 @@ class CreateUserCommand(IApplicationService):
             first_name=data.first_name,
             last_name=data.last_name,
             email=data.email,
-            password=data.password,
+            password= self._cryptography_provider.encrypt(data.password),
             username=data.username,
             role=data.role,
             status=UserStatus.ACTIVE,

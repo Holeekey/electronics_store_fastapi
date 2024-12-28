@@ -1,4 +1,3 @@
-from typing import TypeVar
 from common.domain.result.result import ResultInfo
 from common.infrastructure.responses.info import ResponseInfo
 from common.infrastructure.responses.response import Response

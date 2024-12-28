@@ -2,7 +2,7 @@ from abc import ABCMeta, abstractmethod
 from typing import List, Optional
 
 from common.domain.result.result import Result
-from user.application.models.user import User
+from user.application.models.user import User, UserRole
 
 
 class IUserRepository(metaclass=ABCMeta):
@@ -19,9 +19,20 @@ class IUserRepository(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    async def find_all(self) -> Optional[List[User]]:
+    async def find_by_login_credential(self, login_credential: str) -> Optional[User]:
         pass
 
     @abstractmethod
+    async def find_by_role(self, role: UserRole) -> Optional[List[User]]:
+        pass
+
+    @abstractmethod
+    async def find_all(self) -> Optional[List[User]]:
+        pass
+    
+    @abstractmethod
     async def save(self, user: User) -> Result[User]:
+        pass
+
+    async def delete(self, user_id: str) -> Result[str]:
         pass

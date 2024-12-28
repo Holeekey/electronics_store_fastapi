@@ -1,4 +1,3 @@
-from uuid import UUID
 from user.domain.client.client import Client
 from user.domain.client.value_objects.client_id import ClientId
 from user.domain.client.value_objects.client_name import ClientName

@@ -10,7 +10,7 @@ def error_response_handler(error: Error) -> Exception:
     if error.code.endswith("NF"):
         status_code = 404
     elif error.code.endswith("UN"):
-        status_code = 403
+        status_code = 401
     else:
         status_code = 400
 

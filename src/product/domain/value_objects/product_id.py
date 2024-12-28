@@ -4,16 +4,18 @@ from ..errors.invalid_product_id import invalid_product_id_error
 
 
 class ProductId(ValueObject):
-    def __init__(self, id: UUID) -> None:
+    def __init__(self, id: str) -> None:
         self.value = id
         self.validate()
 
     @property
-    def id(self) -> UUID:
+    def id(self) -> str:
         return self.value
 
     def validate(self) -> None:
-        if not isinstance(self.id, UUID):
+        try:
+            UUID(self.id)
+        except:
             raise invalid_product_id_error()
 
     def __eq__(self, other: "ProductId") -> bool:
