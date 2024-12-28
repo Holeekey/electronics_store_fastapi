@@ -1,5 +1,5 @@
 
-class User:
+class Inventory:
     def __init__(
         self,
         id: int,
