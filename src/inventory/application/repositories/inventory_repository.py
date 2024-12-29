@@ -13,5 +13,9 @@ class IInventoryRepository(metaclass=ABCMeta):
         pass
 
     @abstractmethod
+    async def update(self, inventory: Inventory) -> Result[Inventory]:
+        pass
+
+    @abstractmethod
     async def save(self, inventory:Inventory) -> Result[Inventory]:
         pass
