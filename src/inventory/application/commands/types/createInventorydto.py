@@ -1,4 +1,4 @@
-from inventory.application.models.inventory import UserRole
+
 
 
 class CreateInventoryDto:
