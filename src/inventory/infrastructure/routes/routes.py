@@ -16,10 +16,10 @@ from inventory.application.queries.find_one_product_query import (
     FindOneProductQuery,
 )
 from inventory.application.queries import FindOneInventoryDto
-from inventory.infraestructure.repositories.postgres.sqlalchemy.inventory_repository import (
+from inventory.infrastructure.repositories.postgres.sqlalchemy.inventory_repository import (
     InventoryRepositorySqlAlchemy,
 )
-from inventory.infraestructure.routes.types.dto.create.create_inventory_dto import CreateInventoryDto
+from inventory.infrastructure.routes.types.dto.create.create_inventory_dto import CreateInventoryDto
 
 
 inventory_router = APIRouter(
@@ -43,7 +43,7 @@ async def find_inventory_by_product(id: UUID):
 
 
 @inventory_router.post("/{product_id}")
-async def create_inventory(body: CreateInventoryDto):
+async def update_inventory(body: CreateInventoryDto):
 
     # idGenerator = RandomIdGenerator()
     idGenerator = UUIDGenerator()

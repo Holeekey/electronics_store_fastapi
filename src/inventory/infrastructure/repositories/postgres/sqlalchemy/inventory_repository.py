@@ -7,7 +7,7 @@ from inventory.application.info.inventory_find_info import inventory_find_info
 from inventory.application.errors.not_found import not_found
 from inventory.application.models.inventory import Inventory
 from inventory.application.repositories.inventory_repository import IInventoryRepository
-from inventory.infraestructure.models.postgres.sqlalchemy.inventory_model import InventoryModel
+from inventory.infrastructure.models.postgres.sqlalchemy.inventory_model import InventoryModel
 from sqlalchemy.orm import Session
 
 class UserRepositorySqlAlchemy(IInventoryRepository):
