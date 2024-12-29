@@ -22,7 +22,7 @@ class UserRepositorySqlAlchemy(IInventoryRepository):
             
         )
 
-    async def find_by_product_id(self, product_id: int):
+    async def find_by_product_id(self, product_id: str):
         inventory_orm = (
             self.db.query(InventoryModel).filter(InventoryModel.product_id == product_id).first()
         )

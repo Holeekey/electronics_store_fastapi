@@ -10,9 +10,9 @@ class InventoryRepositoryMock(IInventoryRepository):
     def __init__(self):
         self.inventories = []
 
-    async def find_by_product_id(self, id: int):
+    async def find_by_product_id(self, id: str):
         for inventory in self.inventories:
-            if inventory.product_id == id:
+            if inventory.product_id == str:
                 return inventory
         return None
 
