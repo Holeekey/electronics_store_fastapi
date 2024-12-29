@@ -2,8 +2,8 @@
 class Inventory:
     def __init__(
         self,
-        id: int,
-        product_id: int,
+        id: str,
+        product_id: str,
         stock: int,
         
     ):
