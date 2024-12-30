@@ -3,14 +3,13 @@ from common.domain.utils.is_none import is_none
 from common.infrastructure.database.database import SessionLocal
 from inventory.application.info.inventory_created_info import inventory_created_info
 from inventory.application.info.inventory_updated_info import inventory_updated_info
-from inventory.application.info.inventory_find_info import inventory_find_info
-from inventory.application.errors.not_found import not_found
+from inventory.application.errors.not_found import inventory_not_found_error
 from inventory.application.models.inventory import Inventory
 from inventory.application.repositories.inventory_repository import IInventoryRepository
 from inventory.infrastructure.models.postgres.sqlalchemy.inventory_model import InventoryModel
 from sqlalchemy.orm import Session
 
-class UserRepositorySqlAlchemy(IInventoryRepository):
+class InventoryRepositorySqlAlchemy(IInventoryRepository):
     def __init__(self, db: Session):
         self.db = db 
 
@@ -42,7 +41,7 @@ class UserRepositorySqlAlchemy(IInventoryRepository):
         )
 
         if is_none(inventory_orm):
-            return Result.failure(error=not_found)
+            return Result.failure(error=inventory_not_found_error)
 
         # Actualizar los campos necesarios
         inventory_orm.stock = inventory.stock

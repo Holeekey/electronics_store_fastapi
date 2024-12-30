@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 
-class adjustInventoryDto(BaseModel):
+class AdjustInventoryDto(BaseModel):
     product_id: str
     stock: int
     

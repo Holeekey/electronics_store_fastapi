@@ -2,7 +2,7 @@ from common.application.id_generator.id_generator import IDGenerator
 from common.domain.result.result import Result
 from common.application.service.application_service import IApplicationService
 from inventory.application.commands.types.adjustInventoryDto import AdjustInventoryDto
-from inventory.application.commands.types.response import AdjustInventoryResponse
+from inventory.application.commands.types.response import CreateInventoryResponse
 from inventory.application.errors import negative_stock
 from inventory.application.info import inventory_updated_info
 from inventory.application.repositories.inventory_repository import IInventoryRepository
@@ -16,7 +16,7 @@ class AdjustInventoryCommand(IApplicationService):
         self._inventory_repository = inventory_repository
         self._id_generator = id_generator
 
-    async def execute(self, data: AdjustInventoryDto) -> Result[AdjustInventoryResponse]:
+    async def execute(self, data: AdjustInventoryDto) -> Result[CreateInventoryResponse]:
         # Buscar el inventario existente por product_id
         existing_inventory = await self._inventory_repository.find_by_product_id(product_id=data.product_id)
 
@@ -29,7 +29,7 @@ class AdjustInventoryCommand(IApplicationService):
 
             await self._inventory_repository.update(existing_inventory)
             return Result.success(
-                value=AdjustInventoryResponse(id=existing_inventory.id),
+                value=CreateInventoryResponse(id=existing_inventory.id),
                 info=inventory_updated_info()
             )
 
@@ -44,6 +44,6 @@ class AdjustInventoryCommand(IApplicationService):
         await self._inventory_repository.save(inventory=inventory)
 
         return Result.success(
-            value=AdjustInventoryResponse(id=inventory.id),
+            value=CreateInventoryResponse(id=inventory.id),
             info=inventory_created_info()
         )

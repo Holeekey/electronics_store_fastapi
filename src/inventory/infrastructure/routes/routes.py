@@ -13,13 +13,12 @@ from common.infrastructure.responses.handlers.success_response_handler import (
 )
 from inventory.application.commands.adjust.adjust_inventory_command import AdjustInventoryCommand
 from inventory.application.commands.create.create_inventory_command import (
-    CreateInventoryCommand,
     CreateOrUpdateInventoryCommand,
 )
 from inventory.application.queries.find_one_product_query import (
     FindOneProductQuery,
 )
-from inventory.application.queries import FindOneInventoryDto
+from inventory.application.queries.types.dto import FindOneInventoryDto
 from inventory.infrastructure.repositories.postgres.sqlalchemy.inventory_repository import (
     InventoryRepositorySqlAlchemy,
 )
@@ -33,7 +32,7 @@ inventory_router = APIRouter(
     responses={404: {"description": "Not found"}},
 )
 
-inventory_repository = InventoryRepositorySqlAlchemy()
+inventory_repository = InventoryRepositorySqlAlchemy
 
 
 @inventory_router.get("/{product_id}")
