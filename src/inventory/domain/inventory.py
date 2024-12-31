@@ -3,7 +3,7 @@ from common.domain.entity.entity import Entity
 from inventory.domain.events.inventory_created import InventoryCreated
 from inventory.domain.value_objects.inventory_id import InventoryId
 from inventory.domain.value_objects.inventory_stock import Stock
-from product.domain.product import ProductId
+from product.domain.value_objects.product_id import ProductId
 
 T = TypeVar("T", bound=InventoryId)
 

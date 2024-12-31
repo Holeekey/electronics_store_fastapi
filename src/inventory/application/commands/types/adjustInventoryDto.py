@@ -1,8 +1,11 @@
 
+from uuid import UUID
+
+
 class AdjustInventoryDto:
     def __init__(
         self,
-        product_id: int,
+        product_id: UUID,
         stock_change: int,
     ):
         self.productId = product_id

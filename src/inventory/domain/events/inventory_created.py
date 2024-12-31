@@ -1,7 +1,7 @@
 from common.domain.events.domain_event import DomainEvent
 from inventory.domain.value_objects.inventory_id import InventoryId
 from inventory.domain.value_objects.inventory_stock import Stock
-from product.domain.product import ProductId
+from product.domain.value_objects.product_id import ProductId
 
 INVENTORY_CREATED = "inventory_created"
 
