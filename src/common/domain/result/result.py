@@ -1,9 +1,9 @@
 from typing import Callable, Generic, TypeVar, Optional
 
-from common.application.error.application_error import ApplicationError
-from common.domain.utils.is_none import is_none
-from common.domain.utils.is_not_none import is_not_none
-from common.domain.error.error import Error
+from src.common.application.error.application_error import ApplicationError
+from src.common.domain.utils.is_none import is_none
+from src.common.domain.utils.is_not_none import is_not_none
+from src.common.domain.error.error import Error
 
 T = TypeVar("T")
 R = TypeVar("R")

@@ -1,5 +1,5 @@
 import sys
-from common.application.logger.logger import ILogger
+from src.common.application.logger.logger import ILogger
 from loguru import logger
 
 class LoguruLogger(ILogger):

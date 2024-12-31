@@ -1,9 +1,9 @@
-from common.domain.events.domain_event import DomainEvent
-from product.domain.value_objects.product_id import ProductId
-from product.domain.value_objects.product_name import ProductName
-from product.domain.value_objects.product_pricing import ProductPricing
-from product.domain.value_objects.product_code import ProductCode
-from product.domain.value_objects.product_description import ProductDescription
+from src.common.domain.events.domain_event import DomainEvent
+from src.product.domain.value_objects.product_id import ProductId
+from src.product.domain.value_objects.product_name import ProductName
+from src.product.domain.value_objects.product_pricing import ProductPricing
+from src.product.domain.value_objects.product_code import ProductCode
+from src.product.domain.value_objects.product_description import ProductDescription
 
 PRODUCT_CREATED = "product_created"
 

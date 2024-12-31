@@ -1,10 +1,10 @@
 from typing import List
-from common.application.service.application_service import IApplicationService
-from common.domain.result.result import Result
-from user.application.info.many_users_found_info import many_users_found_info
-from user.application.models.user import UserRole
-from user.application.queries.find_all.types.response import FindAllManagersResponse
-from user.application.repositories.user_repository import IUserRepository
+from src.common.application.service.application_service import IApplicationService
+from src.common.domain.result.result import Result
+from src.user.application.info.many_users_found_info import many_users_found_info
+from src.user.application.models.user import UserRole
+from src.user.application.queries.find_all.types.response import FindAllManagersResponse
+from src.user.application.repositories.user_repository import IUserRepository
 
 class FindAllManagersQuery(IApplicationService):
   

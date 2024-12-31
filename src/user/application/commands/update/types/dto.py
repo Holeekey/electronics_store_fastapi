@@ -1,6 +1,6 @@
 from typing import Optional
 
-from user.application.models.user import UserRole, UserStatus
+from src.user.application.models.user import UserRole, UserStatus
 
 class UpdateUserDto:
   def __init__(

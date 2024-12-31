@@ -1,6 +1,6 @@
-from common.domain.result.result import ResultInfo
-from common.infrastructure.responses.info import ResponseInfo
-from common.infrastructure.responses.pagination_response import PaginationInfo, PaginationResponse
+from src.common.domain.result.result import ResultInfo
+from src.common.infrastructure.responses.info import ResponseInfo
+from src.common.infrastructure.responses.pagination_response import PaginationInfo, PaginationResponse
 
 
 def pagination_response_handler(

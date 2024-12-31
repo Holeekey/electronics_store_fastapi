@@ -1,12 +1,12 @@
-from common.application.service.application_service import IApplicationService
-from common.domain.result.result import Result
-from product.application.info.product_found_info import product_found_info
-from product.application.queries.find_one.types.dto import FindOneProductDto
-from product.application.queries.find_one.types.response import FindOneProductResponse
-from product.application.repositories.product_repository import IProductRepository
-from product.domain.value_objects.product_id import ProductId
-from common.domain.utils.is_none import is_none
-from product.application.errors.not_found import product_not_found_error
+from src.common.application.service.application_service import IApplicationService
+from src.common.domain.result.result import Result
+from src.product.application.info.product_found_info import product_found_info
+from src.product.application.queries.find_one.types.dto import FindOneProductDto
+from src.product.application.queries.find_one.types.response import FindOneProductResponse
+from src.product.application.repositories.product_repository import IProductRepository
+from src.product.domain.value_objects.product_id import ProductId
+from src.common.domain.utils.is_none import is_none
+from src.product.application.errors.not_found import product_not_found_error
 
 
 class FindOneProductQuery(IApplicationService):

@@ -1,6 +1,6 @@
 from enum import Enum
 from sqlalchemy import Column, String, Enum as SqlEnum
-from common.infrastructure.database.database import Base
+from src.common.infrastructure.database.database import Base
 
 
 class AuthUserStatus(Enum):

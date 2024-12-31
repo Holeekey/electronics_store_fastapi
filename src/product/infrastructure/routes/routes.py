@@ -1,34 +1,34 @@
 from uuid import UUID
 from fastapi import APIRouter, HTTPException, status
 
-from common.application.decorators.error_decorator import ErrorDecorator
-from common.infrastructure.id_generator.uuid.uuid_generator import UUIDGenerator
-from common.infrastructure.responses.handlers.error_response_handler import (
+from src.common.application.decorators.error_decorator import ErrorDecorator
+from src.common.infrastructure.id_generator.uuid.uuid_generator import UUIDGenerator
+from src.common.infrastructure.responses.handlers.error_response_handler import (
     error_response_handler,
 )
-from common.infrastructure.responses.handlers.success_response_handler import (
+from src.common.infrastructure.responses.handlers.success_response_handler import (
     success_response_handler,
 )
-from product.application.commands.create.create_product_command import (
+from src.product.application.commands.create.create_product_command import (
     CreateProductCommand,
 )
-from product.application.commands.update.types.dto import UpdateProductDto
-from product.application.commands.update.update_product_command import (
+from src.product.application.commands.update.types.dto import UpdateProductDto
+from src.product.application.commands.update.update_product_command import (
     UpdateProductCommand,
 )
-from product.application.commands.delete.types.dto import DeleteProductDto
-from product.application.commands.delete.delete_product_command import (
+from src.product.application.commands.delete.types.dto import DeleteProductDto
+from src.product.application.commands.delete.delete_product_command import (
     DeleteProductCommand,
 )
-from product.application.queries.find_one.find_one_product_query import (
+from src.product.application.queries.find_one.find_one_product_query import (
     FindOneProductQuery,
 )
-from product.application.queries.find_one.types.dto import FindOneProductDto
-from product.infrastructure.repositories.postgres.sqlalchemy.product_repository import (
+from src.product.application.queries.find_one.types.dto import FindOneProductDto
+from src.product.infrastructure.repositories.postgres.sqlalchemy.product_repository import (
     ProductRepositorySqlAlchemy,
 )
-from product.infrastructure.routes.types.create_product_dto import CreateProductDto
-from product.infrastructure.routes.types.update_product_dto import UpdateProductQueryDto
+from src.product.infrastructure.routes.types.create_product_dto import CreateProductDto
+from src.product.infrastructure.routes.types.update_product_dto import UpdateProductQueryDto
 
 product_router = APIRouter(
     prefix="/product",

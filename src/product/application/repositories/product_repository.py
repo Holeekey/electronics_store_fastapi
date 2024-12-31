@@ -1,10 +1,10 @@
 from abc import ABCMeta, abstractmethod
 from typing import Optional, List
 
-from common.domain.result.result import Result
-from product.domain.product import Product
-from product.domain.value_objects.product_id import ProductId
-from product.domain.value_objects.product_name import ProductName
+from src.common.domain.result.result import Result
+from src.product.domain.product import Product
+from src.product.domain.value_objects.product_id import ProductId
+from src.product.domain.value_objects.product_name import ProductName
 
 
 class IProductRepository(metaclass=ABCMeta):

@@ -1,4 +1,4 @@
-from common.domain.error.error import Error
+from src.common.domain.error.error import Error
 
 
 class ApplicationError(Error):

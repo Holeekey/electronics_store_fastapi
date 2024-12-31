@@ -4,19 +4,19 @@ from fastapi.security import OAuth2PasswordBearer
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
-from common.domain.utils.is_none import is_none
-from common.infrastructure.auth.models.auth_user import AuthUserRole, AuthUserStatus
-from common.infrastructure.auth.payload.token_payload import TokenPayload
-from common.infrastructure.auth.repositories.postgres.sqlalchemy.auth_user_repository import (
+from src.common.domain.utils.is_none import is_none
+from src.common.infrastructure.auth.models.auth_user import AuthUserRole, AuthUserStatus
+from src.common.infrastructure.auth.payload.token_payload import TokenPayload
+from src.common.infrastructure.auth.repositories.postgres.sqlalchemy.auth_user_repository import (
     AuthUserRepositorySqlAlchemy,
 )
-from common.infrastructure.database.database import get_session
-from common.infrastructure.token.jwt.jwt_provider import JwtProvider
-from config import API_PREFIX
-from user.application.queries.find_one.find_one_user_query import FindOneUserQuery
-from user.application.queries.find_one.types.dto import FindOneUserDto
-from user.application.queries.find_one.types.response import FindOneUserResponse
-from user.infrastructure.repositories.postgres.sqlalchemy.user_repository import (
+from src.common.infrastructure.database.database import get_session
+from src.common.infrastructure.token.jwt.jwt_provider import JwtProvider
+from src.config import API_PREFIX
+from src.user.application.queries.find_one.find_one_user_query import FindOneUserQuery
+from src.user.application.queries.find_one.types.dto import FindOneUserDto
+from src.user.application.queries.find_one.types.response import FindOneUserResponse
+from src.user.infrastructure.repositories.postgres.sqlalchemy.user_repository import (
     UserRepositorySqlAlchemy,
 )
 

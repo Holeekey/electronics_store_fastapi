@@ -1,6 +1,6 @@
 from typing import Generic, TypeVar
 
-from common.infrastructure.responses.info import ResponseInfo
+from src.common.infrastructure.responses.info import ResponseInfo
 
 
 T = TypeVar("T")

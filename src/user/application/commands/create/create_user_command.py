@@ -1,20 +1,20 @@
-from common.application.cryptography.cryptography_provider import ICryptographyProvider
-from common.application.events.event_handlers import IEventPublisher
-from common.application.id_generator.id_generator import IDGenerator
-from common.domain.result.result import Result
-from common.application.service.application_service import IApplicationService
-from common.domain.utils.is_not_none import is_not_none
-from user.application.commands.create.types.dto import CreateUserDto
-from user.application.commands.create.types.response import CreateUserResponse
-from user.application.repositories.user_repository import IUserRepository
-from user.application.info.user_created_info import user_created_info
-from user.application.models.user import User, UserRole, UserStatus
-from user.application.errors.username_already_exists import (
+from src.common.application.cryptography.cryptography_provider import ICryptographyProvider
+from src.common.application.events.event_handlers import IEventPublisher
+from src.common.application.id_generator.id_generator import IDGenerator
+from src.common.domain.result.result import Result
+from src.common.application.service.application_service import IApplicationService
+from src.common.domain.utils.is_not_none import is_not_none
+from src.user.application.commands.create.types.dto import CreateUserDto
+from src.user.application.commands.create.types.response import CreateUserResponse
+from src.user.application.repositories.user_repository import IUserRepository
+from src.user.application.info.user_created_info import user_created_info
+from src.user.application.models.user import User, UserRole, UserStatus
+from src.user.application.errors.username_already_exists import (
     username_already_exists_error,
 )
-from user.application.errors.email_already_exists import email_already_exists_error
-from user.domain.client.factories.client_factory import client_factory
-from user.domain.manager.factories.manager_factory import manager_factory
+from src.user.application.errors.email_already_exists import email_already_exists_error
+from src.user.domain.client.factories.client_factory import client_factory
+from src.user.domain.manager.factories.manager_factory import manager_factory
 
 
 class CreateUserCommand(IApplicationService):
@@ -32,7 +32,7 @@ class CreateUserCommand(IApplicationService):
         self._event_publisher = event_publisher
 
     async def execute(self, data: CreateUserDto) -> Result[CreateUserResponse]:
-
+        print(data)
         if await self._user_repository.find_by_username(username=data.username):
             return Result.failure(error=username_already_exists_error())
 

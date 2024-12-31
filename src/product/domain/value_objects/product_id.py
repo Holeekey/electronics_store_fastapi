@@ -1,6 +1,6 @@
 from uuid import UUID
-from common.domain.value_object.value_object import ValueObject
-from ..errors.invalid_product_id import invalid_product_id_error
+from src.common.domain.value_object.value_object import ValueObject
+from src.product.domain.errors.invalid_product_id import invalid_product_id_error
 
 
 class ProductId(ValueObject):

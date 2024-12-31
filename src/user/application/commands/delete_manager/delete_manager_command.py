@@ -1,18 +1,18 @@
 from uuid import UUID
-from common.application.events.event_handlers import IEventPublisher
-from common.application.service.application_service import IApplicationService
-from common.domain.result.result import Result
-from common.domain.utils.is_none import is_none
-from user.application.commands.delete_manager.types.dto import DeleteManagerDto
-from user.application.commands.delete_manager.types.response import DeleteManagerResponse
-from user.application.info.user_deleted_info import user_deleted_info
-from user.application.models.user import UserRole, UserStatus
-from user.application.repositories.manager_repository import IManagerRepository
-from user.application.repositories.user_repository import IUserRepository
-from user.application.errors.not_found import user_not_found_error
-from user.application.errors.not_manager import user_is_not_manager_error
-from user.application.errors.user_credentials_not_matching import user_credentials_not_matching_error
-from user.domain.manager.value_objects.manager_id import ManagerId
+from src.common.application.events.event_handlers import IEventPublisher
+from src.common.application.service.application_service import IApplicationService
+from src.common.domain.result.result import Result
+from src.common.domain.utils.is_none import is_none
+from src.user.application.commands.delete_manager.types.dto import DeleteManagerDto
+from src.user.application.commands.delete_manager.types.response import DeleteManagerResponse
+from src.user.application.info.user_deleted_info import user_deleted_info
+from src.user.application.models.user import UserRole, UserStatus
+from src.user.application.repositories.manager_repository import IManagerRepository
+from src.user.application.repositories.user_repository import IUserRepository
+from src.user.application.errors.not_found import user_not_found_error
+from src.user.application.errors.not_manager import user_is_not_manager_error
+from src.user.application.errors.user_credentials_not_matching import user_credentials_not_matching_error
+from src.user.domain.manager.value_objects.manager_id import ManagerId
 
 
 class DeleteManagerCommand(IApplicationService):

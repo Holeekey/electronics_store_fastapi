@@ -1,6 +1,6 @@
 from typing import List
-from user.application.models.user import User
-from user.application.repositories.user_repository import IUserRepository
+from src.user.application.models.user import User
+from src.user.application.repositories.user_repository import IUserRepository
 
 
 class UserRepositoryMock(IUserRepository):
@@ -26,6 +26,19 @@ class UserRepositoryMock(IUserRepository):
         for user in self.users:
             if user.email == email:
                 return user
+        return None
+    
+    async def find_by_login_credential(self, login_credential):
+        for user in self.users:
+            if (user.email == login_credential) or (user.username == login_credential):
+                return user
+        return None
+    
+    async def find_by_role(self, role):
+        for user in self.users:
+            if user.role.name == role.name:
+                return user
+        
         return None
 
     async def find_all(self):

@@ -1,6 +1,6 @@
-from common.domain.utils.is_none import is_none
-from common.domain.value_object.value_object import ValueObject
-from user.domain.manager.errors import (
+from src.common.domain.utils.is_none import is_none
+from src.common.domain.value_object.value_object import ValueObject
+from src.user.domain.manager.errors import (
     invalid_manager_first_name,
     invalid_manager_last_name,
 )

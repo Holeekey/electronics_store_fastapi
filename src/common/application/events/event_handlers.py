@@ -1,7 +1,7 @@
 from abc import ABCMeta, abstractmethod
 from typing import Callable
 
-from common.domain.events.domain_event import DomainEvent
+from src.common.domain.events.domain_event import DomainEvent
 
 
 class ISuscription(metaclass=ABCMeta):

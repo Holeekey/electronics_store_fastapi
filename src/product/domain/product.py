@@ -1,12 +1,12 @@
 from typing import TypeVar
-from common.domain.aggregate.aggregate import Aggregate
-from product.domain.events.product_created import ProductCreated
-from product.domain.value_objects.product_id import ProductId
-from product.domain.value_objects.product_code import ProductCode
-from product.domain.value_objects.product_description import ProductDescription
-from product.domain.value_objects.product_pricing import ProductPricing
-from .value_objects.product_name import ProductName
-from .value_objects.product_status import ProductStatus
+from src.common.domain.aggregate.aggregate import Aggregate
+from src.product.domain.events.product_created import ProductCreated
+from src.product.domain.value_objects.product_id import ProductId
+from src.product.domain.value_objects.product_code import ProductCode
+from src.product.domain.value_objects.product_description import ProductDescription
+from src.product.domain.value_objects.product_pricing import ProductPricing
+from src.product.domain.value_objects.product_name import ProductName
+from src.product.domain.value_objects.product_status import ProductStatus
 
 T = TypeVar("T", bound=ProductId)
 

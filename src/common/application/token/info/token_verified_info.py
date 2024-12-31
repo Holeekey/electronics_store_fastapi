@@ -1,4 +1,4 @@
-from common.domain.result.result import result_info_factory
+from src.common.domain.result.result import result_info_factory
 
 
 token_verified_info = result_info_factory(

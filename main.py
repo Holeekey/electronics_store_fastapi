@@ -2,16 +2,16 @@ import asyncio
 from contextlib import asynccontextmanager
 import uvicorn
 from fastapi import FastAPI
-from common.infrastructure.bus.bus import setup_bindings, command_bus
-from command_bindings import command_bus_bindings
-from common.infrastructure.id_generator.uuid.uuid_generator import UUIDGenerator
-from common.infrastructure.rabbitmq.rabbitmq_event_handler import rabbit_event_listener
-from common.infrastructure.cryptography.fernet_cryptography_provider import get_fernet_provider
-import config
-from common.infrastructure.database.database import SessionLocal
-from event_bindings import event_bindings
-from routes import router
-from user.infrastructure.models.postgres.sqlalchemy.user_model import (
+from src.common.infrastructure.bus.bus import setup_bindings, command_bus
+from src.command_bindings import command_bus_bindings
+from src.common.infrastructure.id_generator.uuid.uuid_generator import UUIDGenerator
+from src.common.infrastructure.events.rabbitmq.rabbitmq_event_handler import rabbit_event_listener
+from src.common.infrastructure.cryptography.fernet.fernet_cryptography_provider import get_fernet_provider
+from src import config
+from src.common.infrastructure.database.database import SessionLocal
+from src.event_bindings import event_bindings
+from src.routes import router
+from src.user.infrastructure.models.postgres.sqlalchemy.user_model import (
     UserModel,
     UserRole,
     UserStatus,

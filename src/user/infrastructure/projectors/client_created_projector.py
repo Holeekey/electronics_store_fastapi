@@ -1,9 +1,9 @@
 from bson import ObjectId
 import jsonpickle
 
-from common.infrastructure.database.database import get_session
-from common.infrastructure.database.mongo import get_mongo_client
-from user.infrastructure.models.postgres.sqlalchemy.user_model import UserModel
+from src.common.infrastructure.database.database import get_session
+from src.common.infrastructure.database.mongo import get_mongo_client
+from src.user.infrastructure.models.postgres.sqlalchemy.user_model import UserModel
 
 def client_created_projector(ch, method, properties, body):
     

@@ -1,7 +1,7 @@
 from typing import Callable, TypeVar
-from common.application.error.application_error import ApplicationError
-from common.application.service.application_service import IApplicationService
-from common.domain.result.result import Result
+from src.common.application.error.application_error import ApplicationError
+from src.common.application.service.application_service import IApplicationService
+from src.common.domain.result.result import Result
 
 T = TypeVar("T")
 R = TypeVar("R")
