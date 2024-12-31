@@ -1,10 +1,11 @@
 from uuid import UUID
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 
 from common.application.decorators.error_decorator import ErrorDecorator
 from common.application.decorators.logger_decorator import LoggerDecorator
 from common.infrastructure.id_generator.uuid.uuid_generator import UUIDGenerator
 from common.infrastructure.loggers.loguru_logger import LoguruLogger
+from common.infrastructure.database.database import get_session
 from common.infrastructure.responses.handlers.error_response_handler import (
     error_response_handler,
 )
@@ -22,6 +23,9 @@ from inventory.application.queries.types.dto import FindOneInventoryDto
 from inventory.infrastructure.repositories.postgres.sqlalchemy.inventory_repository import (
     InventoryRepositorySqlAlchemy,
 )
+from product.infrastructure.repositories.postgres.sqlalchemy.product_repository import (
+    ProductRepositorySqlAlchemy,
+)
 from inventory.infrastructure.routes.types.dto.create.create_inventory_dto import CreateInventoryDto
 from inventory.infrastructure.routes.types.dto.create.adjust_inventory_dto import AdjustInventoryDto
 
@@ -32,15 +36,16 @@ inventory_router = APIRouter(
     responses={404: {"description": "Not found"}},
 )
 
-inventory_repository = InventoryRepositorySqlAlchemy
 
 
 @inventory_router.get("/{product_id}")
-async def find_inventory_by_product(id: UUID):
-
+async def find_inventory_by_product(
+    id: UUID,
+    session=Depends(get_session)
+):
     result = await ErrorDecorator(
-        service= LoggerDecorator(
-            service=FindOneProductQuery(inventory_repository=inventory_repository),
+        service=LoggerDecorator(
+            service=FindOneProductQuery(product_repository=ProductRepositorySqlAlchemy(session)),
             loggers=[LoguruLogger("Find Inventory")]
         ),
         error_handler=error_response_handler,
@@ -48,28 +53,34 @@ async def find_inventory_by_product(id: UUID):
 
     return result.handle_success(handler=success_response_handler)
 
-
 @inventory_router.post("/{product_id}")
-async def create_or_update_inventory(product_id: str, body: CreateInventoryDto):
+async def create_or_update_inventory(
+    product_id: UUID, 
+    body: CreateInventoryDto, 
+    session=Depends(get_session)
+):
+    id_generator = UUIDGenerator()
     
-    idGenerator = UUIDGenerator()
+
     result = await ErrorDecorator(
         LoggerDecorator(
             service=CreateOrUpdateInventoryCommand(
-                id_generator=idGenerator,
-                invetory_repository=inventory_repository
+                id_generator=id_generator,
+                inventory_repository=InventoryRepositorySqlAlchemy(session)
             ),
             loggers=[LoguruLogger("Update inventory")]
         ), 
         error_handler=error_response_handler,
-    ).execute(product_id=product_id, data=body)
+    ).execute(data=CreateInventoryDto(product_id=product_id, stock=body.stock))
 
     return result.handle_success(handler=success_response_handler)
 
-
 @inventory_router.put("/{product_id}")
-async def adjust_inventory(product_id: str, body: AdjustInventoryDto):
-   
+async def create_or_update_inventory(
+    product_id: UUID, 
+    body: AdjustInventoryDto, 
+    session=Depends(get_session)
+):
     idGenerator = UUIDGenerator()
 
     
@@ -77,11 +88,11 @@ async def adjust_inventory(product_id: str, body: AdjustInventoryDto):
         service= LoggerDecorator(
             service= AdjustInventoryCommand(
                 id_generator=idGenerator,
-                product_repository=inventory_repository
+                inventory_repository=InventoryRepositorySqlAlchemy(session)
             ),
             loggers=[LoguruLogger("Adjust inventory")]
         ),
         error_handler=error_response_handler,
-    ).execute(product_id=product_id, data=body)
+    ).execute(data=AdjustInventoryDto(product_id=product_id, stock=body.stock))
 
     return result.handle_success(handler=success_response_handler)

@@ -18,7 +18,7 @@ class AdjustInventoryCommand(IApplicationService):
 
     async def execute(self, data: AdjustInventoryDto) -> Result[CreateInventoryResponse]:
         # Buscar el inventario existente por product_id
-        existing_inventory = await self._inventory_repository.find_by_product_id(product_id=data.product_id)
+        existing_inventory = await self._inventory_repository.find_by_product_id(self,product_id=data.product_id)
 
         if existing_inventory:
             # Ajustar el stock del inventario existente
