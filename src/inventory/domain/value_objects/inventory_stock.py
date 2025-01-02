@@ -1,6 +1,5 @@
-from common.domain.value_object.value_object import ValueObject
-from ..errors.invalid_inventory_stock import invalid_inventory_stock_error
-
+from src.common.domain.value_object.value_object import ValueObject
+from src.inventory.domain.errors.invalid_inventory_stock import invalid_inventory_stock_error
 
 class Stock(ValueObject):
     def __init__(self, stock: int) -> None:
