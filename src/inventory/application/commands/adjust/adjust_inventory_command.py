@@ -1,17 +1,17 @@
 from uuid import UUID
-from common.application.id_generator.id_generator import IDGenerator
-from common.domain.result.result import Result
-from common.application.service.application_service import IApplicationService
-from inventory.application.commands.types.adjust_inventory_dto import AdjustInventoryDto
-from inventory.application.commands.types.response import CreateInventoryResponse
-from inventory.application.errors import negative_stock
-from inventory.application.info.inventory_updated_info import inventory_updated_info
-from inventory.application.repositories.inventory_repository import IInventoryRepository
-from inventory.application.info.inventory_created_info import inventory_created_info
-from inventory.domain.factories.inventory_factory import inventory_factory
-from inventory.domain.inventory import Inventory
-from inventory.domain.value_objects.inventory_stock import Stock
-from product.domain.value_objects.product_id import ProductId
+from src.common.application.id_generator.id_generator import IDGenerator
+from src.common.domain.result.result import Result
+from src.common.application.service.application_service import IApplicationService
+from src.inventory.application.commands.types.adjust_inventory_dto import AdjustInventoryDto
+from src.inventory.application.commands.types.response import CreateInventoryResponse
+from src.inventory.application.errors import negative_stock
+from src.inventory.application.info.inventory_updated_info import inventory_updated_info
+from src.inventory.application.repositories.inventory_repository import IInventoryRepository
+from src.inventory.application.info.inventory_created_info import inventory_created_info
+from src.inventory.domain.factories.inventory_factory import inventory_factory
+from src.inventory.domain.inventory import Inventory
+from src.inventory.domain.value_objects.inventory_stock import Stock
+from src.product.domain.value_objects.product_id import ProductId
 
 
 class AdjustInventoryCommand(IApplicationService):

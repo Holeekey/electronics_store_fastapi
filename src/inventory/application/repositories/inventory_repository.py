@@ -1,9 +1,9 @@
 from abc import ABCMeta, abstractmethod
 from typing import Optional
 
-from common.domain.result.result import Result
-from inventory.domain.inventory import Inventory
-from product.domain.value_objects.product_id import ProductId
+from src.common.domain.result.result import Result
+from src.inventory.domain.inventory import Inventory
+from src.product.domain.value_objects.product_id import ProductId
 
 
 

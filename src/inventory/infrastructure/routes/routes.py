@@ -1,35 +1,35 @@
 from uuid import UUID
 from fastapi import APIRouter, Depends
 
-from common.application.decorators.error_decorator import ErrorDecorator
-from common.application.decorators.logger_decorator import LoggerDecorator
-from common.infrastructure.id_generator.uuid.uuid_generator import UUIDGenerator
-from common.infrastructure.loggers.loguru_logger import LoguruLogger
-from common.infrastructure.database.database import get_session
-from common.infrastructure.responses.handlers.error_response_handler import (
+from src.common.application.decorators.error_decorator import ErrorDecorator
+from src.common.application.decorators.logger_decorator import LoggerDecorator
+from src.common.infrastructure.id_generator.uuid.uuid_generator import UUIDGenerator
+from src.common.infrastructure.loggers.loguru_logger import LoguruLogger
+from src.common.infrastructure.database.database import get_session
+from src.common.infrastructure.responses.handlers.error_response_handler import (
     error_response_handler,
 )
-from common.infrastructure.responses.handlers.success_response_handler import (
+from src.common.infrastructure.responses.handlers.success_response_handler import (
     success_response_handler,
 )
-from inventory.application.commands.adjust.adjust_inventory_command import AdjustInventoryCommand
-from inventory.application.commands.create.create_inventory_command import (
+from src.inventory.application.commands.adjust.adjust_inventory_command import AdjustInventoryCommand
+from src.inventory.application.commands.create.create_inventory_command import (
     CreateOrUpdateInventoryCommand,
 )
-from inventory.application.queries.find_inventory_query import (
+from src.inventory.application.queries.find_inventory_query import (
     FindInventoryByProductIdQuery,
 )
-from inventory.application.queries.types.dto import FindOneInventoryDto
-from inventory.infrastructure.repositories.postgres.sqlalchemy.inventory_repository import (
+from src.inventory.application.queries.types.dto import FindOneInventoryDto
+from src.inventory.infrastructure.repositories.postgres.sqlalchemy.inventory_repository import (
     InventoryRepositorySqlAlchemy,
 )
-from product.infrastructure.repositories.postgres.sqlalchemy.product_repository import (
+from src.product.infrastructure.repositories.postgres.sqlalchemy.product_repository import (
     ProductRepositorySqlAlchemy,
 )
-from inventory.infrastructure.routes.types.dto.create.create_inventory_dto import CreateInventoryDto
-from inventory.application.commands.types.create_inventory_dto import CreateInventoryDto as CreateInventoryDtoApp
-from inventory.infrastructure.routes.types.dto.create.adjust_inventory_dto import AdjustInventoryDto
-from inventory.application.commands.types.adjust_inventory_dto import AdjustInventoryDto as AdjustInventoryDtoApp
+from src.inventory.infrastructure.routes.types.dto.create.create_inventory_dto import CreateInventoryDto
+from src.inventory.application.commands.types.create_inventory_dto import CreateInventoryDto as CreateInventoryDtoApp
+from src.inventory.infrastructure.routes.types.dto.create.adjust_inventory_dto import AdjustInventoryDto
+from src.inventory.application.commands.types.adjust_inventory_dto import AdjustInventoryDto as AdjustInventoryDtoApp
 
 
 inventory_router = APIRouter(

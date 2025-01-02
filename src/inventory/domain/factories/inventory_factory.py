@@ -1,9 +1,9 @@
 from uuid import UUID
 
-from inventory.domain.inventory import Inventory
-from inventory.domain.value_objects.inventory_id import InventoryId
-from inventory.domain.value_objects.inventory_stock import Stock
-from product.domain.value_objects.product_id import ProductId
+from src.inventory.domain.inventory import Inventory
+from src.inventory.domain.value_objects.inventory_id import InventoryId
+from src.inventory.domain.value_objects.inventory_stock import Stock
+from src.product.domain.value_objects.product_id import ProductId
 
 
 

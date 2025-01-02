@@ -1,8 +1,8 @@
 from typing import TypeVar
-from common.domain.entity.entity import Entity
-from inventory.domain.value_objects.inventory_id import InventoryId
-from inventory.domain.value_objects.inventory_stock import Stock
-from product.domain.value_objects.product_id import ProductId
+from src.common.domain.entity.entity import Entity
+from src.inventory.domain.value_objects.inventory_id import InventoryId
+from src.inventory.domain.value_objects.inventory_stock import Stock
+from src.product.domain.value_objects.product_id import ProductId
 
 T = TypeVar("T", bound=InventoryId)
 

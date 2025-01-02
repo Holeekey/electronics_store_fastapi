@@ -1,5 +1,5 @@
 from sqlalchemy import Integer, Column, String
-from common.infrastructure.database.database import Base
+from src.common.infrastructure.database.database import Base
 
 
 class InventoryModel(Base):

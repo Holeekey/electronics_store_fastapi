@@ -1,6 +1,6 @@
 from uuid import UUID
-from common.domain.value_object.value_object import ValueObject
-from ..errors.invalid_inventory_id import invalid_inventory_id_error
+from src.common.domain.value_object.value_object import ValueObject
+from src.inventory.domain.errors.invalid_inventory_id import invalid_inventory_id_error
 
 
 class InventoryId(ValueObject):

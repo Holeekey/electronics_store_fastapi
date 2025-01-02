@@ -1,16 +1,16 @@
 from uuid import UUID
-from common.domain.result.result import Result
-from common.domain.utils.is_none import is_none
-from common.infrastructure.database.database import SessionLocal
-from inventory.application.info.inventory_created_info import inventory_created_info
-from inventory.application.info.inventory_updated_info import inventory_updated_info
-from inventory.application.errors.not_found import inventory_not_found_error
-from inventory.domain.factories.inventory_factory import inventory_factory
-from inventory.domain.inventory import Inventory
-from inventory.application.repositories.inventory_repository import IInventoryRepository
-from inventory.infrastructure.models.postgres.sqlalchemy.inventory_model import InventoryModel
+from src.common.domain.result.result import Result
+from src.common.domain.utils.is_none import is_none
+from src.common.infrastructure.database.database import SessionLocal
+from src.inventory.application.info.inventory_created_info import inventory_created_info
+from src.inventory.application.info.inventory_updated_info import inventory_updated_info
+from src.inventory.application.errors.not_found import inventory_not_found_error
+from src.inventory.domain.factories.inventory_factory import inventory_factory
+from src.inventory.domain.inventory import Inventory
+from src.inventory.application.repositories.inventory_repository import IInventoryRepository
+from src.inventory.infrastructure.models.postgres.sqlalchemy.inventory_model import InventoryModel
 from sqlalchemy.orm import Session
-from product.domain.value_objects.product_id import ProductId
+from src.product.domain.value_objects.product_id import ProductId
 
 
 class InventoryRepositorySqlAlchemy(IInventoryRepository):
