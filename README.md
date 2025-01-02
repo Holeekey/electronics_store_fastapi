@@ -37,7 +37,7 @@ alembic upgrade head
 
 ## Nueva migración
 ```bash
-alembic revision --autogenerate -m "nombre_de_migracion"
+alembic revision -m "nombre_de_migracion"
 ```
 
 ## Correr aplicación
