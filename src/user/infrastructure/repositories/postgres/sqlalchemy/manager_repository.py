@@ -10,7 +10,7 @@ from src.user.infrastructure.models.postgres.sqlalchemy.user_model import UserMo
 
 class ManagerRepositorySqlAlchemy(IManagerRepository):
     def __init__(self, db: Session = None):
-        self.db = SessionLocal()
+        self.db = db
 
     async def find_one(self, id: ManagerId):
         user_orm = (

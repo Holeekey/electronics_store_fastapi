@@ -11,9 +11,10 @@ from src.user.infrastructure.models.postgres.sqlalchemy.user_model import UserMo
 
 class ClientRepositorySqlAlchemy(IClientRepository):
     def __init__(self, db: Session = None):
-        self.db = SessionLocal()
+        self.db = db
 
     async def find_one(self, id: ClientId):
+
         user_orm = (
             self.db.query(UserModel)
             .filter(UserModel.id == id.id.__str__())

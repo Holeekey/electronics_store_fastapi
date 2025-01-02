@@ -32,7 +32,6 @@ class CreateUserCommand(IApplicationService):
         self._event_publisher = event_publisher
 
     async def execute(self, data: CreateUserDto) -> Result[CreateUserResponse]:
-        print(data)
         if await self._user_repository.find_by_username(username=data.username):
             return Result.failure(error=username_already_exists_error())
 
