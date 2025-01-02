@@ -16,8 +16,8 @@ from inventory.application.commands.adjust.adjust_inventory_command import Adjus
 from inventory.application.commands.create.create_inventory_command import (
     CreateOrUpdateInventoryCommand,
 )
-from inventory.application.queries.find_one_product_query import (
-    FindOneProductQuery,
+from inventory.application.queries.find_inventory_query import (
+    FindInventoryByProductIdQuery,
 )
 from inventory.application.queries.types.dto import FindOneInventoryDto
 from inventory.infrastructure.repositories.postgres.sqlalchemy.inventory_repository import (
@@ -27,7 +27,9 @@ from product.infrastructure.repositories.postgres.sqlalchemy.product_repository 
     ProductRepositorySqlAlchemy,
 )
 from inventory.infrastructure.routes.types.dto.create.create_inventory_dto import CreateInventoryDto
+from inventory.application.commands.types.create_inventory_dto import CreateInventoryDto as CreateInventoryDtoApp
 from inventory.infrastructure.routes.types.dto.create.adjust_inventory_dto import AdjustInventoryDto
+from inventory.application.commands.types.adjust_inventory_dto import AdjustInventoryDto as AdjustInventoryDtoApp
 
 
 inventory_router = APIRouter(
@@ -45,7 +47,7 @@ async def find_inventory_by_product(
 ):
     result = await ErrorDecorator(
         service=LoggerDecorator(
-            service=FindOneProductQuery(product_repository=ProductRepositorySqlAlchemy(session)),
+            service=FindInventoryByProductIdQuery(product_repository=ProductRepositorySqlAlchemy(), inventory_repository=InventoryRepositorySqlAlchemy(session)),
             loggers=[LoguruLogger("Find Inventory")]
         ),
         error_handler=error_response_handler,
@@ -71,7 +73,7 @@ async def create_or_update_inventory(
             loggers=[LoguruLogger("Update inventory")]
         ), 
         error_handler=error_response_handler,
-    ).execute(data=CreateInventoryDto(product_id=product_id, stock=body.stock))
+    ).execute(data=CreateInventoryDtoApp(product_id=product_id, stock=body.stock))
 
     return result.handle_success(handler=success_response_handler)
 
@@ -93,6 +95,6 @@ async def create_or_update_inventory(
             loggers=[LoguruLogger("Adjust inventory")]
         ),
         error_handler=error_response_handler,
-    ).execute(data=AdjustInventoryDto(product_id=product_id, stock=body.stock))
+    ).execute(data=AdjustInventoryDtoApp(product_id=product_id, stock_change=body.stock))
 
     return result.handle_success(handler=success_response_handler)

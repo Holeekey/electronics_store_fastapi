@@ -4,3 +4,6 @@ env
 venv/
 
 /postgres
+
+/.idea
+/mongo

@@ -1,12 +1,12 @@
 
-class Inventory:
+from uuid import UUID
+
+
+class CreateInventoryDto:
     def __init__(
         self,
-        id: str,
-        product_id: str,
+        product_id: UUID,
         stock: int,
-        
     ):
-        self.id = id
         self.product_id = product_id
         self.stock = stock

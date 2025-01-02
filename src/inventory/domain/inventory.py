@@ -1,6 +1,5 @@
 from typing import TypeVar
 from common.domain.entity.entity import Entity
-from inventory.domain.events.inventory_created import InventoryCreated
 from inventory.domain.value_objects.inventory_id import InventoryId
 from inventory.domain.value_objects.inventory_stock import Stock
 from product.domain.value_objects.product_id import ProductId
@@ -13,14 +12,17 @@ class Inventory(Entity[T]):
         super().__init__(id)
         self._stock = stock
         self._product_id = product_id
-        self.publish(InventoryCreated(id, stock,product_id))
 
     @property
-    def id(self) -> Stock:
+    def stock(self) -> Stock:
         return self._stock
     
+    @stock.setter
+    def stock(self, stock: Stock) -> None:
+        self._stock = stock
+    
     @property
-    def id(self) -> ProductId:
+    def product_id(self) -> ProductId:
         return self._product_id
     
     def __eq__(self, other: 'Inventory') -> bool:
