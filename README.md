@@ -35,6 +35,11 @@ Este es un proyecto de ejemplo que utiliza FastAPI y Uvicorn para crear una API 
 alembic upgrade head
 ```
 
+## Nueva migración
+```bash
+alembic revision --autogenerate -m "nombre_de_migracion"
+```
+
 ## Correr aplicación
 
 1. Crea un entorno virtual:

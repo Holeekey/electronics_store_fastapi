@@ -2,6 +2,7 @@
     "conventionalCommits.scopes": [
         "user",
         "product",
-        "inventory"
+        "inventory",
+        "shopping cart"
     ]
 }
