@@ -11,9 +11,8 @@ class UpdateUserDto:
       password: Optional[str],
       first_name: Optional[str],
       last_name: Optional[str],
-      current_role: UserRole,
-      new_role: Optional[UserRole],
-      status: Optional[UserStatus]
+      status: Optional[UserStatus],
+      role_to_update: Optional[UserRole]
       ):
     self.id = id
     self.username = username
@@ -21,7 +20,17 @@ class UpdateUserDto:
     self.password = password
     self.first_name = first_name
     self.last_name = last_name
-    self.current_role = current_role
-    self.new_role = new_role
     self.status = status
+    self.role_to_update = role_to_update
+    
+  def to_dict(self):
+      return (
+          f"UpdateUserDto(id={self.id}, "
+          f"username={self.username}, "
+          f"email={self.email}, "
+          f"first_name={self.first_name}, "
+          f"last_name={self.last_name}, "
+          f"status={self.status}, "
+          f"role_to_update={self.role_to_update})"
+      )
     

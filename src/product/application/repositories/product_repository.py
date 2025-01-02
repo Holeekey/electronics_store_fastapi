@@ -1,5 +1,5 @@
 from abc import ABCMeta, abstractmethod
-from typing import Optional
+from typing import Optional, List
 
 from common.domain.result.result import Result
 from product.domain.product import Product
@@ -14,9 +14,21 @@ class IProductRepository(metaclass=ABCMeta):
         pass
 
     @abstractmethod
+    async def find_many(self, page:int = 1, per_page:int = 5) -> List[Product]:
+        pass
+
+    @abstractmethod
     async def find_by_name(self, name: ProductName) -> Optional[Product]:
         pass
 
     @abstractmethod
+    async def update(self, id: ProductId, new_product: Product) -> Result[Product]:
+        pass
+
+    @abstractmethod
     async def save(self, product: Product) -> Result[Product]:
+        pass
+
+    @abstractmethod
+    async def delete(self, product: Product) -> Result[str]:
         pass

@@ -1,4 +1,7 @@
 class CreateProductDto:
-    def __init__(self, name: str, price: float):
+    def __init__(self, code:str, name: str, description:str, cost: float, margin:float):
+        self.code = code
         self.name = name
-        self.price = price
+        self.description = description
+        self.cost = cost
+        self.margin = margin

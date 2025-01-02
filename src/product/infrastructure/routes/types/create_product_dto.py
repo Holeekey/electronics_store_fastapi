@@ -2,5 +2,8 @@ from pydantic import BaseModel
 
 
 class CreateProductDto(BaseModel):
+    code: str
     name: str
-    price: float
+    description: str
+    cost: float
+    margin: float

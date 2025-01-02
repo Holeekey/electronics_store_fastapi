@@ -1,8 +1,10 @@
 from typing import TypeVar
 from common.domain.aggregate.aggregate import Aggregate
+from user.domain.client.events.client_activated import ClientActivated
 from user.domain.client.events.client_created import ClientCreated
 from user.domain.client.events.client_email_changed import ClientEmailChanged
 from user.domain.client.events.client_name_changed import ClientNameChanged
+from user.domain.client.events.client_suspended import ClientSuspended
 from user.domain.client.value_objects.client_email import ClientEmail
 from user.domain.client.value_objects.client_id import ClientId
 from user.domain.client.value_objects.client_name import ClientName
@@ -34,6 +36,12 @@ class Client(Aggregate[T]):
     def email(self, email: ClientEmail) -> None:
         self._email = email
         self.publish(ClientEmailChanged(self.id, email))
+
+    def suspend(self) -> None:
+        self.publish(ClientSuspended(self.id))
+        
+    def activate(self) -> None:
+        self.publish(ClientActivated(self.id))
 
     def __eq__(self, other: "Client") -> bool:
         return self.id == other.id
