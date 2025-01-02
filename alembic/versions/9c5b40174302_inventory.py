@@ -1,7 +1,7 @@
 """inventory
 
 Revision ID: 9c5b40174302
-Revises: d0372fa77904
+Revises: 268668625fb1
 Create Date: 2024-12-28 17:03:51.647270
 
 """
@@ -13,7 +13,7 @@ import sqlalchemy as sa
 
 # revision identifiers, used by Alembic.
 revision: str = '9c5b40174302'
-down_revision: Union[str, None] = 'd0372fa77904'
+down_revision: Union[str, None] = '268668625fb1'
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 
