@@ -1,8 +1,8 @@
 from abc import ABCMeta, abstractmethod
 from typing import List, Optional
 
-from user.domain.manager.manager import Manager
-from user.domain.manager.value_objects.manager_id import ManagerId
+from src.user.domain.manager.manager import Manager
+from src.user.domain.manager.value_objects.manager_id import ManagerId
 
 
 class IManagerRepository(metaclass=ABCMeta):

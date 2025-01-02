@@ -1,10 +1,10 @@
-from product.domain.product import Product
-from product.domain.value_objects.product_id import ProductId
-from product.domain.value_objects.product_code import ProductCode
-from product.domain.value_objects.product_name import ProductName
-from product.domain.value_objects.product_description import ProductDescription
-from product.domain.value_objects.product_pricing import ProductPricing
-from product.domain.value_objects.product_status import ProductStatus, ProductStatusOptions
+from src.product.domain.product import Product
+from src.product.domain.value_objects.product_id import ProductId
+from src.product.domain.value_objects.product_code import ProductCode
+from src.product.domain.value_objects.product_name import ProductName
+from src.product.domain.value_objects.product_description import ProductDescription
+from src.product.domain.value_objects.product_pricing import ProductPricing
+from src.product.domain.value_objects.product_status import ProductStatus, ProductStatusOptions
 
 
 def product_factory(id: str, code:str, name: str, description:str, cost: float, margin:float, status:int):

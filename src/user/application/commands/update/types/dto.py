@@ -1,18 +1,18 @@
 from typing import Optional
 
-from user.application.models.user import UserRole, UserStatus
+from src.user.application.models.user import UserRole, UserStatus
 
 class UpdateUserDto:
   def __init__(
       self, 
       id: str, 
-      username: Optional[str],
-      email: Optional[str],
-      password: Optional[str],
-      first_name: Optional[str],
-      last_name: Optional[str],
-      status: Optional[UserStatus],
-      role_to_update: Optional[UserRole]
+      username: Optional[str] = None,
+      email: Optional[str] = None,
+      password: Optional[str] = None,
+      first_name: Optional[str] = None,
+      last_name: Optional[str]= None,
+      status: Optional[UserStatus] = None,
+      role_to_update: Optional[UserRole] = None
       ):
     self.id = id
     self.username = username

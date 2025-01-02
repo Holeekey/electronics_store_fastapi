@@ -3,7 +3,7 @@ from typing import Optional
 
 from pydantic import BaseModel
 
-from user.infrastructure.routes.types.create.create_user_dto import UserRole
+from src.user.infrastructure.routes.types.create.create_user_dto import UserRole
 
 class UserStatus(str, Enum):
   ACTIVE = "active"

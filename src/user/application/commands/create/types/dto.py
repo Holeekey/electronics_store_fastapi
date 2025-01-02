@@ -1,4 +1,4 @@
-from user.application.models.user import UserRole
+from src.user.application.models.user import UserRole
 
 
 class CreateUserDto:

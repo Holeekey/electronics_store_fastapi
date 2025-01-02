@@ -1,6 +1,6 @@
-from common.application.cryptography.cryptography_provider import ICryptographyProvider
+from src.common.application.cryptography.cryptography_provider import ICryptographyProvider
 from cryptography.fernet import Fernet
-from config import FERNET_KEY, ENCODING
+from src.config import FERNET_KEY, ENCODING
 
 class FernetProvider(ICryptographyProvider[str, str]):
   def __init__(self):

@@ -1,8 +1,8 @@
 from abc import ABCMeta, abstractmethod
 from typing import List, Optional
 
-from user.domain.client.client import Client
-from user.domain.client.value_objects.client_id import ClientId
+from src.user.domain.client.client import Client
+from src.user.domain.client.value_objects.client_id import ClientId
 
 
 class IClientRepository(metaclass=ABCMeta):

@@ -1,6 +1,6 @@
 from fastapi import HTTPException
 
-from common.domain.error.error import Error
+from src.common.domain.error.error import Error
 
 
 def error_response_handler(error: Error) -> Exception:

@@ -1,19 +1,20 @@
 from uuid import UUID
-from common.domain.utils.is_none import is_none
-from user.application.models.user import UserRole
-from user.application.repositories.client_repository import IClientRepository
+from src.common.domain.utils.is_none import is_none
+from src.user.application.models.user import UserRole
+from src.user.application.repositories.client_repository import IClientRepository
 from sqlalchemy.orm import Session
-from common.infrastructure.database.database import SessionLocal
-from user.domain.client.factories.client_factory import client_factory
-from user.domain.client.value_objects.client_id import ClientId
-from user.infrastructure.models.postgres.sqlalchemy.user_model import UserModel
+from src.common.infrastructure.database.database import SessionLocal
+from src.user.domain.client.factories.client_factory import client_factory
+from src.user.domain.client.value_objects.client_id import ClientId
+from src.user.infrastructure.models.postgres.sqlalchemy.user_model import UserModel
 
 
 class ClientRepositorySqlAlchemy(IClientRepository):
     def __init__(self, db: Session = None):
-        self.db = SessionLocal()
+        self.db = db
 
     async def find_one(self, id: ClientId):
+
         user_orm = (
             self.db.query(UserModel)
             .filter(UserModel.id == id.id.__str__())

@@ -1,16 +1,16 @@
-from common.domain.utils.is_none import is_none
-from user.application.models.user import UserRole
-from user.application.repositories.manager_repository import IManagerRepository
+from src.common.domain.utils.is_none import is_none
+from src.user.application.models.user import UserRole
+from src.user.application.repositories.manager_repository import IManagerRepository
 from sqlalchemy.orm import Session
-from common.infrastructure.database.database import SessionLocal
-from user.domain.manager.factories.manager_factory import manager_factory
-from user.domain.manager.value_objects.manager_id import ManagerId
-from user.infrastructure.models.postgres.sqlalchemy.user_model import UserModel
+from src.common.infrastructure.database.database import SessionLocal
+from src.user.domain.manager.factories.manager_factory import manager_factory
+from src.user.domain.manager.value_objects.manager_id import ManagerId
+from src.user.infrastructure.models.postgres.sqlalchemy.user_model import UserModel
 
 
 class ManagerRepositorySqlAlchemy(IManagerRepository):
     def __init__(self, db: Session = None):
-        self.db = SessionLocal()
+        self.db = db
 
     async def find_one(self, id: ManagerId):
         user_orm = (

@@ -1,7 +1,7 @@
-from common.domain.value_object.value_object import ValueObject
-from ..errors.invalid_product_price import invalid_product_price_error
-from ..errors.invalid_product_margin import invalid_product_price_margin_error
-from ..errors.invalid_product_cost import invalid_product_cost_error
+from src.common.domain.value_object.value_object import ValueObject
+from src.product.domain.errors.invalid_product_price import invalid_product_price_error
+from src.product.domain.errors.invalid_product_margin import invalid_product_price_margin_error
+from src.product.domain.errors.invalid_product_cost import invalid_product_cost_error
 
 
 class ProductPricing(ValueObject):

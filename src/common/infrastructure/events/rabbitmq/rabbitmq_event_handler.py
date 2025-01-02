@@ -3,9 +3,9 @@ import threading
 import pika
 import jsonpickle
 
-from common.application.events.event_handlers import IEventHandler, IEventListener, IEventPublisher
-from common.domain.events.domain_event import DomainEvent
-from config import RABBITMQ_HOST, RABBITMQ_PASSWORD, RABBITMQ_PORT, RABBITMQ_USERNAME
+from src.common.application.events.event_handlers import IEventHandler, IEventListener, IEventPublisher
+from src.common.domain.events.domain_event import DomainEvent
+from src.config import RABBITMQ_HOST, RABBITMQ_PASSWORD, RABBITMQ_PORT, RABBITMQ_USERNAME
 
 class EventBind():
     def __init__(self, name: str, handler):

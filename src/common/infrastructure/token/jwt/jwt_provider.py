@@ -1,12 +1,12 @@
 from datetime import datetime, timedelta, timezone
 from typing import Dict, Generic, List, TypeVar
-from common.application.token.errors.invalid_token_error import invalid_token_error
-from common.application.token.info.token_created_info import token_created_info
-from common.application.token.info.token_verified_info import token_verified_info
-from common.application.token.token_provider import ITokenProvider
-from common.domain.result.result import Result
-from common.infrastructure.auth.payload.token_payload import TokenPayload
-from config import ACCESS_TOKEN_EXPIRE_MINUTES, SECRET_KEY, TOKEN_ALGORITHM
+from src.common.application.token.errors.invalid_token_error import invalid_token_error
+from src.common.application.token.info.token_created_info import token_created_info
+from src.common.application.token.info.token_verified_info import token_verified_info
+from src.common.application.token.token_provider import ITokenProvider
+from src.common.domain.result.result import Result
+from src.common.infrastructure.auth.payload.token_payload import TokenPayload
+from src.config import ACCESS_TOKEN_EXPIRE_MINUTES, SECRET_KEY, TOKEN_ALGORITHM
 from jose import JWTError, jwt
 
 T = TypeVar("T")

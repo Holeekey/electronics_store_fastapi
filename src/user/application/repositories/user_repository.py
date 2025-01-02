@@ -1,8 +1,8 @@
 from abc import ABCMeta, abstractmethod
 from typing import List, Optional
 
-from common.domain.result.result import Result
-from user.application.models.user import User, UserRole
+from src.common.domain.result.result import Result
+from src.user.application.models.user import User, UserRole
 
 
 class IUserRepository(metaclass=ABCMeta):

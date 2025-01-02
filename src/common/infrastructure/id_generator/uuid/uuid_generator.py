@@ -1,5 +1,5 @@
 import uuid
-from common.application.id_generator.id_generator import IDGenerator
+from src.common.application.id_generator.id_generator import IDGenerator
 
 
 class UUIDGenerator(IDGenerator):

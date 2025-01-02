@@ -1,4 +1,4 @@
-from common.application.error.application_error import (
+from src.common.application.error.application_error import (
     application_error_factory,
 )
 

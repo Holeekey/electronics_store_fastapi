@@ -1,8 +1,8 @@
 from typing import Optional
 
-from common.domain.utils.is_none import is_none
-from common.infrastructure.auth.db_models.auth_user_model import AuthUserModel
-from common.infrastructure.auth.models.auth_user import AuthUser
+from src.common.domain.utils.is_none import is_none
+from src.common.infrastructure.auth.db_models.auth_user_model import AuthUserModel
+from src.common.infrastructure.auth.models.auth_user import AuthUser
 from sqlalchemy.orm import Session
 
 

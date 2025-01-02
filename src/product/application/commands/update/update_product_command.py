@@ -1,14 +1,14 @@
-from common.domain.result.result import Result, result_info_factory
-from common.application.service.application_service import IApplicationService
+from src.common.domain.result.result import Result, result_info_factory
+from src.common.application.service.application_service import IApplicationService
 
-from common.domain.utils.is_none import is_none
-from product.application.commands.update.types.dto import UpdateProductDto
-from product.application.commands.update.types.response import UpdateProductResponse
-from product.application.repositories.product_repository import IProductRepository
-from product.domain.value_objects.product_id import ProductId
-from product.domain.factories.product_factory import product_factory
+from src.common.domain.utils.is_none import is_none
+from src.product.application.commands.update.types.dto import UpdateProductDto
+from src.product.application.commands.update.types.response import UpdateProductResponse
+from src.product.application.repositories.product_repository import IProductRepository
+from src.product.domain.value_objects.product_id import ProductId
+from src.product.domain.factories.product_factory import product_factory
 
-from product.application.errors.not_found import product_not_found_error
+from src.product.application.errors.not_found import product_not_found_error
 
 class UpdateProductCommand(IApplicationService):
 

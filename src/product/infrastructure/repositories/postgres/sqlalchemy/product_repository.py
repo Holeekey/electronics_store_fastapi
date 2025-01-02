@@ -1,16 +1,16 @@
 from uuid import UUID
 from typing import Optional, List
 from sqlalchemy.orm import Session
-from common.domain.result.result import Result, result_info_factory
-from common.domain.utils.is_none import is_none
-from product.application.info.product_created_info import product_created_info
-from product.application.repositories.product_repository import IProductRepository
-from common.infrastructure.database.database import SessionLocal
-from product.domain.factories.product_factory import product_factory
-from product.domain.product import Product
-from product.domain.value_objects.product_id import ProductId
-from product.domain.value_objects.product_name import ProductName
-from product.infrastructure.models.postgres.sqlalchemy.product_model import ProductModel
+from src.common.domain.result.result import Result, result_info_factory
+from src.common.domain.utils.is_none import is_none
+from src.product.application.info.product_created_info import product_created_info
+from src.product.application.repositories.product_repository import IProductRepository
+from src.common.infrastructure.database.database import SessionLocal
+from src.product.domain.factories.product_factory import product_factory
+from src.product.domain.product import Product
+from src.product.domain.value_objects.product_id import ProductId
+from src.product.domain.value_objects.product_name import ProductName
+from src.product.infrastructure.models.postgres.sqlalchemy.product_model import ProductModel
 
 
 class ProductRepositorySqlAlchemy(IProductRepository):

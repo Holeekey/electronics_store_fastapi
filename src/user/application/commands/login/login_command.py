@@ -1,14 +1,14 @@
-from common.application.cryptography.cryptography_provider import ICryptographyProvider
-from common.application.service.application_service import IApplicationService
-from common.application.token.token_provider import ITokenProvider
-from common.domain.result.result import Result
-from user.application.commands.login.types.login_dto import LoginDto
-from user.application.commands.login.types.login_response import LoginResponse
-from user.application.errors.invalid_credentials import invalid_credentials_error
-from user.application.errors.suspended import user_suspended_error
-from user.application.info.user_logged_in_info import user_logged_in_info
-from user.application.repositories.user_repository import IUserRepository
-from user.application.models.user import UserStatus
+from src.common.application.cryptography.cryptography_provider import ICryptographyProvider
+from src.common.application.service.application_service import IApplicationService
+from src.common.application.token.token_provider import ITokenProvider
+from src.common.domain.result.result import Result
+from src.user.application.commands.login.types.login_dto import LoginDto
+from src.user.application.commands.login.types.login_response import LoginResponse
+from src.user.application.errors.invalid_credentials import invalid_credentials_error
+from src.user.application.errors.suspended import user_suspended_error
+from src.user.application.info.user_logged_in_info import user_logged_in_info
+from src.user.application.repositories.user_repository import IUserRepository
+from src.user.application.models.user import UserStatus
 
 
 class LoginCommand(IApplicationService):

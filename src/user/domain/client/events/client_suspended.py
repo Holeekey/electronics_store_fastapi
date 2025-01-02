@@ -1,7 +1,7 @@
-from common.domain.events.domain_event import DomainEvent
+from src.common.domain.events.domain_event import DomainEvent
 
-from user.domain.client.value_objects.client_id import ClientId
-from user.domain.client.value_objects.client_name import ClientName
+from src.user.domain.client.value_objects.client_id import ClientId
+from src.user.domain.client.value_objects.client_name import ClientName
 
 CLIENT_SUSPENDED = "client_suspended"
 

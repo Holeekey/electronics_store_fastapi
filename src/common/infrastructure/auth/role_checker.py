@@ -2,8 +2,8 @@ from typing import Annotated, List
 
 from fastapi import Depends, HTTPException, status
 
-from common.infrastructure.auth.get_current_user import get_current_user
-from common.infrastructure.auth.models.auth_user import AuthUser, AuthUserRole
+from src.common.infrastructure.auth.get_current_user import get_current_user
+from src.common.infrastructure.auth.models.auth_user import AuthUser, AuthUserRole
 
 
 def role_checker(allowed_roles: List[AuthUserRole]):

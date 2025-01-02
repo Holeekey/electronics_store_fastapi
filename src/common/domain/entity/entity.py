@@ -1,5 +1,5 @@
 from typing import Generic, TypeVar, Any
-from ..value_object.value_object import ValueObject
+from src.common.domain.value_object.value_object import ValueObject
 
 T = TypeVar("T", bound=ValueObject[Any])
 

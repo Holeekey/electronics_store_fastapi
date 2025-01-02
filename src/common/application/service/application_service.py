@@ -1,7 +1,7 @@
 from abc import ABCMeta, abstractmethod
 from typing import TypeVar
 
-from common.domain.result.result import Result
+from src.common.domain.result.result import Result
 
 T = TypeVar("T")
 U = TypeVar("R")

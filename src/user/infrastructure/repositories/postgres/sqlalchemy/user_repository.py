@@ -1,13 +1,13 @@
 from sqlalchemy import or_
-from common.domain.result.result import Result
-from common.domain.utils.is_none import is_none
-from common.infrastructure.database.database import SessionLocal
-from user.application.info.user_deleted_info import user_deleted_info
-from user.application.info.user_created_info import user_created_info 
-from user.application.errors.not_found import user_not_found_error
-from user.application.models.user import User
-from user.application.repositories.user_repository import IUserRepository
-from user.infrastructure.models.postgres.sqlalchemy.user_model import UserModel, UserRole
+from src.common.domain.result.result import Result
+from src.common.domain.utils.is_none import is_none
+from src.common.infrastructure.database.database import SessionLocal
+from src.user.application.info.user_deleted_info import user_deleted_info
+from src.user.application.info.user_created_info import user_created_info 
+from src.user.application.errors.not_found import user_not_found_error
+from src.user.application.models.user import User
+from src.user.application.repositories.user_repository import IUserRepository
+from src.user.infrastructure.models.postgres.sqlalchemy.user_model import UserModel, UserRole
 from sqlalchemy.orm import Session
 
 

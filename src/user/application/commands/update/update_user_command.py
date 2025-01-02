@@ -1,29 +1,29 @@
 from uuid import UUID
-from common.application.cryptography.cryptography_provider import ICryptographyProvider
-from common.application.events.event_handlers import IEventPublisher
-from common.application.service.application_service import IApplicationService
-from common.domain.result.result import Result
-from common.domain.utils.is_none import is_none
-from common.domain.utils.is_not_none import is_not_none
-from user.application.commands.update.types.dto import UpdateUserDto
-from user.application.commands.update.types.response import UpdateUserResponse
-from user.application.info.user_updated_info import user_updated_info
-from user.application.models.user import UserRole, UserStatus
-from user.application.repositories.client_repository import IClientRepository
-from user.application.repositories.manager_repository import IManagerRepository
-from user.application.repositories.user_repository import IUserRepository
-from user.application.errors.not_found import user_not_found_error
-from user.application.errors.email_already_exists import email_already_exists_error
-from user.application.errors.username_already_exists import username_already_exists_error
-from user.application.errors.not_manager import user_is_not_manager_error
-from user.application.errors.not_client import user_is_not_client_error
-from user.application.errors.not_admin import user_is_not_admin_error
-from user.domain.client.value_objects.client_email import ClientEmail
-from user.domain.client.value_objects.client_id import ClientId
-from user.domain.client.value_objects.client_name import ClientName
-from user.domain.manager.value_objects.manager_email import ManagerEmail
-from user.domain.manager.value_objects.manager_id import ManagerId
-from user.domain.manager.value_objects.manager_name import ManagerName
+from src.common.application.cryptography.cryptography_provider import ICryptographyProvider
+from src.common.application.events.event_handlers import IEventPublisher
+from src.common.application.service.application_service import IApplicationService
+from src.common.domain.result.result import Result
+from src.common.domain.utils.is_none import is_none
+from src.common.domain.utils.is_not_none import is_not_none
+from src.user.application.commands.update.types.dto import UpdateUserDto
+from src.user.application.commands.update.types.response import UpdateUserResponse
+from src.user.application.info.user_updated_info import user_updated_info
+from src.user.application.models.user import UserRole, UserStatus
+from src.user.application.repositories.client_repository import IClientRepository
+from src.user.application.repositories.manager_repository import IManagerRepository
+from src.user.application.repositories.user_repository import IUserRepository
+from src.user.application.errors.not_found import user_not_found_error
+from src.user.application.errors.email_already_exists import email_already_exists_error
+from src.user.application.errors.username_already_exists import username_already_exists_error
+from src.user.application.errors.not_manager import user_is_not_manager_error
+from src.user.application.errors.not_client import user_is_not_client_error
+from src.user.application.errors.not_admin import user_is_not_admin_error
+from src.user.domain.client.value_objects.client_email import ClientEmail
+from src.user.domain.client.value_objects.client_id import ClientId
+from src.user.domain.client.value_objects.client_name import ClientName
+from src.user.domain.manager.value_objects.manager_email import ManagerEmail
+from src.user.domain.manager.value_objects.manager_id import ManagerId
+from src.user.domain.manager.value_objects.manager_name import ManagerName
 
 class UpdateUserCommand(IApplicationService):
   def __init__(

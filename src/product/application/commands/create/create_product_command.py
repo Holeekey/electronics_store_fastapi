@@ -1,16 +1,16 @@
-from common.application.id_generator.id_generator import IDGenerator
-from common.application.service.application_service import IApplicationService
+from src.common.application.id_generator.id_generator import IDGenerator
+from src.common.application.service.application_service import IApplicationService
 
-from common.domain.result.result import Result
-from common.domain.utils.is_not_none import is_not_none
-from product.application.commands.create.types.dto import CreateProductDto
-from product.application.commands.create.types.response import CreateProductResponse
-from product.application.info.product_created_info import product_created_info
-from product.application.repositories.product_repository import IProductRepository
-from product.domain.factories.product_factory import product_factory
-from product.domain.value_objects.product_name import ProductName
+from src.common.domain.result.result import Result
+from src.common.domain.utils.is_not_none import is_not_none
+from src.product.application.commands.create.types.dto import CreateProductDto
+from src.product.application.commands.create.types.response import CreateProductResponse
+from src.product.application.info.product_created_info import product_created_info
+from src.product.application.repositories.product_repository import IProductRepository
+from src.product.domain.factories.product_factory import product_factory
+from src.product.domain.value_objects.product_name import ProductName
 
-from product.application.errors.name_already_exists import (
+from src.product.application.errors.name_already_exists import (
     product_name_already_exists_error,
 )
 

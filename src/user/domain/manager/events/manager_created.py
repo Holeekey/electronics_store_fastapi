@@ -1,8 +1,8 @@
-from common.domain.events.domain_event import DomainEvent
+from src.common.domain.events.domain_event import DomainEvent
 
-from user.domain.manager.value_objects.manager_email import ManagerEmail
-from user.domain.manager.value_objects.manager_id import ManagerId
-from user.domain.manager.value_objects.manager_name import ManagerName
+from src.user.domain.manager.value_objects.manager_email import ManagerEmail
+from src.user.domain.manager.value_objects.manager_id import ManagerId
+from src.user.domain.manager.value_objects.manager_name import ManagerName
 
 MANAGER_CREATED = "manager_created"
 

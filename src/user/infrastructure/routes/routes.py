@@ -4,42 +4,42 @@ from fastapi.security import OAuth2PasswordRequestForm
 from pydantic import UUID4
 from pymongo import MongoClient
 
-from common.application.decorators.error_decorator import ErrorDecorator
-from common.domain.result.result import Result
-from common.domain.utils.is_none import is_none
-from common.infrastructure.auth.get_current_user import get_current_user
-from common.infrastructure.auth.models.auth_user import AuthUser, AuthUserRole
-from common.infrastructure.auth.role_checker import role_checker
-from common.infrastructure.bus.bus import Bus, get_command_bus
-from common.infrastructure.database.database import get_session
-from common.infrastructure.database.mongo import get_mongo_client
-from common.infrastructure.pagination.pagination_params import pagination_params
-from common.infrastructure.pagination.utils.pagination_to_skip import pagination_to_skip
-from common.infrastructure.responses.handlers.error_response_handler import (
+from src.common.application.decorators.error_decorator import ErrorDecorator
+from src.common.domain.result.result import Result
+from src.common.domain.utils.is_none import is_none
+from src.common.infrastructure.auth.get_current_user import get_current_user
+from src.common.infrastructure.auth.models.auth_user import AuthUser, AuthUserRole
+from src.common.infrastructure.auth.role_checker import role_checker
+from src.common.infrastructure.bus.bus import Bus, get_command_bus
+from src.common.infrastructure.database.database import get_session
+from src.common.infrastructure.database.mongo import get_mongo_client
+from src.common.infrastructure.pagination.pagination_params import pagination_params
+from src.common.infrastructure.pagination.utils.pagination_to_skip import pagination_to_skip
+from src.common.infrastructure.responses.handlers.error_response_handler import (
     error_response_handler,
 )
-from common.infrastructure.responses.handlers.pagination_response_handler import pagination_response_handler
-from common.infrastructure.responses.handlers.success_response_handler import (
+from src.common.infrastructure.responses.handlers.pagination_response_handler import pagination_response_handler
+from src.common.infrastructure.responses.handlers.success_response_handler import (
     success_response_handler,
 )
-from common.infrastructure.responses.pagination_response import PaginationInfo
-from common.infrastructure.token.jwt.jwt_provider import get_jwt_provider
-from common.infrastructure.cryptography.fernet_cryptography_provider import get_fernet_provider
-from user.application.commands.delete_manager.types.dto import DeleteManagerDto
-from user.application.commands.login.login_command import LoginCommand
-from user.application.info.many_users_found_info import many_users_found_info
-from user.application.info.user_found_info import user_found_info
-from user.application.models.user import UserRole
-from user.application.info.current_user_found_info import current_user_info
-from user.infrastructure.repositories.postgres.sqlalchemy.user_repository import (
+from src.common.infrastructure.responses.pagination_response import PaginationInfo
+from src.common.infrastructure.token.jwt.jwt_provider import get_jwt_provider
+from src.common.infrastructure.cryptography.fernet.fernet_cryptography_provider import get_fernet_provider
+from src.user.application.commands.delete_manager.types.dto import DeleteManagerDto
+from src.user.application.commands.login.login_command import LoginCommand
+from src.user.application.info.many_users_found_info import many_users_found_info
+from src.user.application.info.user_found_info import user_found_info
+from src.user.application.models.user import UserRole
+from src.user.application.info.current_user_found_info import current_user_info
+from src.user.infrastructure.repositories.postgres.sqlalchemy.user_repository import (
     UserRepositorySqlAlchemy,
 )
-from user.infrastructure.routes.types.create.create_user_dto import CreateUserDto
-from user.infrastructure.routes.types.login.login_dto import LoginDto
-from user.infrastructure.routes.types.login.login_response import Token
-from user.infrastructure.routes.types.update.update_user_dto import UpdateUserDto
-from user.application.commands.update.types.dto import UpdateUserDto as UpdateUserDtoApp
-from user.application.errors.not_found import user_not_found_error
+from src.user.infrastructure.routes.types.create.create_user_dto import CreateUserDto
+from src.user.infrastructure.routes.types.login.login_dto import LoginDto
+from src.user.infrastructure.routes.types.login.login_response import Token
+from src.user.infrastructure.routes.types.update.update_user_dto import UpdateUserDto
+from src.user.application.commands.update.types.dto import UpdateUserDto as UpdateUserDtoApp
+from src.user.application.errors.not_found import user_not_found_error
 
 user_router = APIRouter(
     prefix="/user",

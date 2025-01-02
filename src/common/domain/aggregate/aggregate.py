@@ -1,8 +1,8 @@
 from typing import Generic, TypeVar, Any
 from abc import ABC, abstractmethod
-from ..entity.entity import Entity
-from ..value_object.value_object import ValueObject
-from ..events.domain_event import DomainEvent
+from src.common.domain.entity.entity import Entity
+from src.common.domain.value_object.value_object import ValueObject
+from src.common.domain.events.domain_event import DomainEvent
 
 T = TypeVar("T", bound=ValueObject[Any])
 

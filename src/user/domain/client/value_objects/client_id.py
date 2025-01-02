@@ -1,6 +1,6 @@
 from uuid import UUID
-from common.domain.value_object.value_object import ValueObject
-from ..errors.invalid_client_id import invalid_client_id_error
+from src.common.domain.value_object.value_object import ValueObject
+from src.user.domain.client.errors.invalid_client_id import invalid_client_id_error
 
 
 class ClientId(ValueObject):
