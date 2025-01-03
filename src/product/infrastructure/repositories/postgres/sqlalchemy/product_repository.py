@@ -5,7 +5,6 @@ from src.common.domain.result.result import Result, result_info_factory
 from src.common.domain.utils.is_none import is_none
 from src.product.application.info.product_created_info import product_created_info
 from src.product.application.repositories.product_repository import IProductRepository
-from src.common.infrastructure.database.database import SessionLocal
 from src.product.domain.factories.product_factory import product_factory
 from src.product.domain.product import Product
 from src.product.domain.value_objects.product_id import ProductId
@@ -14,8 +13,8 @@ from src.product.infrastructure.models.postgres.sqlalchemy.product_model import 
 
 
 class ProductRepositorySqlAlchemy(IProductRepository):
-    def __init__(self):
-        self.db: Session = SessionLocal()
+    def __init__(self, db: Session):
+        self.db: Session = db
 
     def map_model_to_product(self, product_orm: ProductModel):
         return product_factory(
