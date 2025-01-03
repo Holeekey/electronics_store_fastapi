@@ -14,15 +14,13 @@ class DeleteProductCommand(IApplicationService):
     def __init__(self, product_repository:IProductRepository):
         self.product_repository = product_repository
 
-    async def execute(self, data: DeleteProductDto) -> DeleteProductResponse:
+    async def execute(self, data: DeleteProductDto) -> Result[DeleteProductResponse]:
         target_product = await self.product_repository.find_one(ProductId(data.id))
         if is_none(target_product):
             return Result.failure(error=product_not_found_error())
         if (target_product.status.status.value == 0):
-            return Result.failure(error=product_not_found_error())
-        
+            return Result.failure(error=product_not_found_error()) #? De lo que revisé del repositorio, este caso no se va a dar nunca
         delete_result = await self.product_repository.delete(target_product)
-
         if (delete_result.is_error()):
             return Result.failure(error=delete_result.handle_error(handler=(lambda x: x)))
         response = DeleteProductResponse(id=target_product.id.id)
