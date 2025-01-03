@@ -1,3 +1,3 @@
 class CreateProductResponse:
     def __init__(self, id: str):
-        self.user_id = id
+        self.product_id = id

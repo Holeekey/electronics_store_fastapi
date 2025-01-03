@@ -47,7 +47,7 @@ async def find_inventory_by_product(
 ):
     result = await ErrorDecorator(
         service=LoggerDecorator(
-            service=FindInventoryByProductIdQuery(product_repository=ProductRepositorySqlAlchemy(), inventory_repository=InventoryRepositorySqlAlchemy(session)),
+            service=FindInventoryByProductIdQuery(product_repository=ProductRepositorySqlAlchemy(session), inventory_repository=InventoryRepositorySqlAlchemy(session)),
             loggers=[LoguruLogger("Find Inventory")]
         ),
         error_handler=error_response_handler,

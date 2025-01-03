@@ -23,7 +23,7 @@ class CreateProductCommand(IApplicationService):
         self.id_generator = id_generator
         self.product_repository = product_repository
 
-    async def execute(self, data: CreateProductDto) -> CreateProductResponse:
+    async def execute(self, data: CreateProductDto) -> Result[CreateProductResponse]:
 
         product_by_name = await self.product_repository.find_by_name(
             name=ProductName(data.name)

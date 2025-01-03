@@ -2,6 +2,7 @@ from uuid import UUID
 from fastapi import APIRouter, HTTPException, status
 
 from src.common.application.decorators.error_decorator import ErrorDecorator
+from src.common.infrastructure.database.database import SessionLocal
 from src.common.infrastructure.id_generator.uuid.uuid_generator import UUIDGenerator
 from src.common.infrastructure.responses.handlers.error_response_handler import (
     error_response_handler,
@@ -36,7 +37,7 @@ product_router = APIRouter(
     responses={404: {"description": "Not found"}},
 )
 
-product_repository = ProductRepositorySqlAlchemy()
+product_repository = ProductRepositorySqlAlchemy(SessionLocal())
 
 
 @product_router.get("/one/{id}")
