@@ -1,6 +1,6 @@
 from uuid import UUID
-from product.domain.value_objects.product_id import ProductId
-from shopping_cart.domain.value_objects.shopping_cart_item_quantity import ShoppingCartItemQuantity
+from src.product.domain.value_objects.product_id import ProductId
+from src.shopping_cart.domain.value_objects.shopping_cart_item_quantity import ShoppingCartItemQuantity
 from src.common.domain.value_object.value_object import ValueObject
 from src.user.domain.client.errors.invalid_client_id import invalid_client_id_error
 

@@ -1,6 +1,6 @@
 from typing import TypeVar
 
-from shopping_cart.domain.events.shopping_cart_cleared import ShoppingCartCleared
+from src.shopping_cart.domain.events.shopping_cart_cleared import ShoppingCartCleared
 from src.shopping_cart.domain.events.shopping_cart_item_removed import ShoppingCartItemRemoved
 from src.shopping_cart.domain.events.shopping_cart_items_added import ShoppingCartItemsAdded
 from src.common.domain.utils.is_none import is_none
@@ -26,6 +26,10 @@ class ShoppingCart(Aggregate[T]):
         self._items = items
     
     @property
+    def client_id(self) -> ClientId:
+        return self._client_id
+    
+    @property
     def items(self) -> list[ShoppingCartItem]:
         return self._items
         
@@ -39,7 +43,7 @@ class ShoppingCart(Aggregate[T]):
             if item_found:
                 item_found_index = self._items.index(item_found)
                 self._items.pop(item_found_index)
-            self._items.append(item)
+            self._items.append(item_to_add)
             
         self.publish(ShoppingCartItemsAdded(
             self._id,
@@ -71,3 +75,9 @@ class ShoppingCart(Aggregate[T]):
         self.publish(ShoppingCartCleared(
             self._id
         ))
+        
+    def validate_state(self) -> None:
+        self._id.validate()
+        self._client_id.validate()
+        for item in self._items:
+            item.validate()

@@ -30,7 +30,7 @@ class ProductRepositorySqlAlchemy(IProductRepository):
 
     async def find_one(self, id: ProductId) -> Optional[Product]:
         product_orm = (
-            self.db.query(ProductModel).filter(ProductModel.id == str(id.id)).filter(ProductModel.status != 0).first()
+            self.db.query(ProductModel).filter(ProductModel.id == id.id).filter(ProductModel.status != 0).first()
         )
         if is_none(product_orm):
             return None

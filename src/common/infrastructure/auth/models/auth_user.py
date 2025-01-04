@@ -15,7 +15,7 @@ class AuthUserStatus(Enum):
 class AuthUser:
     def __init__(
         self,
-        id: int,
+        id: str,
         username: str,
         email: str,
         role: AuthUserRole,
