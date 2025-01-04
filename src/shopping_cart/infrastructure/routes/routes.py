@@ -2,7 +2,8 @@ from typing import Annotated
 from uuid import UUID
 from fastapi import APIRouter, Depends
 
-from src.shopping_cart.application.services.add_items.types.dto import AddItemsToShoppingCartCommand, ItemDetail
+from src.shopping_cart.application.services.remove_item.types.dto import RemoveItemFromShoppingCartDto
+from src.shopping_cart.application.services.add_items.types.dto import AddItemsToShoppingCartDto, ItemDetail
 from src.common.infrastructure.auth.db_models.auth_user_model import AuthUserRole
 from src.common.infrastructure.auth.models.auth_user import AuthUser
 from src.common.infrastructure.auth.role_checker import role_checker
@@ -24,7 +25,7 @@ async def add_item_to_cart(
     user: Annotated[AuthUser, Depends(role_checker([AuthUserRole.CLIENT]))],
     command_bus: Annotated[Bus, Depends(get_command_bus)],
 ):
-    result = await command_bus.dispatch(AddItemsToShoppingCartCommand(
+    result = await command_bus.dispatch(AddItemsToShoppingCartDto(
         client_id=user.id,
         items=[
             ItemDetail(
@@ -35,17 +36,35 @@ async def add_item_to_cart(
     return result
 
 @shopping_cart_router.put("/items/{product_id}")
-def update_cart_item_quantity(
+async def update_cart_item_quantity(
     product_id: UUID,
     body: UpdateCartItemQuantity,
+    user: Annotated[AuthUser, Depends(role_checker([AuthUserRole.CLIENT]))],
+    command_bus: Annotated[Bus, Depends(get_command_bus)],
 ):
-    pass
+    result = await command_bus.dispatch(AddItemsToShoppingCartDto(
+        client_id=user.id,
+        items=[
+            ItemDetail(
+                product_id=str(product_id),
+                quantity=body.quantity
+            )
+        ]
+    ))
+    return result
 
 @shopping_cart_router.delete("/items/{product_id}")
-def remove_item_from_cart(
-    product_id: UUID
+async def remove_item_from_cart(
+    product_id: UUID,
+    user: Annotated[AuthUser, Depends(role_checker([AuthUserRole.CLIENT]))],
+    command_bus: Annotated[Bus, Depends(get_command_bus)],
 ):
-    pass
+    result = await command_bus.dispatch(RemoveItemFromShoppingCartDto(
+        client_id=user.id,
+        product_id=str(product_id)
+    ))
+    return result
+    
 
 @shopping_cart_router.get("")
 def get_user_cart_items(

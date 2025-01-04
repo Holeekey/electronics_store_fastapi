@@ -9,7 +9,7 @@ from src.product.application.repositories.product_repository import IProductRepo
 from src.product.domain.value_objects.product_id import ProductId
 from src.shopping_cart.application.info.add_items_to_shopping_cart_info import add_items_to_shopping_cart_info
 from src.shopping_cart.application.repositories.shopping_cart_repository import IShoppingCartRepository
-from src.shopping_cart.application.services.add_items.types.dto import AddItemsToShoppingCartCommand
+from src.shopping_cart.application.services.add_items.types.dto import AddItemsToShoppingCartDto
 from src.shopping_cart.application.services.add_items.types.response import AddItemsToShoppingCartResponse
 from src.shopping_cart.application.errors.product_not_found import product_not_found_error
 from src.shopping_cart.application.errors.client_not_found import client_not_found_error
@@ -35,7 +35,7 @@ class AddItemsToShoppingCartService(IApplicationService):
         self.shopping_cart_repository = shopping_cart_repository
         self.event_publisher = event_publisher
     
-    async def execute(self, data: AddItemsToShoppingCartCommand) -> Result[AddItemsToShoppingCartResponse]:
+    async def execute(self, data: AddItemsToShoppingCartDto) -> Result[AddItemsToShoppingCartResponse]:
         
         client_id = ClientId(UUID(data.client_id))
         

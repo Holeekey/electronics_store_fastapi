@@ -1,6 +1,5 @@
 import datetime
 from typing import Optional
-from uuid import UUID
 from sqlalchemy.orm import Session
 
 from src.common.domain.utils.is_none import is_none

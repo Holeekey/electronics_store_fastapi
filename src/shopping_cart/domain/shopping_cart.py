@@ -32,6 +32,12 @@ class ShoppingCart(Aggregate[T]):
     @property
     def items(self) -> list[ShoppingCartItem]:
         return self._items
+    
+    def has_item(self, product_id: ProductId) -> bool:
+        for item in self._items:
+            if item.product_id == product_id:
+                return True
+        return False 
         
     def add_items(self, items: list[ShoppingCartItem]):
         for item_to_add in items:

@@ -7,7 +7,7 @@ class ItemDetail:
     quantity: int
 
 @dataclass
-class AddItemsToShoppingCartCommand():
+class AddItemsToShoppingCartDto():
     client_id: str
     items: list[ItemDetail]
     
