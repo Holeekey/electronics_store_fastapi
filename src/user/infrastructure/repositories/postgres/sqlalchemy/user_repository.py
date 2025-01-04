@@ -1,7 +1,6 @@
 from sqlalchemy import or_
 from src.common.domain.result.result import Result
 from src.common.domain.utils.is_none import is_none
-from src.common.infrastructure.database.database import SessionLocal
 from src.user.application.info.user_deleted_info import user_deleted_info
 from src.user.application.info.user_created_info import user_created_info 
 from src.user.application.errors.not_found import user_not_found_error
