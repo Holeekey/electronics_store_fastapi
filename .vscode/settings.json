@@ -3,6 +3,7 @@
         "user",
         "product",
         "inventory",
-        "shopping cart"
+        "shopping cart",
+        "order"
     ]
 }
