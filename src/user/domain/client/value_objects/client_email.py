@@ -1,5 +1,5 @@
-from common.domain.value_object.value_object import ValueObject
-from ..errors.invalid_client_email import invalid_client_email_error
+from src.common.domain.value_object.value_object import ValueObject
+from src.user.domain.client.errors.invalid_client_email import invalid_client_email_error
 
 import re
 

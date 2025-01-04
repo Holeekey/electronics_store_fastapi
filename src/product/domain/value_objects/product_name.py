@@ -1,5 +1,5 @@
-from common.domain.value_object.value_object import ValueObject
-from ..errors.invalid_product_name import invalid_product_name_error
+from src.common.domain.value_object.value_object import ValueObject
+from src.product.domain.errors.invalid_product_name import invalid_product_name_error
 
 
 class ProductName(ValueObject):

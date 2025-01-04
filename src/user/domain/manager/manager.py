@@ -1,11 +1,13 @@
 from typing import TypeVar
-from common.domain.aggregate.aggregate import Aggregate
-from user.domain.manager.events.manager_created import ManagerCreated
-from user.domain.manager.events.manager_email_changed import ManagerEmailChanged
-from user.domain.manager.events.manager_name_changed import ManagerNameChanged
-from user.domain.manager.value_objects.manager_email import ManagerEmail
-from user.domain.manager.value_objects.manager_id import ManagerId
-from user.domain.manager.value_objects.manager_name import ManagerName
+from src.common.domain.aggregate.aggregate import Aggregate
+from src.user.domain.manager.events.manager_created import ManagerCreated
+from src.user.domain.manager.events.manager_email_changed import ManagerEmailChanged
+from src.user.domain.manager.events.manager_name_changed import ManagerNameChanged
+from src.user.domain.manager.events.manager_activated import ManagerActivated
+from src.user.domain.manager.value_objects.manager_email import ManagerEmail
+from src.user.domain.manager.value_objects.manager_id import ManagerId
+from src.user.domain.manager.value_objects.manager_name import ManagerName
+from src.user.domain.manager.events.manager_suspended import ManagerSuspended
 
 T = TypeVar("T", bound=ManagerId)
 
@@ -37,6 +39,12 @@ class Manager(Aggregate[T]):
 
     def __eq__(self, other: "Manager") -> bool:
         return self.id == other.id
+
+    def suspend(self):
+        self.publish(ManagerSuspended(self.id))
+        
+    def activate(self):
+        self.publish(ManagerActivated(self.id))
 
     def validate_state(self) -> None:
         self._id.validate()

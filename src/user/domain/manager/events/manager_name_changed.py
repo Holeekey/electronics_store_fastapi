@@ -1,7 +1,7 @@
-from common.domain.events.domain_event import DomainEvent
+from src.common.domain.events.domain_event import DomainEvent
 
-from user.domain.manager.value_objects.manager_id import ManagerId
-from user.domain.manager.value_objects.manager_name import ManagerName
+from src.user.domain.manager.value_objects.manager_id import ManagerId
+from src.user.domain.manager.value_objects.manager_name import ManagerName
 
 MANAGER_NAME_CHANGED = "manager_name_changed"
 

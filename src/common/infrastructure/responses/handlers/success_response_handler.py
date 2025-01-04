@@ -1,7 +1,6 @@
-from typing import TypeVar
-from common.domain.result.result import ResultInfo
-from common.infrastructure.responses.info import ResponseInfo
-from common.infrastructure.responses.response import Response
+from src.common.domain.result.result import ResultInfo
+from src.common.infrastructure.responses.info import ResponseInfo
+from src.common.infrastructure.responses.response import Response
 
 
 def success_response_handler(t, info: ResultInfo) -> Response:

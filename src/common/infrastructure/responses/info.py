@@ -1,4 +1,4 @@
-from common.domain.utils.is_not_none import is_not_none
+from src.common.domain.utils.is_not_none import is_not_none
 
 
 class ResponseInfo:

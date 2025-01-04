@@ -1,4 +1,4 @@
-from common.domain.error.domain_error import domain_error_factory
+from src.common.domain.error.domain_error import domain_error_factory
 
 INVALID_PRODUCT_NAME_ERROR = "invalid_product_name"
 
