@@ -3,5 +3,5 @@ from src.inventory.application.info.codes.inventory_codes import InventoryCodes
 
 
 inventory_created_info = result_info_factory(
-    code=InventoryCodes.CREATE, message="Inventory created successfully"
+    code=InventoryCodes.CREATE.value, message="Inventory created successfully"
 )
