@@ -42,4 +42,6 @@ class RemoveItemFromShoppingCartService(IApplicationService):
         
         await self.shopping_cart_repository.save(shopping_cart)
 
+        await self.event_publisher.publish(shopping_cart.pull_events())
+
         return Result.success(RemoveItemFromShoppingCartResponse('Succesful'), remove_item_from_shopping_cart_info())

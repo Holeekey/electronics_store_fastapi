@@ -1,3 +1,9 @@
+from src.shopping_cart.domain.events.shopping_cart_cleared import SHOPPING_CART_CLEARED
+from src.shopping_cart.infrastructure.projectors.shopping_cart_cleared import shopping_cart_cleared_projector
+from src.shopping_cart.domain.events.shopping_cart_item_removed import SHOPPING_CART_ITEM_REMOVED
+from src.shopping_cart.infrastructure.projectors.item_removed import item_removed_projector
+from src.shopping_cart.domain.events.shopping_cart_items_added import SHOPPING_CART_ITEMS_ADDED
+from src.shopping_cart.infrastructure.projectors.items_added import items_added_projector
 from src.common.infrastructure.events.rabbitmq.rabbitmq_event_handler import EventBind
 from src.user.domain.client.events.client_activated import CLIENT_ACTIVATED
 from src.user.domain.client.events.client_created import CLIENT_CREATED
@@ -31,4 +37,7 @@ event_bindings = [
     EventBind(name=MANAGER_EMAIL_CHANGED, handler=manager_email_changed_projector),
     EventBind(name=MANAGER_SUSPENDED, handler=manager_suspended_projector),
     EventBind(name=MANAGER_ACTIVATED, handler=manager_activated_projector),
+    EventBind(name=SHOPPING_CART_ITEMS_ADDED, handler=items_added_projector),
+    EventBind(name=SHOPPING_CART_ITEM_REMOVED, handler=item_removed_projector),
+    EventBind(name=SHOPPING_CART_CLEARED, handler=shopping_cart_cleared_projector),
 ]

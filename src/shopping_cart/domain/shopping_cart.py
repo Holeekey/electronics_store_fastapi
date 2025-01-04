@@ -53,6 +53,7 @@ class ShoppingCart(Aggregate[T]):
             
         self.publish(ShoppingCartItemsAdded(
             self._id,
+            self._client_id,
             self._items,
         ))
     
@@ -73,13 +74,15 @@ class ShoppingCart(Aggregate[T]):
         self._items.pop(self._items.index(item_found))
         self.publish(ShoppingCartItemRemoved(
             self._id,
+            self._client_id,
             product_id,
         ))
     
     def clear_items(self):
         self._items.clear()
         self.publish(ShoppingCartCleared(
-            self._id
+            self._id,
+            self._client_id,
         ))
         
     def validate_state(self) -> None:

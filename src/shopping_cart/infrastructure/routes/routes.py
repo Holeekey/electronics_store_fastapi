@@ -1,7 +1,14 @@
 from typing import Annotated
 from uuid import UUID
 from fastapi import APIRouter, Depends
+from pymongo import MongoClient
 
+from src.common.domain.utils.is_none import is_none
+from src.common.infrastructure.database.mongo import get_mongo_client
+from src.common.infrastructure.responses.handlers.error_response_handler import error_response_handler
+from src.common.infrastructure.responses.handlers.success_response_handler import success_response_handler
+from src.shopping_cart.application.info.get_shopping_cart_info import get_shopping_cart_info
+from src.shopping_cart.application.errors.not_found import shopping_cart_not_found_error
 from src.shopping_cart.application.services.remove_item.types.dto import RemoveItemFromShoppingCartDto
 from src.shopping_cart.application.services.add_items.types.dto import AddItemsToShoppingCartDto, ItemDetail
 from src.common.infrastructure.auth.db_models.auth_user_model import AuthUserRole
@@ -68,7 +75,25 @@ async def remove_item_from_cart(
 
 @shopping_cart_router.get("")
 def get_user_cart_items(
-    pagination: Annotated[dict, Depends(pagination_params)]
+    user: Annotated[AuthUser, Depends(role_checker([AuthUserRole.CLIENT]))],
+    session: Annotated[MongoClient,Depends(get_mongo_client)]
 ):
-    pass
+    db = session["template"]
+    user_coll = db["shopping_cart"]
+    
+    projection = {
+        "_id": 0,
+        "user_id": 0
+    }
+    
+    cart = user_coll.find_one({"user_id": user.id},projection)
+    
+    if is_none(cart):
+        error = shopping_cart_not_found_error()
+        raise error_response_handler(error)
+    
+    return success_response_handler(
+        cart,
+        get_shopping_cart_info()
+    )
 

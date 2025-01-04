@@ -67,6 +67,6 @@ class AddItemsToShoppingCartService(IApplicationService):
         
         await self.shopping_cart_repository.save(shopping_cart)
         
-        # self.event_publisher.publish(shopping_cart.pull_events())
+        await self.event_publisher.publish(shopping_cart.pull_events())
         
         return Result.success(AddItemsToShoppingCartResponse('Succesful'), add_items_to_shopping_cart_info())
