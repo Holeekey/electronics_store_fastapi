@@ -51,8 +51,8 @@ class CreateOrderService(IApplicationService):
         
         await self.order_repository.save(order)
         
-        #await self.event_publisher.publish(order.pull_events())
-        #await self.event_publisher.publish(shopping_cart.pull_events())
+        await self.event_publisher.publish(order.pull_events())
+        await self.event_publisher.publish(shopping_cart.pull_events())
         
         return Result.success(CreateOrderReponse(order_id=order.id.id),create_order_info())
             
