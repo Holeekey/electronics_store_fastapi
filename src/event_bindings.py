@@ -1,3 +1,5 @@
+from src.order.domain.events.order_created import ORDER_CREATED
+from src.order.infrastructure.projectors.order_created_projector import order_created_projector
 from src.shopping_cart.domain.events.shopping_cart_cleared import SHOPPING_CART_CLEARED
 from src.shopping_cart.infrastructure.projectors.shopping_cart_cleared import shopping_cart_cleared_projector
 from src.shopping_cart.domain.events.shopping_cart_item_removed import SHOPPING_CART_ITEM_REMOVED
@@ -40,4 +42,5 @@ event_bindings = [
     EventBind(name=SHOPPING_CART_ITEMS_ADDED, handler=items_added_projector),
     EventBind(name=SHOPPING_CART_ITEM_REMOVED, handler=item_removed_projector),
     EventBind(name=SHOPPING_CART_CLEARED, handler=shopping_cart_cleared_projector),
+    EventBind(name=ORDER_CREATED, handler=order_created_projector)
 ]
