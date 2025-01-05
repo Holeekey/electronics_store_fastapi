@@ -39,5 +39,6 @@ def order_created_projector(ch, method, properties, body):
         "user_id": str(event.client_id.id),
         "total_price": sum([item["total_price"] for item in items_to_add]),
         "status": "pending",
-        "items": items_to_add
+        "creation_date": event.creation_date.date,
+        "items": items_to_add,
     })
