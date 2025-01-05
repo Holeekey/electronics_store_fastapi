@@ -39,5 +39,5 @@ class CreateProductCommand(IApplicationService):
         await self.product_repository.save(product=product)
 
         return Result.success(
-            value=CreateProductResponse(id=product.id), info=product_created_info()
+            value=CreateProductResponse(id=id), info=product_created_info()
         )

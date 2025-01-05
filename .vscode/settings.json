@@ -4,6 +4,7 @@
         "product",
         "inventory",
         "shopping cart",
-        "order"
+        "order",
+        "seed"
     ]
 }

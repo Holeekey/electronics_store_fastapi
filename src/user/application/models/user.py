@@ -15,7 +15,7 @@ class UserStatus(Enum):
 class User:
     def __init__(
         self,
-        id: int,
+        id: str,
         username: str,
         first_name: str,
         last_name: str,
