@@ -2,7 +2,7 @@
 from datetime import datetime
 from sqlalchemy.orm import Session
 
-from order.infrastructure.models.postgres.sqlalchemy.order_item_model import OrderItemModel
+from src.order.infrastructure.models.postgres.sqlalchemy.order_item_model import OrderItemModel
 from src.common.domain.utils.is_not_none import is_not_none
 from src.order.infrastructure.models.postgres.sqlalchemy.order_model import OrderModel
 from src.order.domain.order import Order

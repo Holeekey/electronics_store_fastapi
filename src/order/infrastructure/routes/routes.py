@@ -3,6 +3,7 @@ from uuid import UUID
 
 from fastapi import APIRouter, Depends
 
+from src.order.application.services.create.types.dto import CreateOrderDto
 from src.common.infrastructure.auth.models.auth_user import AuthUser, AuthUserRole
 from src.common.infrastructure.auth.role_checker import role_checker
 from src.common.infrastructure.bus.bus import get_command_bus, Bus
@@ -18,7 +19,10 @@ async def create_order_from_shopping_cart(
     user: Annotated[AuthUser, Depends(role_checker([AuthUserRole.CLIENT]))],
     command_bus: Annotated[Bus, Depends(get_command_bus)],
 ):
-    pass
+    result = await command_bus.dispatch(CreateOrderDto(
+        client_id=user.id,
+    ))
+    return result
 
 @order_router.get("")
 async def get_order_history():

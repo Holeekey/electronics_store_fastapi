@@ -4,7 +4,7 @@ from src.order.domain.errors.invalid_order_item_price import invalid_order_item_
 
 class OrderItemPrice(ValueObject):
     def __init__(self, price: float) -> None:
-        self.value = id
+        self.value = price
         self.validate()
 
     @property
