@@ -6,6 +6,6 @@ class OrderItemModel(Base):
     __table_args__ = {"extend_existing": True}
 
     id = Column(UUID, primary_key=True, index=True)
-    order_id = Column(String, ForeignKey("users.id"), nullable=False)
-    product_id = Column(String, ForeignKey("users.id"), nullable=False)
+    order_id = Column(String, ForeignKey("orders.id"), nullable=False)
+    product_id = Column(String, ForeignKey("products.id"), nullable=False)
     quantity = Column(Integer,nullable=False)
