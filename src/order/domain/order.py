@@ -37,6 +37,10 @@ class Order(Aggregate[T]):
             items=items
         ))
     
+    @property
+    def status(self) -> OrderStatus:
+        return self._status
+    
     def complete(self):
         if not self._status.is_completable():
             raise order_is_not_completable_error()

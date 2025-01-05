@@ -4,6 +4,8 @@ from uuid import UUID
 from fastapi import APIRouter, Depends
 from pymongo import MongoClient
 
+from src.order.application.services.set_status.types.dto import SetOrderStatusDto as SetOrderStatusDtoApp
+from src.order.infrastructure.routes.types.set_order_status_dto import SetOrderStatusDto
 from src.common.domain.utils.is_none import is_none
 from src.common.infrastructure.responses.handlers.error_response_handler import error_response_handler
 from src.common.infrastructure.pagination.utils.pagination_to_skip import pagination_to_skip
@@ -33,6 +35,19 @@ async def create_order_from_shopping_cart(
 ):
     result = await command_bus.dispatch(CreateOrderDto(
         client_id=user.id,
+    ))
+    return result
+
+@order_router.patch("")
+async def set_order_status(
+    order_id: UUID,
+    _: Annotated[AuthUser, Depends(role_checker([AuthUserRole.MANAGER]))],
+    command_bus: Annotated[Bus, Depends(get_command_bus)],
+    body: SetOrderStatusDto
+):
+    result = await command_bus.dispatch(SetOrderStatusDtoApp(
+        order_id=str(order_id),
+        status=body.status,
     ))
     return result
 
