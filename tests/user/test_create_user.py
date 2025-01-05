@@ -1,7 +1,6 @@
 import pytest
 import asyncio
 import pytest_asyncio
-from src.common.domain.result.result import Result
 from src.user.application.commands.create.create_user_command import CreateUserCommand
 from tests.user.conftest import user_payload
 from src.user.infrastructure.routes.types.create.create_user_dto import UserRole

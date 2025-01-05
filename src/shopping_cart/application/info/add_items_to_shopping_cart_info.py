@@ -4,5 +4,5 @@ from src.common.domain.result.result import result_info_factory
 
 
 add_items_to_shopping_cart_info = result_info_factory(
-    code=ShoppingCartCodes.ADD_ITEMS, message="Items added to shopping cart successfully"
+    code=ShoppingCartCodes.ADD_ITEMS.value, message="Items added to shopping cart successfully"
 )
