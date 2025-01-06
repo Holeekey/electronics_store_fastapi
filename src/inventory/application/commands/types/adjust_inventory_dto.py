@@ -9,4 +9,4 @@ class AdjustInventoryDto:
         stock_change: int,
     ):
         self.product_id = product_id
-        self.stock = stock_change
+        self.stock_change = stock_change

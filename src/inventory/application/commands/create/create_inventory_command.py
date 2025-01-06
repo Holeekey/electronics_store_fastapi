@@ -1,4 +1,7 @@
 from uuid import UUID
+from src.common.domain.utils.is_none import is_none
+from src.inventory.application.errors.product_does_not_exist import product_does_not_exist
+from src.product.application.repositories.product_repository import IProductRepository
 from src.common.application.id_generator.id_generator import IDGenerator
 from src.common.domain.result.result import Result
 from src.common.application.service.application_service import IApplicationService
@@ -15,9 +18,10 @@ from src.product.domain.value_objects.product_id import ProductId
 
 class CreateOrUpdateInventoryCommand(IApplicationService):
 
-    def __init__(self, id_generator: IDGenerator, inventory_repository: IInventoryRepository):
+    def __init__(self, id_generator: IDGenerator, inventory_repository: IInventoryRepository, product_repository: IProductRepository):
         self._inventory_repository = inventory_repository
         self._id_generator = id_generator
+        self._product_repository = product_repository
 
     async def execute(self, data: CreateInventoryDto) -> Result[CreateInventoryResponse]:
 
@@ -32,8 +36,14 @@ class CreateOrUpdateInventoryCommand(IApplicationService):
                 info=inventory_updated_info()
             )
 
+        #Chequear que exista el producto
+        product = await self._product_repository.find_one(ProductId(data.product_id))
+
+        if is_none(product):
+            return Result.failure(error= product_does_not_exist())
+
         # Crear un nuevo inventario si no existe
-        
+
         id = self._id_generator.generate()
 
         inventory:Inventory = inventory_factory(

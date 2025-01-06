@@ -1,4 +1,7 @@
 from uuid import UUID
+from src.inventory.application.errors.product_does_not_exist import product_does_not_exist
+from src.common.domain.utils.is_none import is_none
+from src.product.application.repositories.product_repository import IProductRepository
 from src.common.application.id_generator.id_generator import IDGenerator
 from src.common.domain.result.result import Result
 from src.common.application.service.application_service import IApplicationService
@@ -16,9 +19,10 @@ from src.product.domain.value_objects.product_id import ProductId
 
 class AdjustInventoryCommand(IApplicationService):
 
-    def __init__(self, id_generator: IDGenerator, inventory_repository: IInventoryRepository):
+    def __init__(self, id_generator: IDGenerator, inventory_repository: IInventoryRepository, product_repository: IProductRepository):
         self._inventory_repository = inventory_repository
         self._id_generator = id_generator
+        self._product_repository = product_repository
 
     async def execute(self, data: AdjustInventoryDto) -> Result[CreateInventoryResponse]:
         # Buscar el inventario existente por product_id
@@ -26,7 +30,7 @@ class AdjustInventoryCommand(IApplicationService):
 
         if existing_inventory:
             # Ajustar el stock del inventario existente
-            existing_inventory.stock = Stock(existing_inventory.stock.value + data.stock)
+            existing_inventory.stock = Stock(existing_inventory.stock.value + data.stock_change)
 
             if existing_inventory.stock.value < 0:
                 return Result.failure(error=negative_stock())
@@ -36,7 +40,13 @@ class AdjustInventoryCommand(IApplicationService):
                 value=CreateInventoryResponse(id=existing_inventory.id),
                 info=inventory_updated_info()
             )
+        
+        #Chequear que el producto exista
+        product = await self._product_repository.find_one(ProductId(data.product_id))
 
+        if is_none(product):
+            return Result.failure(error= product_does_not_exist())
+        
         # Crear un nuevo inventario si no existe
         initial_stock = max(0, data.stock_change)  # El stock inicial no puede ser negativo
 

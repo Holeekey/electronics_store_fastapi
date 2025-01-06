@@ -26,4 +26,4 @@ class Inventory(Entity[T]):
         return self._product_id
     
     def __eq__(self, other: 'Inventory') -> bool:
-        return self._id.equals(other.id)
+        return self._id == other.id

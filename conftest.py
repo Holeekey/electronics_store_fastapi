@@ -2,6 +2,7 @@ import pytest
 from sqlalchemy import StaticPool, create_engine
 from sqlalchemy.orm import sessionmaker
 
+from src.product.infrastructure.repositories.postgres.sqlalchemy.product_repository import ProductRepositorySqlAlchemy
 from src.common.infrastructure.cryptography.single_caesar.single_caesar_cryptography_provider import SingleCaesarProvider
 from src.common.infrastructure.events.mock.mock_event_handler import MockEventPublisher
 from src.common.infrastructure.id_generator.uuid.uuid_generator import UUIDGenerator
@@ -24,6 +25,10 @@ def temp_db_session():
   session.close()
   transaction.rollback()
   connection.close()
+
+@pytest.fixture()
+def temp_product_repository(temp_db_session):
+  return ProductRepositorySqlAlchemy(temp_db_session)
 
 @pytest.fixture()
 def id_generator():
