@@ -37,7 +37,7 @@ def items_added_projector(ch, method, properties, body):
             {
                 "_id": ObjectId(),
                 "user_id": str(event.client_id.id),
-                "total_price": sum([item["price"] * item["quantity"] for item in items_to_add]),
+                "total_price": round(sum([item["price"] * item["quantity"] for item in items_to_add]),2),
                 "items": items_to_add,
             }
         )
@@ -59,7 +59,7 @@ def items_added_projector(ch, method, properties, body):
                 
         shop_cart_coll.update_one(
             {"user_id": str(event.client_id.id)},
-            {"$set": {"items": new_items, "total_price": sum([item["price"] * item["quantity"] for item in new_items])}}
+            {"$set": {"items": new_items, "total_price": round(sum([item["price"] * item["quantity"] for item in new_items]),2)}}
         )
         
     

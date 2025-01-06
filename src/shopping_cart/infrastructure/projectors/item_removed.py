@@ -23,5 +23,5 @@ def item_removed_projector(ch, method, properties, body):
         
         shop_cart_coll.update_one(
             {"user_id": str(event.client_id.id)},
-            {"$set": {"items": new_items, "total_price": sum([item["price"] * item["quantity"] for item in new_items])}}
+            {"$set": {"items": new_items, "total_price": round(sum([item["price"] * item["quantity"] for item in new_items]),2)}}
         )

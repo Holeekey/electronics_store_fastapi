@@ -29,7 +29,7 @@ def order_created_projector(ch, method, properties, body):
                 "description": product.description,
                 "quantity": item.quantity.quantity,
                 "unit_price": item._product_price.value,
-                "total_price": item.quantity.quantity * item._product_price.value
+                "total_price": round(item.quantity.quantity * item._product_price.value,2)
             }
         )
         
@@ -37,7 +37,7 @@ def order_created_projector(ch, method, properties, body):
         "_id": ObjectId(),
         "order_id": str(event.order_id.id),
         "user_id": str(event.client_id.id),
-        "total_price": sum([item["total_price"] for item in items_to_add]),
+        "total_price": round(sum([item["total_price"] for item in items_to_add]),2),
         "status": "pending",
         "creation_date": event.creation_date.date,
         "items": items_to_add,

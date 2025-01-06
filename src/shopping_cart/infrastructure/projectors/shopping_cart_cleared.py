@@ -18,5 +18,5 @@ def shopping_cart_cleared_projector(ch, method, properties, body):
         
         shop_cart_coll.update_one(
             {"user_id": str(event.client_id.id)},
-            {"$set": {"items": [], "total_price": 0}}
+            {"$set": {"items": [], "total_price": 0.00}}
         )
