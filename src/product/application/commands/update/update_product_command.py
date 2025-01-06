@@ -26,9 +26,9 @@ class UpdateProductCommand(IApplicationService):
 
     async def execute(self, data: UpdateProductDto) -> Result[UpdateProductResponse]:
         old_product = await self.product_repository.find_one(ProductId(data.id))
-        old_product.pull_events() #Discard 'product_created' event since it is not relevant to this service
         if is_none(old_product):
             return Result.failure(error=product_not_found_error())
+        old_product.pull_events() #Discard 'product_created' event since it is not relevant to this service
         if (old_product.status.status.value == 0):
             return Result.failure(error=product_not_found_error()) #? De lo que revisé del repositorio, este caso no se va a dar nunca
         

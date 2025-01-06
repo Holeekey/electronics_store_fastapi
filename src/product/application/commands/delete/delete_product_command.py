@@ -20,9 +20,9 @@ class DeleteProductCommand(IApplicationService):
 
     async def execute(self, data: DeleteProductDto) -> Result[DeleteProductResponse]:
         target_product = await self.product_repository.find_one(ProductId(data.id))
-        target_product.pull_events() #Discard 'product_created' event, since it is of no interest here
         if is_none(target_product):
             return Result.failure(error=product_not_found_error())
+        target_product.pull_events() #Discard 'product_created' event, since it is of no interest here
         if (target_product.status.status.value == 0):
             return Result.failure(error=product_not_found_error()) #? De lo que revisé del repositorio, este caso no se va a dar nunca
         

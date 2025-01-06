@@ -71,8 +71,8 @@ class Product(Aggregate[T]):
         return self._status
 
     def delete(self) -> None:
-        if (self._status != ProductStatusOptions.INACTIVE):
-            self._status = ProductStatusOptions.INACTIVE
+        if (self._status != ProductStatus(ProductStatusOptions.INACTIVE)):
+            self._status = ProductStatus(ProductStatusOptions.INACTIVE)
             self.validate_state()
             self.publish(ProductDeleted(self.id))
         else:
