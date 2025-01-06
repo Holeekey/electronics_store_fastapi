@@ -1,5 +1,5 @@
 import math
-from typing import Generic, TypeVar
+from typing import Generic, Optional, TypeVar
 
 from src.common.infrastructure.responses.info import ResponseInfo
 
@@ -13,8 +13,8 @@ class PaginationInfo:
         per_page: int,
         count: int,
         pages: int,
-        prev: int | None,
-        next: int | None,
+        prev: Optional[int],
+        next: Optional[int],
     ):
         self._page = page
         self._per_page = per_page
