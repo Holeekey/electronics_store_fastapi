@@ -32,6 +32,7 @@ services:
     depends_on:
       - db
       - mongo
+    restart: always
     
   queue:
     image: rabbitmq:3-management-alpine
