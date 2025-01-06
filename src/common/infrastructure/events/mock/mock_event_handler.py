@@ -8,3 +8,6 @@ class MockEventPublisher(IEventPublisher):
   async def publish(self, events: list[DomainEvent]):
     for event in events:
       self.events.append(event)
+
+  async def clear(self):
+    self.events = []

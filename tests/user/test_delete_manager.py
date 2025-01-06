@@ -23,6 +23,8 @@ async def test_delete_manager_succesfully(id_generator, temp_user_repository, te
   
   assert result.is_success()
   manager_id = result.unwrap().user_id
+  
+  await mock_publisher.clear()
 
   command = DeleteManagerCommand(
     user_repository= temp_user_repository,
@@ -43,8 +45,8 @@ async def test_delete_manager_succesfully(id_generator, temp_user_repository, te
   assert deleted_user != None
   assert deleted_user.status == UserStatus.SUSPENDED
 
-  assert len(mock_publisher.events) == 2
-  assert mock_publisher.events[1].name == "manager_suspended"
+  assert len(mock_publisher.events) == 1
+  assert mock_publisher.events[0].name == "manager_suspended"
 
 
 @pytest.mark.asyncio
