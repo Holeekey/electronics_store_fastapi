@@ -4,11 +4,14 @@ from sqlalchemy.orm import Session
 from src.common.domain.result.result import Result, result_info_factory
 from src.common.domain.utils.is_none import is_none
 from src.product.application.info.product_created_info import product_created_info
+from src.product.application.info.product_updated_info import product_updated_info
+from src.product.application.info.product_deleted_info import product_deleted_info
 from src.product.application.repositories.product_repository import IProductRepository
 from src.product.domain.factories.product_factory import product_factory
 from src.product.domain.product import Product
 from src.product.domain.value_objects.product_id import ProductId
 from src.product.domain.value_objects.product_name import ProductName
+from src.product.domain.value_objects.product_status import ProductStatusOptions
 from src.product.infrastructure.models.postgres.sqlalchemy.product_model import ProductModel
 
 
@@ -29,7 +32,7 @@ class ProductRepositorySqlAlchemy(IProductRepository):
 
     async def find_one(self, id: ProductId) -> Optional[Product]:
         product_orm = (
-            self.db.query(ProductModel).filter(ProductModel.id == id.id).filter(ProductModel.status != 0).first()
+            self.db.query(ProductModel).filter(ProductModel.id == id.id).filter(ProductModel.status != ProductStatusOptions.INACTIVE.value).first()
         )
         if is_none(product_orm):
             return None
@@ -37,7 +40,7 @@ class ProductRepositorySqlAlchemy(IProductRepository):
     
     async def find_many(self, page:int = 1, per_page:int = 5) -> List[Product]:
         product_orm_list = (
-            self.db.query(ProductModel).filter(ProductModel.status != 0).offset((page-1)*per_page).limit(per_page).all()
+            self.db.query(ProductModel).filter(ProductModel.status != ProductStatusOptions.INACTIVE.value).offset((page-1)*per_page).limit(per_page).all()
         )
         if is_none(product_orm_list):
             return None
@@ -45,7 +48,7 @@ class ProductRepositorySqlAlchemy(IProductRepository):
 
     async def find_by_name(self, name: ProductName) -> Optional[Product]:
         product_orm = (
-            self.db.query(ProductModel).filter(ProductModel.name == name.name).filter(ProductModel.status != 0).first()
+            self.db.query(ProductModel).filter(ProductModel.name == name.name).filter(ProductModel.status != ProductStatusOptions.INACTIVE.value).first()
         )
         if is_none(product_orm):
             return None
@@ -72,7 +75,7 @@ class ProductRepositorySqlAlchemy(IProductRepository):
         target_product: ProductModel = self.db.query(ProductModel).filter(ProductModel.id == str(id.id)).first()
         if (is_none(target_product)):
             return Result.failure(Exception("Product not found"))
-        if (target_product.status == 0): #Product is inactive
+        if (target_product.status == ProductStatusOptions.INACTIVE.value): #Product is inactive
             return Result.failure(Exception("Product not found"))
         if (target_product.id != new_product.id.id):
             return Result.failure(ValueError("Target ID and ID of updated product do not match"))
@@ -88,20 +91,19 @@ class ProductRepositorySqlAlchemy(IProductRepository):
         self.db.add(target_product)
         self.db.commit()
         self.db.refresh(target_product)
-        info = result_info_factory("UPD-001", "Product updated successfully")
-        return Result.success(new_product, info=info())
+        
+        return Result.success(new_product, info=product_updated_info())
 
     async def delete(self, product: Product) -> Result[str]:
         target_product: ProductModel = self.db.query(ProductModel).filter(ProductModel.id == str(product.id.id)).first()
         if (is_none(target_product)):
             return Result.failure(Exception("Product not found"))
-        if (target_product.status == 0): #Product is inactive
+        if (target_product.status == ProductStatusOptions.INACTIVE.value): #Product is inactive
             return Result.failure(Exception("Product not found"))
         
-        target_product.status = 0
+        target_product.status = ProductStatusOptions.INACTIVE.value
         self.db.add(target_product)
         self.db.commit()
         self.db.refresh(target_product)
 
-        info = result_info_factory("DEL-001","Product deactivated successfully")
-        return Result.success("Product deactivated sucessfully", info=info())
+        return Result.success("Product deactivated sucessfully", info=product_deleted_info())

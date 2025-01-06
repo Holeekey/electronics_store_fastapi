@@ -9,10 +9,10 @@ PRODUCT_CREATED = "product_created"
 
 
 class ProductCreated(DomainEvent):
-    def __init__(self, product_id: ProductId, code: ProductCode, name: ProductName, description: ProductDescription, price: ProductPricing):
+    def __init__(self, product_id: ProductId, code: ProductCode, name: ProductName, description: ProductDescription, pricing: ProductPricing):
         super().__init__(PRODUCT_CREATED)
         self.product_id = product_id
         self.product_code = code
         self.product_name = name
         self.product_description = description
-        self.product_price = price
+        self.product_pricing = pricing

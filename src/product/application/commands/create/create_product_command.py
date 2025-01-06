@@ -1,5 +1,6 @@
 from src.common.application.id_generator.id_generator import IDGenerator
 from src.common.application.service.application_service import IApplicationService
+from src.common.application.events.event_handlers import IEventPublisher
 
 from src.common.domain.result.result import Result
 from src.common.domain.utils.is_not_none import is_not_none
@@ -18,10 +19,11 @@ from src.product.application.errors.name_already_exists import (
 class CreateProductCommand(IApplicationService):
 
     def __init__(
-        self, id_generator: IDGenerator, product_repository: IProductRepository
+        self, id_generator: IDGenerator, product_repository: IProductRepository, publisher: IEventPublisher
     ):
         self.id_generator = id_generator
         self.product_repository = product_repository
+        self.event_publisher = publisher
 
     async def execute(self, data: CreateProductDto) -> Result[CreateProductResponse]:
 
@@ -37,6 +39,8 @@ class CreateProductCommand(IApplicationService):
         product = product_factory(id=id, code=data.code, name=data.name, description=data.description, cost=data.cost, margin=data.margin, status=1) #Products start created as 'ACTIVE'
 
         await self.product_repository.save(product=product)
+        #Since operation was successful, publish events
+        await self.event_publisher.publish(product.pull_events())
 
         return Result.success(
             value=CreateProductResponse(id=id), info=product_created_info()
