@@ -77,6 +77,7 @@ async def seed(
             service= CreateProductCommand(
                 id_generator=id_generator,
                 product_repository= product_repo,
+                publisher=event_publisher
             ),
             error_handler=error_response_handler
         )
