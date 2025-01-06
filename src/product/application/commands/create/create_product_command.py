@@ -40,7 +40,7 @@ class CreateProductCommand(IApplicationService):
 
         await self.product_repository.save(product=product)
         #Since operation was successful, publish events
-        self.event_publisher.publish(product.pull_events())
+        await self.event_publisher.publish(product.pull_events())
 
         return Result.success(
             value=CreateProductResponse(id=product.id), info=product_created_info()

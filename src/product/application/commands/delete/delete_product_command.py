@@ -37,5 +37,5 @@ class DeleteProductCommand(IApplicationService):
         response = DeleteProductResponse(id=target_product.id.id)
         
         # Since process was successful, publish related event
-        self.event_publisher.publish(target_product.pull_events())
+        await self.event_publisher.publish(target_product.pull_events())
         return Result.success(value=response, info=product_deleted_info())

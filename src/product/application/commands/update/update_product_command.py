@@ -51,5 +51,5 @@ class UpdateProductCommand(IApplicationService):
         response = UpdateProductResponse(id=new_product.id.id, code=new_product.code.code, name=new_product.name.name, description=new_product.description.description, cost=new_product.pricing.cost, margin=new_product.pricing.margin, price=new_product.pricing.price)
         
         #Publish generated events, since update was successful
-        self.event_publisher.publish(old_product.pull_events())
+        await self.event_publisher.publish(old_product.pull_events())
         return Result.success(value=response, info=product_updated_info())
