@@ -25,8 +25,8 @@ async def test_delete_product_successfully(id_generator, temp_product_repository
   result = await command.execute(DeleteProductDto(created_product_id.id))
 
   assert result.is_success()
-  assert result._info.code == "DEL-001"
-  assert result._info.message == "Product deactivated successfully"
+  assert result._info.code == "PR-DEL"
+  assert result._info.message == "Product has been deactivated successfully"
 
   deleted_product_id = result.unwrap().id
   assert deleted_product_id == created_product_id.id

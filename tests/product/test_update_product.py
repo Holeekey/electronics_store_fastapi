@@ -33,8 +33,8 @@ async def test_update_product_successfully(id_generator, temp_product_repository
   ))
 
   assert result.is_success()
-  assert result._info.code == "UPD-001"
-  assert result._info.message == "Product updated successfully"
+  assert result._info.code == "PR-UPD"
+  assert result._info.message == "Product has been updated successfully"
 
   response = result.unwrap()
 
