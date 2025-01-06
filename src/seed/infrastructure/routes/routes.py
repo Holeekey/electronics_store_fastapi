@@ -2,6 +2,9 @@
 from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException
 
+from src.inventory.application.commands.create.create_inventory_command import CreateOrUpdateInventoryCommand
+from src.inventory.application.commands.types.create_inventory_dto import CreateInventoryDto
+from src.inventory.infrastructure.repositories.postgres.sqlalchemy.inventory_repository import InventoryRepositorySqlAlchemy
 from src.order.application.services.create.create_order_service import CreateOrderService
 from src.order.application.services.create.types.dto import CreateOrderDto
 from src.order.domain.services.create_order_domain_service import CreateOrderDomainService
@@ -48,6 +51,7 @@ async def seed(
     user_repo = UserRepositorySqlAlchemy(session)
     client_repo = ClientRepositorySqlAlchemy(session)
     product_repo = ProductRepositorySqlAlchemy(session)
+    inventory_repo = InventoryRepositorySqlAlchemy(session)
     shopping_cart_repo = ShoppingCartRepositorySqlAlchemy(session)
     order_repo = OrderRepositorySqlAlchemy(session)
     
@@ -82,6 +86,23 @@ async def seed(
         for product in product_data:
             result = await create_product_service.execute(product)
             product_ids.append(result.unwrap().product_id)
+        
+        create_stock_service = ErrorDecorator(
+            service= CreateOrUpdateInventoryCommand(
+                id_generator=id_generator,
+                inventory_repository= inventory_repo,
+                product_repository= product_repo,
+            ),
+            error_handler=error_response_handler
+        )
+        
+        for product_id in product_ids:
+            await create_stock_service.execute(
+                CreateInventoryDto(
+                    product_id=product_id,
+                    stock=20,
+                )
+            )
         
         add_items_to_cart_service = ErrorDecorator(
             service= AddItemsToShoppingCartService(
@@ -164,6 +185,7 @@ async def seed(
                 create_order_service= CreateOrderDomainService(product_repo),
                 order_repository= order_repo,
                 shopping_cart_repository= shopping_cart_repo,
+                inventory_repository= inventory_repo,
                 event_publisher= event_publisher,
             ),
             error_handler=error_response_handler

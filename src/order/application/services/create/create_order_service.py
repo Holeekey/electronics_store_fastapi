@@ -68,7 +68,7 @@ class CreateOrderService(IApplicationService):
         await self.order_repository.save(order)
         
         for inventory in inventories_to_update:
-            await self.inventory_repository.save(inventories_to_update)
+            await self.inventory_repository.save(inventory)
         
         await self.event_publisher.publish(order.pull_events())
         await self.event_publisher.publish(shopping_cart.pull_events())
