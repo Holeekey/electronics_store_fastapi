@@ -6,22 +6,24 @@ from src.product.application.commands.update.types.dto import UpdateProductDto
 from src.product.application.commands.update.update_product_command import UpdateProductCommand
 from src.product.application.commands.create.create_product_command import CreateProductCommand
 from tests.product.conftest import product_payload
+from src.product.domain.value_objects.product_id import ProductId
 
 
 @pytest.mark.asyncio
-async def test_update_product_successfully(id_generator, temp_product_repository):
+async def test_update_product_successfully(id_generator, temp_product_repository, mock_publisher):
   command = CreateProductCommand(
     id_generator= id_generator,
-    product_repository= temp_product_repository
+    product_repository= temp_product_repository,
+    publisher=mock_publisher
   )
 
   result = await command.execute(product_payload())
 
   assert result.is_success()
 
-  created_product_id = result.unwrap().product_id
+  created_product_id = ProductId(result.unwrap().product_id)
 
-  command = UpdateProductCommand(product_repository= temp_product_repository)
+  command = UpdateProductCommand(product_repository= temp_product_repository, publisher=mock_publisher)
 
   result = await command.execute(UpdateProductDto(
     id= created_product_id.id,
@@ -44,8 +46,8 @@ async def test_update_product_successfully(id_generator, temp_product_repository
   
 
 @pytest.mark.asyncio
-async def test_update_failure_product_not_found(id_generator, temp_product_repository):
-  command = UpdateProductCommand(product_repository= temp_product_repository)
+async def test_update_failure_product_not_found(id_generator, temp_product_repository, mock_publisher):
+  command = UpdateProductCommand(product_repository= temp_product_repository, publisher=mock_publisher)
   
   result = await command.execute(UpdateProductDto(
     id= id_generator.generate(),
