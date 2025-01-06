@@ -22,6 +22,8 @@ async def test_update_user_successfully(id_generator, temp_user_repository, temp
   assert result.is_success()
   user_id = result.unwrap().user_id
 
+  await mock_publisher.clear()
+
   command = UpdateUserCommand(
     user_repository= temp_user_repository,
     manager_repository= temp_manager_repository,
@@ -62,10 +64,10 @@ async def test_update_user_successfully(id_generator, temp_user_repository, temp
   assert updated_user.last_name == "NewLastName"
   assert updated_user.status.name == "SUSPENDED"
 
-  assert len(mock_publisher.events) == 4
-  assert mock_publisher.events[1].name == "client_email_changed"
-  assert mock_publisher.events[2].name == "client_name_changed"
-  assert mock_publisher.events[3].name == "client_suspended"
+  assert len(mock_publisher.events) == 3
+  assert mock_publisher.events[0].name == "client_email_changed"
+  assert mock_publisher.events[1].name == "client_name_changed"
+  assert mock_publisher.events[2].name == "client_suspended"
 
 
 @pytest.mark.asyncio

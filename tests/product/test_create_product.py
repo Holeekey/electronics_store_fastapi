@@ -3,14 +3,16 @@ import asyncio
 import pytest_asyncio
 
 from src.product.application.commands.create.create_product_command import CreateProductCommand
+from src.product.domain.value_objects.product_id import ProductId
 from tests.product.conftest import product_payload
 
 
 @pytest.mark.asyncio
-async def test_create_product_successfully(id_generator, temp_product_repository):
+async def test_create_product_successfully(id_generator, temp_product_repository, mock_publisher):
   command = CreateProductCommand(
     id_generator= id_generator,
-    product_repository= temp_product_repository
+    product_repository= temp_product_repository,
+    publisher=mock_publisher
   )
 
   result = await command.execute(product_payload())
@@ -20,18 +22,18 @@ async def test_create_product_successfully(id_generator, temp_product_repository
   assert result._info.message == "Product created successfully"
 
   product_id = result.unwrap().product_id
-  created_product = await temp_product_repository.find_one(product_id)
-
+  created_product = await temp_product_repository.find_one(ProductId(product_id))
   assert created_product.code.value == "TEST-00"
   assert created_product.name.value == "TestProduct"
   assert created_product.description.value == "Test Description"
 
 
 @pytest.mark.asyncio
-async def test_create_product_failure_name_already_exists(id_generator, temp_product_repository):
+async def test_create_product_failure_name_already_exists(id_generator, temp_product_repository, mock_publisher):
   command = CreateProductCommand(
     id_generator= id_generator,
-    product_repository= temp_product_repository
+    product_repository= temp_product_repository,
+    publisher=mock_publisher
   )
 
   result = await command.execute(product_payload())

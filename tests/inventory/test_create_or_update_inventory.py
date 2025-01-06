@@ -10,16 +10,17 @@ from tests.product.conftest import product_payload
 
 
 @pytest.mark.asyncio
-async def test_create_inventory_successfully(id_generator, temp_inventory_repository, temp_product_repository):
+async def test_create_inventory_successfully(id_generator, temp_inventory_repository, temp_product_repository, mock_publisher):
   command = CreateProductCommand(
     id_generator= id_generator,
-    product_repository= temp_product_repository
+    product_repository= temp_product_repository,
+    publisher=mock_publisher
   )
 
   result = await command.execute(product_payload())
 
   assert result.is_success()
-  product_id = result.unwrap().product_id.id
+  product_id = result.unwrap().product_id
 
   command = CreateOrUpdateInventoryCommand(
     id_generator= id_generator,
@@ -42,16 +43,17 @@ async def test_create_inventory_successfully(id_generator, temp_inventory_reposi
   assert created_inventory.stock.value == 1
 
 @pytest.mark.asyncio
-async def test_update_inventory_successfully(id_generator, temp_inventory_repository, temp_product_repository):
+async def test_update_inventory_successfully(id_generator, temp_inventory_repository, temp_product_repository, mock_publisher):
   command = CreateProductCommand(
     id_generator= id_generator,
-    product_repository= temp_product_repository
+    product_repository= temp_product_repository,
+    publisher=mock_publisher
   )
 
   result = await command.execute(product_payload())
 
   assert result.is_success()
-  product_id = result.unwrap().product_id.id
+  product_id = result.unwrap().product_id
 
   command = CreateOrUpdateInventoryCommand(
     id_generator= id_generator,

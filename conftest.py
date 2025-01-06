@@ -7,6 +7,10 @@ from src.common.infrastructure.cryptography.single_caesar.single_caesar_cryptogr
 from src.common.infrastructure.events.mock.mock_event_handler import MockEventPublisher
 from src.common.infrastructure.id_generator.uuid.uuid_generator import UUIDGenerator
 from src.common.infrastructure.token.jwt.jwt_provider import get_jwt_provider
+from src.user.infrastructure.repositories.postgres.sqlalchemy.client_repository import ClientRepositorySqlAlchemy
+from src.user.infrastructure.repositories.postgres.sqlalchemy.manager_repository import ManagerRepositorySqlAlchemy
+from src.user.infrastructure.repositories.postgres.sqlalchemy.user_repository import UserRepositorySqlAlchemy
+
 from src.config import TEMP_DATABASE_URL
 
 engine = create_engine(
@@ -29,6 +33,18 @@ def temp_db_session():
 @pytest.fixture()
 def temp_product_repository(temp_db_session):
   return ProductRepositorySqlAlchemy(temp_db_session)
+
+@pytest.fixture()
+def temp_user_repository(temp_db_session):
+  return UserRepositorySqlAlchemy(temp_db_session)
+
+@pytest.fixture()
+def temp_manager_repository(temp_db_session):
+  return ManagerRepositorySqlAlchemy(temp_db_session)
+
+@pytest.fixture()
+def temp_client_repository(temp_db_session):
+  return ClientRepositorySqlAlchemy(temp_db_session)
 
 @pytest.fixture()
 def id_generator():
