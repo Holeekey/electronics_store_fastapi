@@ -1,3 +1,4 @@
+from src.inventory.infrastructure.repositories.postgres.sqlalchemy.inventory_repository import InventoryRepositorySqlAlchemy
 from src.order.application.services.create.create_order_service import CreateOrderService
 from src.order.application.services.create.types.dto import CreateOrderDto
 from src.order.domain.services.create_order_domain_service import CreateOrderDomainService
@@ -22,6 +23,7 @@ async def create_order_command_handler(
             service=CreateOrderService(
                 order_repository= OrderRepositorySqlAlchemy(session),
                 client_repository= ClientRepositorySqlAlchemy(session),
+                inventory_repository= InventoryRepositorySqlAlchemy(session),
                 create_order_service= CreateOrderDomainService(ProductRepositorySqlAlchemy(session)),
                 shopping_cart_repository= ShoppingCartRepositorySqlAlchemy(session),
                 event_publisher= await get_rabbit_mq_event_publisher().__anext__(),

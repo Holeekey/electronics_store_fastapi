@@ -1,6 +1,9 @@
+from typing import Annotated
 from uuid import UUID
 from fastapi import APIRouter, Depends
 
+from src.common.infrastructure.auth.models.auth_user import AuthUser, AuthUserRole
+from src.common.infrastructure.auth.role_checker import role_checker
 from src.common.application.decorators.error_decorator import ErrorDecorator
 from src.common.application.decorators.logger_decorator import LoggerDecorator
 from src.common.infrastructure.id_generator.uuid.uuid_generator import UUIDGenerator
@@ -43,7 +46,8 @@ inventory_router = APIRouter(
 @inventory_router.get("/{product_id}")
 async def find_inventory_by_product(
     id: UUID,
-    session=Depends(get_session)
+    _: Annotated[AuthUser, Depends(role_checker([AuthUserRole.MANAGER]))],
+    session=Depends(get_session),
 ):
     result = await ErrorDecorator(
         service=LoggerDecorator(
@@ -59,6 +63,7 @@ async def find_inventory_by_product(
 async def create_or_update_inventory(
     product_id: UUID, 
     body: CreateInventoryDto, 
+    _: Annotated[AuthUser, Depends(role_checker([AuthUserRole.MANAGER]))],
     session=Depends(get_session)
 ):
     id_generator = UUIDGenerator()
@@ -80,7 +85,8 @@ async def create_or_update_inventory(
 @inventory_router.put("/{product_id}")
 async def create_or_update_inventory(
     product_id: UUID, 
-    body: AdjustInventoryDto, 
+    body: AdjustInventoryDto,
+    _: Annotated[AuthUser, Depends(role_checker([AuthUserRole.MANAGER]))],
     session=Depends(get_session)
 ):
     idGenerator = UUIDGenerator()
