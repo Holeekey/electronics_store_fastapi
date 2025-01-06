@@ -112,6 +112,8 @@ py_ddd_template/
      │    │    ├── errors
      │    │    └── repositories
      │    └── infrastructure
+     │         ├── command_handlers
+     │         ├── projectors     
      │         ├── models
      │         │    └── db
      │         │        └── orm
@@ -121,13 +123,10 @@ py_ddd_template/
      │         └── routes
      ├── routes.py
      ├── config.py
-     └── main.py
+     ├── event_bindings.py
+     └── command_bindings.py
 
 ```
-
-## Consideraciones
-
-Las variables de entorno no se recargan automáticamente al cambiarlas, hay que reiniciar la terminal
 
 ## Autor
 

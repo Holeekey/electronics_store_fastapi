@@ -43,5 +43,5 @@ class CreateProductCommand(IApplicationService):
         await self.event_publisher.publish(product.pull_events())
 
         return Result.success(
-            value=CreateProductResponse(id=product.id), info=product_created_info()
+            value=CreateProductResponse(id=id), info=product_created_info()
         )

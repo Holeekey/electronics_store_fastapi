@@ -1,5 +1,10 @@
 from src.common.infrastructure.bus.bus import Bind
 
+from src.order.application.services.set_status.types.dto import SetOrderStatusDto
+from src.order.application.services.create.types.dto import CreateOrderDto
+from src.order.infrastructure.command_handlers.create_order_command_handler import create_order_command_handler
+from src.order.infrastructure.command_handlers.set_order_status_command_handler import set_order_status_command_handler
+
 from src.shopping_cart.application.services.remove_item.types.dto import RemoveItemFromShoppingCartDto
 from src.shopping_cart.infrastructure.command_handlers.remove_item_from_shopping_cart_command_handler import remove_item_from_shopping_cart_command_handler
 from src.shopping_cart.application.services.add_items.types.dto import AddItemsToShoppingCartDto
@@ -27,5 +32,7 @@ command_bus_bindings = [
     Bind(RemoveItemFromShoppingCartDto, remove_item_from_shopping_cart_command_handler),
     Bind(CreateProductDto, create_product_command_handler),
     Bind(UpdateProductDto, update_product_command_handler),
-    Bind(DeleteProductDto, delete_product_command_handler)
+    Bind(DeleteProductDto, delete_product_command_handler),
+    Bind(CreateOrderDto, create_order_command_handler),
+    Bind(SetOrderStatusDto, set_order_status_command_handler),
 ]

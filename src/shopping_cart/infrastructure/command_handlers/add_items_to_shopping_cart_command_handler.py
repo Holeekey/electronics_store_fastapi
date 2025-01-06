@@ -22,7 +22,7 @@ async def add_items_to_shopping_cart_command_handler(
             service=AddItemsToShoppingCartService(
                 id_generator=id_generator,
                 client_repository= ClientRepositorySqlAlchemy(session),
-                product_repository= ProductRepositorySqlAlchemy(),
+                product_repository= ProductRepositorySqlAlchemy(session),
                 shopping_cart_repository= ShoppingCartRepositorySqlAlchemy(session),
                 event_publisher= await get_rabbit_mq_event_publisher().__anext__()
             ),

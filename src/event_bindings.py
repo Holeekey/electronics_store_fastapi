@@ -1,5 +1,12 @@
 from src.common.infrastructure.events.rabbitmq.rabbitmq_event_handler import EventBind
 
+from src.order.domain.events.order_cancelled import ORDER_CANCELLED
+from src.order.domain.events.order_completed import ORDER_COMPLETED
+from src.order.domain.events.order_created import ORDER_CREATED
+from src.order.infrastructure.projectors.order_created_projector import order_created_projector
+from src.order.infrastructure.projectors.order_cancelled_projector import order_cancelled_projector
+from src.order.infrastructure.projectors.order_completed_projector import order_completed_projector
+
 from src.shopping_cart.domain.events.shopping_cart_cleared import SHOPPING_CART_CLEARED
 from src.shopping_cart.infrastructure.projectors.shopping_cart_cleared import shopping_cart_cleared_projector
 from src.shopping_cart.domain.events.shopping_cart_item_removed import SHOPPING_CART_ITEM_REMOVED
@@ -60,5 +67,8 @@ event_bindings = [
     EventBind(name=PRODUCT_NAME_CHANGED, handler=product_name_changed_projector),
     EventBind(name=PRODUCT_DESCRIPTION_CHANGED, handler=product_description_changed_projector),
     EventBind(name=PRODUCT_PRICING_CHANGED, handler=product_pricing_changed_projector),
-    EventBind(name=PRODUCT_DELETED, handler=product_deleted_projector)
+    EventBind(name=PRODUCT_DELETED, handler=product_deleted_projector),
+    EventBind(name=ORDER_CREATED, handler=order_created_projector),
+    EventBind(name=ORDER_CANCELLED, handler=order_cancelled_projector),
+    EventBind(name=ORDER_COMPLETED, handler=order_completed_projector),
 ]

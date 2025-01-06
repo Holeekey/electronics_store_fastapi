@@ -1,4 +1,3 @@
-from uuid import UUID
 from src.common.domain.value_object.value_object import ValueObject
 from src.shopping_cart.domain.errors.invalid_shopping_cart_item_quantity import invalid_shopping_cart_item_quantity_error
 
