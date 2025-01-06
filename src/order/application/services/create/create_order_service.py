@@ -2,7 +2,7 @@
 
 from dataclasses import dataclass
 from uuid import UUID
-from order.application.errors.not_enough_stock import not_enough_stock_error
+from src.order.application.errors.not_enough_stock import not_enough_stock_error
 from src.inventory.application.repositories.inventory_repository import IInventoryRepository
 from src.common.domain.utils.is_not_none import is_not_none
 from src.common.application.events.event_handlers import IEventPublisher
