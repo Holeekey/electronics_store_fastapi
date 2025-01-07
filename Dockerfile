@@ -10,4 +10,4 @@ COPY . .
 
 EXPOSE 8000
 
-CMD ["python", "main.py"]
+CMD /bin/sh -c "alembic upgrade head && python main.py"

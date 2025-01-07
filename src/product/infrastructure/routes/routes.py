@@ -66,7 +66,7 @@ async def create_product(
     result = await command_bus.dispatch(body)
     return result
 
-@product_router.put("{id}")
+@product_router.put("/{id}")
 async def update_product(
         id:UUID4, 
         body: UpdateProductQueryDto,
@@ -78,7 +78,7 @@ async def update_product(
     result = await command_bus.dispatch(service_dto)
     return result
 
-@product_router.delete("{id}")
+@product_router.delete("/{id}")
 async def delete_product(
         id:UUID4,
         _: Annotated[AuthUser, Depends(role_checker([AuthUserRole.ADMIN, AuthUserRole.MANAGER]))],

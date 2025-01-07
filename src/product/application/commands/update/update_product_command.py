@@ -1,3 +1,4 @@
+from src.common.domain.utils.is_not_none import is_not_none
 from src.common.domain.result.result import Result, result_info_factory
 from src.common.application.service.application_service import IApplicationService
 from src.common.application.events.event_handlers import IEventPublisher
@@ -32,18 +33,23 @@ class UpdateProductCommand(IApplicationService):
         if (old_product.status.status.value == 0):
             return Result.failure(error=product_not_found_error()) #? De lo que revisé del repositorio, este caso no se va a dar nunca
         
-        new_product = product_factory(id=data.id, code=data.code, name=data.name, description=data.description, cost=data.cost, margin=data.margin, status=old_product.status.status.value)
         #Validate that all desired changes are viable within the domain's rules
         try:
-            old_product.code = ProductCode(data.code)
-            old_product.name = ProductName(data.name)
-            old_product.description = ProductDescription(data.description)
-            old_product.pricing = ProductPricing(data.cost, data.margin)
+            if is_not_none(data.code):
+                old_product.code = ProductCode(data.code)
+            if is_not_none(data.name):
+                old_product.name = ProductName(data.name)
+            if is_not_none(data.description):
+                old_product.description = ProductDescription(data.description)
+            if is_not_none(data.cost) or is_not_none(data.margin):
+                old_product.pricing = ProductPricing(
+                    data.cost if is_not_none(data.cost) else old_product.pricing.cost,
+                    data.margin if is_not_none(data.margin) else old_product.pricing.margin
+                )
         except DomainError as error:
             return Result.failure(error=error)
 
-
-        update_result = await self.product_repository.update(id=old_product.id, new_product=new_product)
+        update_result = await self.product_repository.update(id=old_product.id, new_product=old_product)
 
         if (update_result.is_error()):
             return Result.failure(error=update_result.handle_error(handler=(lambda x: x)))

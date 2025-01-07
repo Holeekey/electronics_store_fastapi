@@ -9,8 +9,8 @@ class ProductPricing(ValueObject):
         
         if (margin >= 1) or (margin < 0):
             raise invalid_product_price_margin_error()
-        self.value = cost / (1 - margin) #Per project's instructions, this formula must be used to compute price
-        self._cost = cost
+        self.value = round(cost / (1 - margin),2) #Per project's instructions, this formula must be used to compute price
+        self._cost = round(cost,2)
         self._margin = margin
         self.validate()
 
