@@ -1,7 +1,6 @@
-from uuid import UUID
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class AdjustInventoryDto(BaseModel):
-    stock: int
+    stock: int = Field(min = 0)
     
