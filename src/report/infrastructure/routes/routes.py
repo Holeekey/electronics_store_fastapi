@@ -31,7 +31,7 @@ product_not_found_error = application_error_factory(
 
 @report_router.get("/sales/totals")
 async def get_sales_totals(
-    _: Annotated[AuthUser, Depends(role_checker([AuthUserRole.MANAGER]))],
+    _: Annotated[AuthUser, Depends(role_checker([AuthUserRole.MANAGER, AuthUserRole.ADMIN]))],
     session: Annotated[Session, Depends(get_session)],
 ):
     order_count = session.query(OrderModel).count()
@@ -54,7 +54,7 @@ async def get_sales_totals(
 @report_router.get("/sales/{product_id}")
 async def get_product_sales(
     product_id: UUID,
-    _: Annotated[AuthUser, Depends(role_checker([AuthUserRole.MANAGER]))],
+    _: Annotated[AuthUser, Depends(role_checker([AuthUserRole.MANAGER, AuthUserRole.ADMIN]))],
     session: Annotated[Session, Depends(get_session)],
 ):
     product = session.query(ProductModel).filter(ProductModel.id == str(product_id)).first()
@@ -87,7 +87,7 @@ async def get_product_sales(
 
 @report_router.get("/profit/totals")
 async def get_profit_totals(
-    _: Annotated[AuthUser, Depends(role_checker([AuthUserRole.MANAGER]))],
+    _: Annotated[AuthUser, Depends(role_checker([AuthUserRole.MANAGER, AuthUserRole.ADMIN]))],
     session: Annotated[Session, Depends(get_session)],
 ):
     products = session.query(ProductModel).all()
@@ -121,7 +121,7 @@ async def get_profit_totals(
 @report_router.get("/profit/{product_id}")
 async def get_product_profit(
     product_id: UUID,
-    _: Annotated[AuthUser, Depends(role_checker([AuthUserRole.MANAGER]))],
+    _: Annotated[AuthUser, Depends(role_checker([AuthUserRole.MANAGER, AuthUserRole.ADMIN]))],
     session: Annotated[Session, Depends(get_session)],
 ):
     product = session.query(ProductModel).filter(ProductModel.id == str(product_id)).first()
@@ -145,7 +145,7 @@ async def get_product_profit(
 
 @report_router.get("/products/top")
 async def get_top_products(
-    _: Annotated[AuthUser, Depends(role_checker([AuthUserRole.MANAGER]))],
+    _: Annotated[AuthUser, Depends(role_checker([AuthUserRole.MANAGER, AuthUserRole.ADMIN]))],
     session: Annotated[Session, Depends(get_session)],
 ):
     
@@ -204,7 +204,7 @@ async def get_top_products(
 
 @report_router.get("/costumers/top")
 async def get_top_costumers(
-    _: Annotated[AuthUser, Depends(role_checker([AuthUserRole.MANAGER]))],
+    _: Annotated[AuthUser, Depends(role_checker([AuthUserRole.MANAGER, AuthUserRole.ADMIN]))],
     session: Annotated[Session, Depends(get_session)],
 ):
     
