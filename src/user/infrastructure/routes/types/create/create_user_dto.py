@@ -1,5 +1,5 @@
 from enum import Enum
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr, Field
 
 
 class UserRole(str, Enum):
@@ -13,5 +13,5 @@ class CreateUserDto(BaseModel):
     password: str
     first_name: str
     last_name: str
-    email: str
+    email: EmailStr | None = Field(default=None)
     role: UserRole
