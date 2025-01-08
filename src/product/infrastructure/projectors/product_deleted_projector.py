@@ -16,7 +16,7 @@ def product_deleted_projector(ch, method, properties, body):
     
     update = {
         "$set": {
-            "status": int(ProductStatusOptions.INACTIVE.value)
+            "status": str(ProductStatusOptions.INACTIVE.value)
         }
     }
     

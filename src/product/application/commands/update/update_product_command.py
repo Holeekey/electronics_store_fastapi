@@ -14,6 +14,7 @@ from src.product.domain.value_objects.product_description import ProductDescript
 from src.product.domain.value_objects.product_pricing import ProductPricing
 from src.product.domain.value_objects.product_name import ProductName
 from src.product.domain.factories.product_factory import product_factory
+from src.product.domain.value_objects.product_status import ProductStatusOptions
 
 from src.common.domain.error.domain_error import DomainError
 from src.product.application.errors.not_found import product_not_found_error
@@ -30,7 +31,7 @@ class UpdateProductCommand(IApplicationService):
         if is_none(old_product):
             return Result.failure(error=product_not_found_error())
         old_product.pull_events() #Discard 'product_created' event since it is not relevant to this service
-        if (old_product.status.status.value == 0):
+        if (old_product.status.status.value == ProductStatusOptions.INACTIVE.value):
             return Result.failure(error=product_not_found_error()) #? De lo que revisé del repositorio, este caso no se va a dar nunca
         
         #Validate that all desired changes are viable within the domain's rules
