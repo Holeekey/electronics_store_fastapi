@@ -16,6 +16,6 @@ class ProductModel(Base):
     price = Column(Float)
     earning = Column(Float)
 
-    status = Column(Integer)
+    status = Column(String)
 
     #to-do Add created_at, updated_at timestamps

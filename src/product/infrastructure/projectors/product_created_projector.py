@@ -24,6 +24,6 @@ def product_created_projector(ch, method, properties, body):
             "margin": float(event.product_pricing.margin),
             "price": float(event.product_pricing.price),
             "earning": float(event.product_pricing.earning),
-            "status": int(ProductStatusOptions.ACTIVE.value),
+            "status": str(ProductStatusOptions.ACTIVE.value),
         }
     )

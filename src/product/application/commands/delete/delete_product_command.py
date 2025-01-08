@@ -7,6 +7,7 @@ from src.product.application.commands.delete.types.dto import DeleteProductDto
 from src.product.application.commands.delete.types.response import DeleteProductResponse
 from src.product.application.repositories.product_repository import IProductRepository
 from src.product.domain.value_objects.product_id import ProductId
+from src.product.domain.value_objects.product_status import ProductStatusOptions
 
 from src.common.domain.error.domain_error import DomainError
 from src.product.application.errors.not_found import product_not_found_error
@@ -23,7 +24,7 @@ class DeleteProductCommand(IApplicationService):
         if is_none(target_product):
             return Result.failure(error=product_not_found_error())
         target_product.pull_events() #Discard 'product_created' event, since it is of no interest here
-        if (target_product.status.status.value == 0):
+        if (target_product.status.status.value == ProductStatusOptions.INACTIVE.value):
             return Result.failure(error=product_not_found_error()) #? De lo que revisé del repositorio, este caso no se va a dar nunca
         
         try:

@@ -10,6 +10,7 @@ from src.product.application.info.product_created_info import product_created_in
 from src.product.application.repositories.product_repository import IProductRepository
 from src.product.domain.factories.product_factory import product_factory
 from src.product.domain.value_objects.product_name import ProductName
+from src.product.domain.value_objects.product_status import ProductStatusOptions
 
 from src.product.application.errors.name_already_exists import (
     product_name_already_exists_error,
@@ -36,7 +37,7 @@ class CreateProductCommand(IApplicationService):
 
         id = self.id_generator.generate()
 
-        product = product_factory(id=id, code=data.code, name=data.name, description=data.description, cost=data.cost, margin=data.margin, status=1) #Products start created as 'ACTIVE'
+        product = product_factory(id=id, code=data.code, name=data.name, description=data.description, cost=data.cost, margin=data.margin, status=ProductStatusOptions.ACTIVE.value) #Products start created as 'ACTIVE'
 
         await self.product_repository.save(product=product)
         #Since operation was successful, publish events

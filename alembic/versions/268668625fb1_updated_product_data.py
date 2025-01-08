@@ -1,4 +1,4 @@
-"""empty message
+"""updated product data
 
 Revision ID: 268668625fb1
 Revises: d0372fa77904

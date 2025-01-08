@@ -73,7 +73,8 @@ async def create_or_update_inventory(
         LoggerDecorator(
             service=CreateOrUpdateInventoryCommand(
                 id_generator=id_generator,
-                inventory_repository=InventoryRepositorySqlAlchemy(session)
+                inventory_repository=InventoryRepositorySqlAlchemy(session),
+                product_repository=ProductRepositorySqlAlchemy(session)
             ),
             loggers=[LoguruLogger("Update inventory")]
         ), 
@@ -96,7 +97,8 @@ async def create_or_update_inventory(
         service= LoggerDecorator(
             service= AdjustInventoryCommand(
                 id_generator=idGenerator,
-                inventory_repository=InventoryRepositorySqlAlchemy(session)
+                inventory_repository=InventoryRepositorySqlAlchemy(session),
+                product_repository=ProductRepositorySqlAlchemy(session)
             ),
             loggers=[LoguruLogger("Adjust inventory")]
         ),

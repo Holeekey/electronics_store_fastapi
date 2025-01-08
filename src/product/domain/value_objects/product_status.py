@@ -3,8 +3,8 @@ from src.product.domain.errors.invalid_product_status import invalid_product_sta
 from enum import Enum
 
 class ProductStatusOptions(Enum):
-    ACTIVE = 1
-    INACTIVE = 0
+    ACTIVE = "active"
+    INACTIVE = "inactive"
 
 class ProductStatus(ValueObject):
     def __init__(self, status: ProductStatusOptions) -> None:
